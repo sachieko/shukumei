@@ -7,7 +7,8 @@ node_modules/
 # Windows
 Thumbs.db
 
-# Env
+# Env and config
+config.json
 .env
 .venv
 env/
