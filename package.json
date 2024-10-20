@@ -2,9 +2,11 @@
   "name": "shukumei-bot",
   "version": "1.0.0",
   "description": "A dice bot for Legend of the Five Rings by Edge Studios and Fantasy Flight Games",
-  "main": "app.js",
+  "main": "./build/app.js",
   "scripts": {
-    "test": "test"
+    "build": "tsc",
+    "test": "test",
+    "start": "node -r dotenv/config ./build/app.js"
   },
   "repository": {
     "type": "git",
