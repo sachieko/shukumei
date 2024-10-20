@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "test": "test",
-    "start": "node -r dotenv/config ./build/app.js"
+    "start": "node -r dotenv/config ./build/app.js",
+    "deploy": "node -r dotenv/config ./build/commands/deploy-commands.js",
+    "cmd:d": "node -r dotenv/config ./build/deleteCommand.js"
   },
   "repository": {
     "type": "git",
