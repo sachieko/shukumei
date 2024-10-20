@@ -1,0 +1,35 @@
+{
+  "name": "shukumei-bot",
+  "version": "1.0.0",
+  "description": "A dice bot for Legend of the Five Rings by Edge Studios and Fantasy Flight Games",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sachieko/shukumei.git"
+  },
+  "keywords": [
+    "l5r",
+    "dice",
+    "dicebot",
+    "legend",
+    "of",
+    "the",
+    "five",
+    "rings"
+  ],
+  "author": "sachieko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sachieko/shukumei/issues"
+  },
+  "homepage": "https://github.com/sachieko/shukumei#readme",
+  "dependencies": {
+    "discord.js": "^14.16.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0"
+  }
+}
