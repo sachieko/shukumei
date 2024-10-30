@@ -7,3 +7,8 @@ export const data = new SlashCommandBuilder()
 export const execute = async (interaction: CommandInteraction) => {
   return await interaction.reply("Emptiness...");
 };
+
+module.exports = {
+  data,
+  execute
+}

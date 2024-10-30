@@ -5,14 +5,14 @@ import {
   ActionRowBuilder,
   ButtonStyle,
 } from "discord.js";
-import { stances } from "../stances";
-import { activePredicts } from "../app";
+import { stances } from "../../stances";
+// import { activePredicts } from "../../app";
 
 export const data = new SlashCommandBuilder()
   .setName("predict")
   .setDescription("What stance do you anticipate the other will take?")
   .addUserOption((option) =>
-    option.setName("target").setDescription("The target of predict")
+    option.setName("target").setDescription("The target of predict").setRequired(true)
   )
   .addStringOption((option) =>
     option
@@ -33,7 +33,6 @@ export const execute = async (interaction: CommandInteraction) => {
     return;
   }
   const targetId = target.user.id;
-
   const select = new ButtonBuilder()
     .setCustomId("stance")
     .setLabel("Select Stance")
@@ -42,7 +41,12 @@ export const execute = async (interaction: CommandInteraction) => {
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(select);
 
   return interaction.reply({
-    content: `A prediction for <@${target}>'s stance has been set, choose your stance at the start of your next turn.`,
+    content: `A prediction for <@${targetId}>'s stance has been set, choose your stance at the start of your next turn.`,
     components: [row],
   });
 };
+
+module.exports = {
+  data,
+  execute
+}

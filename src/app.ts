@@ -1,8 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { config } from "./config";
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
-import { deployCommands } from "./commands/deploy-commands";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 
 export const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -31,40 +30,24 @@ for (const folder of commandFolders) {
     }
   }
 }
+export type Predicts = {
+  [key: string]: string;
+};
+export const activePredicts: Predicts = {};
 
-export const activePredicts = {};
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
-client.once("ready", () => {
-  console.log("Shukumei is ready to be received.");
-});
-
-// Deploy commands when added to a server
-client.on("guildCreate", async (guild) => {
-  await deployCommands();
-});
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) {
-    return;
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
   }
-
-  const commandName = interaction.client.commands.get(interaction.commandName);
-
-  if (!commandName) {
-    console.error(`No command matching ${interaction.commandName} was found.`);
-    return;
-  }
-
-	try {
-		await commandName.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: "There was an error executing the command!", ephemeral: true })
-			return;
-		}
-		await interaction.reply({ content: "There was an error executing the command!", ephemeral: true })
-	}
-});
+}
 
 client.login(config.DISCORD_BOT_TOKEN);
