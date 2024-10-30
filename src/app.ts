@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { config } from "./config";
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
-import { commands } from "./commands/index";
 import { deployCommands } from "./commands/deploy-commands";
 
 export const client = new Client({
