@@ -3,6 +3,7 @@
 Shukumei means fate, and what are dice for but for deciding your fate?
 
 This is a simple dice bot configured specifically for using in discord for those running [Legend of the Five Rings 5th Edition (Created by Edge Studios under license of Fantasy Flight Games)](https://www.edge-studio.net/games/l5r-core-rulebook/).
+There are also some additional commands I am developing for convenience.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
