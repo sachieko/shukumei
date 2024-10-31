@@ -8,9 +8,7 @@ const handler: InteractionHandler<StringSelectMenuInteraction> = {
   handle: async (interaction) => {
     // use interaction.customId to determine which string select menu was used
     if (interaction.customId === "stance") {
-      await interaction.update({
-        components: [],
-      });
+      return; // All logic handled inside predict.ts in commands/utility
     } else {
       console.error(
         `Unknown StringSelectMenuInteraction ${interaction.customId}`
