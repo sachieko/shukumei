@@ -9,7 +9,11 @@ Developed with the assistance of Logos who provided commentary and useful ideas.
 ## Commands
 
 * Ping: Confirm the bot is working and responding
-* Predict: Predict the stance another user in discord will take on their next turn in a duel without revealing either's choices.
+* Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
+* 
+### Commands To-Do
+* Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, inccluding whether assistance was given or void points spent.
+* Staredown: Conceals both duelists bids, revealing them only at the end.
 
 ## FAQ
 
