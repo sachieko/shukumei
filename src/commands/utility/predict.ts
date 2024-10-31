@@ -4,9 +4,10 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
   CollectorFilter,
+  EmbedBuilder,
 } from "discord.js";
 import Command from "../../types/command";
-import { stances } from "../../stances";
+import { Stances, stances } from "../../stances";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -70,7 +71,7 @@ const command: Command = {
     );
 
     const response = await interaction.reply({
-      content: `A prediction for <@${targetId}>'s stance has been set. <@${targetId}>: Choose your stance at the start of your next turn.`,
+      content: `A prediction for <@${targetId}>'s stance has been set, waiting for them to choose a stance.`,
       components: [row],
     });
     // Only the chosen user should be able to interact.
@@ -80,19 +81,68 @@ const command: Command = {
       const selection = await response.awaitMessageComponent({
         filter: collectorFilter,
       });
+      const embedObject = new EmbedBuilder()
+        .setTitle("Prediction")
+        .setThumbnail(interaction.user.displayAvatarURL())
+        .setAuthor({ name: "Shukumei", iconURL: interaction.client.user?.displayAvatarURL() })
+        .setDescription(
+          `<@${userId}> predicted that <@${targetId}> will enter ${predict?.value} stance.`
+        );
       if (
-        selection.isStringSelectMenu() &&
+        selection.isStringSelectMenu() && // makes TS happy about selection.values existing
         predict?.value === selection.values[0]
       ) {
+        const prediction = predict.value as keyof Stances;
+        const stance = selection.values[0] as keyof Stances;
+        embedObject.setColor("#eb4034").addFields(
+          {
+            name: "Prediction was Correct",
+            value: `${stances[prediction].label}`,
+            inline: true,
+          },
+          {
+            name: "Choice",
+            value: `${stances[stance].label}`,
+            inline: true,
+          },
+          {
+            name: "Result",
+            value: `<@${targetId}> gains 4 strife and must enter a stance other than ${stances[prediction].label}.`,
+            inline: false,
+          }
+        );
         await interaction.editReply({
-          content: `<@${userId}> has correctly predicted that <@${targetId}> will enter ${predict.value} stance! <@${targetId}> gains 4 strife and enters a stance that is not ${predict.value}.`,
+          embeds: [embedObject],
           components: [],
         });
-      } else if (selection.isStringSelectMenu() && predict?.value) {
+        return;
+      }
+      if (selection.isStringSelectMenu() && predict?.value) {
+        const prediction = predict.value as keyof Stances; // These values strictly match the keys due to choices on the slash command
+        const stance = selection.values[0] as keyof Stances; // These values strictly will match the keys due to options
+        embedObject.setColor("#42f584").addFields(
+          {
+            name: "Prediction was Incorrect",
+            value: `${stances[prediction].label}`,
+            inline: true,
+          },
+          {
+            name: "Choice",
+            value: `${stances[stance].label}`,
+            inline: true,
+          },
+          {
+            name: "Result",
+            value: `<@${targetId}> enters ${stances[stance].label}.`,
+            inline: false,
+          }
+        );
         await interaction.editReply({
-          content: `<@${targetId}> entered ${selection.values[0]} stance, while <@${userId}> anticipated ${predict.value} stance.`,
+          content: "",
+          embeds: [embedObject],
           components: [],
         });
+        return;
       }
     } catch (error) {
       await interaction.editReply({ content: "An error occurred." });
