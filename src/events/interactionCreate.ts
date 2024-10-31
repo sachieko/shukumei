@@ -1,36 +1,23 @@
-import { CommandInteraction, Events } from "discord.js";
+import { Events } from "discord.js";
+import { createEventListener } from "../types/eventListener";
+import stringSelectMenuHandler from "../handlers/stringSelectMenu";
+import chatInputCommandHandler from "../handlers/chatInputCommand";
+import modalSubmitHandler from "../handlers/modalSubmit";
 
-export const InteractionCreate = {
+const event = createEventListener({
   name: Events.InteractionCreate,
-  execute: async (interaction: CommandInteraction) => {
-    if (!interaction.isChatInputCommand()) return;
-
-    const command = interaction.client.commands.get(interaction.commandName);
-
-    if (!command) {
-      console.error(
-        `No command matching ${interaction.commandName} was found.`
-      );
-      return;
-    }
-
-    try {
-      await command.execute(interaction);
-    } catch (error) {
-      console.error(error);
-      if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({
-          content: "There was an error while executing this command!",
-          ephemeral: true,
-        });
-      } else {
-        await interaction.reply({
-          content: "There was an error while executing this command!",
-          ephemeral: true,
-        });
-      }
+  once: false,
+  execute: async (interaction) => {
+    if (interaction.isChatInputCommand()) {
+      chatInputCommandHandler.handle(interaction);
+    } else if (interaction.isStringSelectMenu()) {
+      stringSelectMenuHandler.handle(interaction);
+    } else if (interaction.isModalSubmit()) {
+      modalSubmitHandler.handle(interaction);
+    } else {
+      console.error(`Unknown interaction (type ${interaction.type})`);
     }
   },
-};
+});
 
-module.exports = InteractionCreate;
+module.exports = event;

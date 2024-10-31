@@ -1,12 +1,13 @@
-import { client } from "../app";
+import { createEventListener } from "../types/eventListener";
+const { Events } = require('discord.js');
 
-const { Events} = require('discord.js');
-type ClientType = typeof client;
+const event = createEventListener({
+  name: Events.ClientReady,
+  once: true,
+  execute: async client => {
+    if (client.user) console.log(`Ready! Logged in as ${client.user.tag}`);
+  }
+})
 
-module.exports = {
-	name: Events.ClientReady,
-	once: true,
-	execute(client: ClientType) {
-		if (client.user) console.log(`Ready! Logged in as ${client.user.tag}`);
-	},
-};
+module.exports = event;
+

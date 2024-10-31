@@ -1,9 +1,10 @@
-import { ApplicationCommand, REST, Routes } from "discord.js";
+import { REST, Routes } from "discord.js";
 import { config } from "./config";
+import Command from "./types/command";
 import * as fs from "fs";
 import * as path from "path";
 
-const commands: ApplicationCommand[] = [];
+const commands: Command[] = [];
 
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);

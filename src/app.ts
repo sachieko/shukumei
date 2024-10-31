@@ -1,6 +1,6 @@
+import { config } from "./config";
 import * as fs from "fs";
 import * as path from "path";
-import { config } from "./config";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 
 export const client = new Client({
@@ -30,10 +30,6 @@ for (const folder of commandFolders) {
     }
   }
 }
-export type Predicts = {
-  [key: string]: string;
-};
-export const activePredicts: Predicts = {};
 
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
