@@ -6,6 +6,11 @@ This is a simple dice bot configured specifically for using in discord for those
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
+## Commands
+
+* Ping: Confirm the bot is working and responding
+* Predict: Predict the stance another user in discord will take on their next turn in a duel without revealing either's choices.
+
 ## FAQ
 
 * Found a bug? Please make an issue if you are able! Or drop me a message and I'll get to it :)
