@@ -155,7 +155,4 @@ const command: Command = {
   },
 };
 
-module.exports = {
-  data: command.data,
-  execute: command.execute,
-};
+module.exports = command;
