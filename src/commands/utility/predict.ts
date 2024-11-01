@@ -84,7 +84,7 @@ const command: Command = {
       });
       const embedObject = new EmbedBuilder()
         .setTitle("Prediction Resolved")
-        .setThumbnail(target.user.displayAvatarURL())
+        .setThumbnail(interaction.user.displayAvatarURL())
         .setAuthor({
           name: "Shukumei",
           iconURL: interaction.client.user?.displayAvatarURL(),
@@ -149,7 +149,7 @@ const command: Command = {
         return;
       }
     } catch (error) {
-      await interaction.editReply({ content: "An error occurred." });
+      await interaction.editReply({ content: "An error occurred while waiting for the prediction response." });
       console.error(error);
     }
   },
