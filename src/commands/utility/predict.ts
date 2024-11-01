@@ -85,7 +85,10 @@ const command: Command = {
       const embedObject = new EmbedBuilder()
         .setTitle("Prediction")
         .setThumbnail(target.user.displayAvatarURL())
-        .setAuthor({ name: "Shukumei", iconURL: interaction.client.user?.displayAvatarURL() })
+        .setAuthor({
+          name: "Shukumei",
+          iconURL: interaction.client.user?.displayAvatarURL(),
+        })
         .setDescription(
           `<@${userId}> predicted that <@${targetId}> will enter ${predict?.value} stance.`
         );
