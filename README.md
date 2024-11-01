@@ -8,12 +8,12 @@ There are also some additional commands I am developing for convenience.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
-## Commands
+## Working Commands
 
 * Ping: Confirm the bot is working and responding
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
 
-### Commands To-Do
+### Commands in Development
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, inccluding whether assistance was given or void points spent.
 * Staredown: Conceals both duelists bids, revealing them only at the end.
 
