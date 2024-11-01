@@ -80,6 +80,7 @@ const command: Command = {
     try {
       const selection = await response.awaitMessageComponent({
         filter: collectorFilter,
+        time: 86400_000,
       });
       const embedObject = new EmbedBuilder()
         .setTitle("Prediction")
