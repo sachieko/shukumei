@@ -87,7 +87,7 @@ const command: Command = {
         .setThumbnail(target.user.displayAvatarURL())
         .setAuthor({
           name: "Shukumei",
-          iconURL: interaction.user?.displayAvatarURL(),
+          iconURL: interaction.client.user?.displayAvatarURL(),
         })
         .setDescription(
           `<@${userId}> predicted that <@${targetId}> will enter ${predict?.value} stance.`
