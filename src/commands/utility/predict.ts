@@ -83,7 +83,7 @@ const command: Command = {
         time: 86400_000,
       });
       const embedObject = new EmbedBuilder()
-        .setTitle("Prediction")
+        .setTitle("Prediction Resolved")
         .setThumbnail(target.user.displayAvatarURL())
         .setAuthor({
           name: "Shukumei",
@@ -100,7 +100,7 @@ const command: Command = {
         const stance = selection.values[0] as keyof Stances;
         embedObject.setColor("#eb4034").addFields(
           {
-            name: "Prediction was Correct",
+            name: "Prediction",
             value: `${stances[prediction].label}`,
             inline: true,
           },
@@ -126,7 +126,7 @@ const command: Command = {
         const stance = selection.values[0] as keyof Stances; // These values strictly will match the keys due to options
         embedObject.setColor("#42f584").addFields(
           {
-            name: "Prediction was Incorrect",
+            name: "Prediction",
             value: `${stances[prediction].label}`,
             inline: true,
           },
