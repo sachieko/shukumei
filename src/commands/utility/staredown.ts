@@ -9,6 +9,7 @@ import {
   ModalBuilder,
 } from "discord.js";
 import Command from "../../types/command";
+import { bidData } from "../../handlers/bidDataStore";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -34,7 +35,7 @@ const command: Command = {
     const bid = interaction.options.get("bid");
     const user = interaction.user;
     if (!target?.user || !user || !bid) return; // exit if target isn't a valid user, user doesn't exist, or there is no bid
-
+    const key = `${user.id}-${target.user.id}`
     const beginBidButton = new ButtonBuilder()
       .setCustomId("begin")
       .setLabel("Bid")
@@ -71,7 +72,8 @@ const command: Command = {
       const bidActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(oppBidInput);
       modal.addComponents(bidActionRow);
 
-      const bidInput = 
+      const bidInput = await interaction.showModal(modal)
+
       await interaction.editReply({});
     } catch (error) {}
 
