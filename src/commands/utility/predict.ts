@@ -5,6 +5,7 @@ import {
   StringSelectMenuOptionBuilder,
   CollectorFilter,
   EmbedBuilder,
+  CommandInteraction
 } from "discord.js";
 import Command from "../../types/command";
 import { Stances, stances } from "../../stances";
@@ -32,7 +33,7 @@ const command: Command = {
         )
     ),
 
-  execute: async (interaction) => {
+  execute: async (interaction: CommandInteraction) => {
     const target = interaction.options.get("target");
     const targetId = target?.user?.id;
     const predict = interaction.options.get("predict");
