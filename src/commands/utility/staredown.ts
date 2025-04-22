@@ -7,6 +7,7 @@ import {
   TextInputBuilder,
   TextInputStyle,
   ModalBuilder,
+  CommandInteraction,
 } from "discord.js";
 import Command from "../../types/command";
 import { bidData } from "../../handlers/bidDataStore";
@@ -30,7 +31,7 @@ const command: Command = {
         .setDescription("Your duel opponent.")
     ),
 
-  execute: async (interaction) => {
+  execute: async (interaction: CommandInteraction) => {
     const target = interaction.options.get("opponent");
     const bid = interaction.options.get("bid");
     const user = interaction.user;
