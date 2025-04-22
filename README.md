@@ -12,6 +12,7 @@ Developed with the assistance of Logos who provided commentary and useful ideas.
 
 * Ping: Confirm the bot is working and responding
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
+* Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date.
 
 ### Commands in Development
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, inccluding whether assistance was given or void points spent.
