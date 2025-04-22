@@ -48,8 +48,8 @@ export const deployCommands = async () => {
 
 export const deleteCommands = async (guildId?: string) => {
   try {
-    console.log("Requesting all heretical elements (/) be purged.");
-    // Use my default guild ID if not specified
+    console.log("Requesting all heretical (/) elements be purged.");
+    // Use my default guild ID here
     await rest
       .put(Routes.applicationGuildCommands(config.APP_ID, config.GUILD_ID), {
         body: [],
