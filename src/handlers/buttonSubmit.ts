@@ -1,20 +1,25 @@
 import InteractionHandler from "../types/interactionHandler";
 import { ButtonInteraction } from "discord.js";
+import staredownButtonHandler from "./staredownButtonHandler";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const handler: InteractionHandler<ButtonInteraction> = {
   handle: async (interaction) => {
+    if (!interaction.isButton()) return; // return if not a button interaction
     // use interaction.customId to determine which string select menu was used
     if (interaction.customId === "choosestance") {
       return; // All logic handled inside predict.ts in commands/utility
-    } else {
-      console.error(
-        `Unknown StringSelectMenuInteraction ${interaction.customId}`
-      );
-      interaction.deferUpdate().catch(console.error);
     }
+    if (interaction.customId.startsWith(`staredown-bid-`)) {
+      await staredownButtonHandler(interaction);
+      return;
+    }
+    console.error(
+      `Unknown StringSelectMenuInteraction ${interaction.customId}`
+    );
+    interaction.deferUpdate().catch(console.error);
   },
 };
 

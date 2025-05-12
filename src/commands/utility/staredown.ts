@@ -3,14 +3,10 @@ import {
   ButtonBuilder,
   ButtonStyle,
   SlashCommandBuilder,
-  CollectorFilter,
-  TextInputBuilder,
-  TextInputStyle,
-  ModalBuilder,
   CommandInteraction,
 } from "discord.js";
 import Command from "../../types/command";
-import { bidData } from "../../handlers/bidDataStore";
+import bidData from "../../handlers/bidDataStore";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -32,54 +28,55 @@ const command: Command = {
     ),
 
   execute: async (interaction: CommandInteraction) => {
-    const target = interaction.options.get("opponent");
-    const bid = interaction.options.get("bid");
+    const target = interaction.options.get("opponent", true);
+    const bid = interaction.options.get("bid", true);
     const user = interaction.user;
-    if (!target?.user || !user || !bid) return; // exit if target isn't a valid user, user doesn't exist, or there is no bid
-    const key = `${user.id}-${target.user.id}`
+    // user validation
+    if (target.user?.bot) {
+      await interaction.reply({
+        content: "You can't stare a bot down.",
+        ephemeral: true,
+      });
+      return;
+    }
+    if (target.user?.id === interaction.user.id) {
+      // check if they chose themselves, and inform but allow interaction to continue
+      await interaction.reply({
+        content: "You are staring yourself down.",
+        ephemeral: true,
+      });
+    }
+    if (!target?.user) {
+      // valid user check
+      await interaction.reply({
+        content: "That user wasn't valid to staredown!",
+        ephemeral: true,
+      });
+      return;
+    }
+    const bidKey = `${user.id}-${target.user.id}`;
+    if (bidData[bidKey] !== undefined) {
+      await interaction.reply({
+        content:
+          "There is already an active staredown between  you and that user.",
+        ephemeral: true,
+      });
+      return;
+    }
+    // Store staredown bid
+    bidData[bidKey] = Number(bid);
     const beginBidButton = new ButtonBuilder()
-      .setCustomId("begin")
+      .setCustomId(`staredown-bid-${bidKey}`)
       .setLabel("Bid")
       .setStyle(ButtonStyle.Primary);
-
+    // Create reply
     const beginBidRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       beginBidButton
     );
 
-    const beginBidResponse = await interaction.reply({
-      content: `Waiting for <@${target.user.id} to bid for staredown:`,
-      components: [beginBidRow],
-    });
-
-    const collectorFilter: CollectorFilter<any> = (i: any) =>
-      i.user.id === target.user?.id;
-
-    try {
-      await beginBidResponse.awaitMessageComponent({
-        filter: collectorFilter,
-        time: 86400_000,
-      });
-
-      const oppBidInput = new TextInputBuilder()
-        .setCustomId("oppbid")
-        .setLabel("How much strife will you bid? (0 - Focus)")
-        .setPlaceholder("0")
-        .setStyle(TextInputStyle.Short);
-
-      const modal = new ModalBuilder()
-        .setCustomId("bidInputModal")
-        .setTitle("Strife Bid");
-
-      const bidActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(oppBidInput);
-      modal.addComponents(bidActionRow);
-
-      const bidInput = await interaction.showModal(modal)
-
-      await interaction.editReply({});
-    } catch (error) {}
-
     await interaction.reply({
-      content: "An error occurred while waiting for a bid.",
+      content: `Waiting for <@${target.user.id}> to bid for staredown initiated by <@${user.id}>:`,
+      components: [beginBidRow],
     });
   },
 };
