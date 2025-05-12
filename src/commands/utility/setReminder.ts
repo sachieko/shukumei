@@ -59,7 +59,7 @@ const command: Command = {
     const discordString = `${roleToMention ? roleToMention : ""} <@${
       interaction.user.id
     }> has set a reminder for ${eventName} in <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
-    return await interaction.reply(discordString);
+    await interaction.reply(discordString);
   },
 };
 module.exports = command;

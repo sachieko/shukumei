@@ -7,7 +7,6 @@ dotenv.config();
 
 const handler: InteractionHandler<ButtonInteraction> = {
   handle: async (interaction) => {
-    if (!interaction.isButton()) return; // return if not a button interaction
     // use interaction.customId to determine which string select menu was used
     if (interaction.customId === "choosestance") {
       return; // All logic handled inside predict.ts in commands/utility

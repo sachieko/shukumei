@@ -147,7 +147,6 @@ const command: Command = {
           embeds: [embedObject],
           components: [],
         });
-        return;
       }
     } catch (error) {
       await interaction.editReply({ content: "An error occurred while waiting for the prediction response." });

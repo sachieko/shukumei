@@ -7,7 +7,6 @@ dotenv.config();
 
 const handler: InteractionHandler<ModalSubmitInteraction> = {
   handle: async (interaction) => {
-    if (!interaction.isModalSubmit()) return;
     // use interaction.customId to determine which modal was submitted
     if (interaction.customId.startsWith("staredown-modal-")) {
       await staredownModalHandler(interaction);

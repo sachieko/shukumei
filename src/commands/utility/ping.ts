@@ -5,7 +5,7 @@ export const data = new SlashCommandBuilder()
   .setDescription("What is the sound of rocks growing?");
 
 export const execute = async (interaction: CommandInteraction) => {
-  return await interaction.reply("Emptiness...");
+  await interaction.reply("Emptiness...");
 };
 
 module.exports = {
