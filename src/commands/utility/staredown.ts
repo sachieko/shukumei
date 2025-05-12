@@ -4,6 +4,7 @@ import {
   ButtonStyle,
   SlashCommandBuilder,
   CommandInteraction,
+  MessageFlags,
 } from "discord.js";
 import Command from "../../types/command";
 import bidData from "../../handlers/bidDataStore";
@@ -29,28 +30,28 @@ const command: Command = {
 
   execute: async (interaction: CommandInteraction) => {
     const target = interaction.options.get("opponent", true);
-    const bid = interaction.options.get("bid", true);
+    const bid = interaction.options.get("bid", true).value;
     const user = interaction.user;
     // user validation
     if (target.user?.bot) {
       await interaction.reply({
         content: "You can't stare a bot down.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
     if (target.user?.id === interaction.user.id) {
       // check if they chose themselves, and inform but allow interaction to continue
-      await interaction.reply({
-        content: "You are staring yourself down.",
-        ephemeral: true,
-      });
+      // await interaction.reply({
+      //   content: "You are staring yourself down.",
+      //   flags: MessageFlags.Ephemeral,
+      // });
     }
     if (!target?.user) {
       // valid user check
       await interaction.reply({
         content: "That user wasn't valid to staredown!",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -59,7 +60,7 @@ const command: Command = {
       await interaction.reply({
         content:
           "There is already an active staredown between  you and that user.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
