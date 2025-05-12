@@ -34,9 +34,9 @@ const command: Command = {
     ),
 
   execute: async (interaction: CommandInteraction) => {
-    const target = interaction.options.get("target");
+    const target = interaction.options.get("target", true);
     const targetId = target?.user?.id;
-    const predict = interaction.options.get("predict");
+    const predict = interaction.options.get("predict", true);
     const userId = interaction.user.id;
     if (!target?.user) {
       return;

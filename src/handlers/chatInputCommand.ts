@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import InteractionHandler from "../types/interactionHandler";
 
 const handler: InteractionHandler<ChatInputCommandInteraction> = {
@@ -9,7 +9,7 @@ const handler: InteractionHandler<ChatInputCommandInteraction> = {
       console.error(`Command ${interaction.commandName} not found.`);
       await interaction.reply({
         content: "Command not found on server.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -20,7 +20,7 @@ const handler: InteractionHandler<ChatInputCommandInteraction> = {
       console.error(error);
       await interaction.reply({
         content: "There was an error while executing this command.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
   },

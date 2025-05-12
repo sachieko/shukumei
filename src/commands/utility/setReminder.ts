@@ -39,26 +39,28 @@ const command: Command = {
     ),
 
   execute: async (interaction: CommandInteraction) => {
-    const eventName = interaction.options.get("event") || "event";
+    const eventName = interaction.options.get("event", true).value as string;
     const nextDate = new Date();
-    const dayOfMonth = Number(interaction.options.get("day")) || 1;
-    const hour = Number(interaction.options.get("hour")) || 0;
-    const minutes = Number(interaction.options.get("minutes")) || 0;
-    const roleToMention = interaction.options.get("role");
+    const dayOfMonth = interaction.options.get("day", true).value as number;
+    const hour = interaction.options.get("hour", true).value as number;
+    const minutes = interaction.options.get("minutes", false);
+    const roleToMention = interaction.options.get("role", false);
     // If the day of the month is less than the current day, the user wants the next day of the month.
-    if ((dayOfMonth as number) < nextDate.getDate()) {
+    if (dayOfMonth< nextDate.getDate()) {
       nextDate.setMonth(nextDate.getMonth() + 1);
     }
-    nextDate.setDate(dayOfMonth);
-    nextDate.setHours(hour);
-    nextDate.setMinutes(minutes);
+    nextDate.setDate(Number(dayOfMonth));
+    nextDate.setHours(Number(hour));
+    if (minutes) {
+      nextDate.setMinutes(Number(minutes.value));
+    }
     // Discord timestamps do not use milliseconds so we remove them from the UTC timestamp
     const UTCstamp = `${
       (nextDate.getTime() - (nextDate.getTime() % 1000)) / 1000
     }`;
-    const discordString = `${roleToMention ? roleToMention : ""} <@${
+    const discordString = `${roleToMention?.role ? roleToMention.role : ""} <@${
       interaction.user.id
-    }> has set a reminder for ${eventName} in <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
+    }> Set a timestamp for **${eventName}** <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
     await interaction.reply(discordString);
   },
 };
