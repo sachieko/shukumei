@@ -1,4 +1,4 @@
-# Shukumei 
+# Shukumei 1.0.1
 
 Shukumei means fate, and what are dice for but for deciding your fate? <img src="./assets/shukumei-avatar.png" height="100" align="left" alt="shukumei-bot">
 
@@ -23,5 +23,14 @@ Developed with the assistance of Logos who provided commentary and useful ideas.
 * Found a bug? Please make an issue if you are able! Or drop me a message and I'll get to it :)
 * Want me to make it work for other editions? I have no plans to unfortunately.
 * Have a feature idea? I'll consider it depending on how complicated it is. :)
+
+## How to install
+
+1. Clone the repository, then use `npm install` to install necessary NPM packages
+2. Fill in the necessary information for your discord bot in a `.env` file
+3. Run `npm run build` to create the program
+4. Run `npm run deploy` to deploy commands to the bot.
+5. Run `npm start` to start the bot.
+
 
 ![shukumei background image](./assets/JigokuRealm.jpg)
