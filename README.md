@@ -4,7 +4,7 @@ Shukumei means fate, and what are dice for but for deciding your fate? <img src=
 
 This is a simple dice bot configured specifically for using in discord for those running [Legend of the Five Rings 5th Edition (Created by Edge Studios under license of Fantasy Flight Games)](https://www.edge-studio.net/games/l5r-core-rulebook/).
 
-There are also some additional commands I am developing for convenience.
+There are also some additional commands I am developing for convenience for GMs.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
@@ -13,10 +13,10 @@ Developed with the assistance of Logos who provided commentary and useful ideas.
 * Ping: Confirm the bot is working and responding
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
 * Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date.
+* Staredown: Bid strife against another player or yourself (for GMs and NPCs), revealing the results only once everyone has bid.
 
 ### Commands in Development
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, inccluding whether assistance was given or void points spent.
-* Staredown: Conceals both duelists bids, revealing them only at the end.
 
 ## FAQ
 
