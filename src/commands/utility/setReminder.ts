@@ -43,7 +43,7 @@ const command: Command = {
     const nextDate = new Date();
     const dayOfMonth = interaction.options.get("day", true).value as number;
     const hour = interaction.options.get("hour", true).value as number;
-    const minutes = interaction.options.get("minutes", false);
+    const minutes = interaction.options.get("minutes", false)?.value as number || 0; // If minutes is not given, default to 0
     const roleToMention = interaction.options.get("role", false);
     // If the day of the month is less than the current day, the user wants the next day of the month.
     if (dayOfMonth< nextDate.getDate()) {
@@ -51,9 +51,7 @@ const command: Command = {
     }
     nextDate.setDate(Number(dayOfMonth));
     nextDate.setHours(Number(hour));
-    if (minutes) {
-      nextDate.setMinutes(Number(minutes.value));
-    }
+    nextDate.setMinutes(Number(minutes));
     // Discord timestamps do not use milliseconds so we remove them from the UTC timestamp
     const UTCstamp = `${
       (nextDate.getTime() - (nextDate.getTime() % 1000)) / 1000
