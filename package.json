@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "test",
-    "start": "node -r dotenv/config ./build/app.js",
+    "start": "tsc && node -r dotenv/config ./build/app.js",
     "deploy": "node -r dotenv/config ./build/deploy.js",
     "cmd:d": "node -r dotenv/config ./build/deleteCommand.js"
   },
