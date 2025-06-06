@@ -2,7 +2,7 @@ import {
   DieSymbols,
   DieType,
   DieSource,
-  EmojiSymbols,
+  DISCORD_EMOJI,
   D6,
   D12,
   BASE,
@@ -11,60 +11,12 @@ import {
   NEWROLL,
   BONUS,
   EXPLODE,
+  D6_SYMBOLS,
+  D12_SYMBOLS,
+  D6_EXP,
+  D12_EXP,
+  D12_EXP2,
 } from "../types/diceConstants";
-
-export const D6_SYMBOLS: Record<number, DieSymbols> = {
-  1: { success: false, opportunity: false, strife: false, explosive: false }, // Blank
-  2: { success: false, opportunity: true, strife: true, explosive: false }, // Opp Strife
-  3: { success: false, opportunity: true, strife: false, explosive: false }, // Opp
-  4: { success: true, opportunity: false, strife: true, explosive: false }, // Success Strife
-  5: { success: true, opportunity: false, strife: false, explosive: false }, // Success
-  6: { success: true, opportunity: false, strife: false, explosive: true }, // Exp Strife
-};
-
-export const D12_SYMBOLS: Record<number, DieSymbols> = {
-  1: { success: false, opportunity: false, strife: false, explosive: false }, // Blank
-  2: { success: false, opportunity: false, strife: false, explosive: false }, // Blank
-  3: { success: false, opportunity: true, strife: false, explosive: false }, // Opp
-  4: { success: false, opportunity: true, strife: false, explosive: false }, // Opp
-  5: { success: false, opportunity: true, strife: false, explosive: false }, // Opp
-  6: { success: true, opportunity: false, strife: true, explosive: false }, // Success Strife
-  7: { success: true, opportunity: false, strife: true, explosive: false }, // Success Strife
-  8: { success: true, opportunity: false, strife: false, explosive: false }, // Success
-  9: { success: true, opportunity: false, strife: false, explosive: false }, // Success
-  10: { success: true, opportunity: true, strife: false, explosive: false }, // Success Opp
-  11: { success: true, opportunity: false, strife: true, explosive: true }, // Exp Strife
-  12: { success: true, opportunity: false, strife: false, explosive: true }, // Exp
-};
-// These values represent the explosive faces.
-const D6_EXP = 6;
-const D12_EXP = 12;
-const D12_EXP2 = 11;
-
-export const DISCORD_EMOJI = {
-  D6: {
-    1: "blank",
-    2: "Opp Strife",
-    3: "Opp",
-    4: "Success Strife",
-    5: "Success",
-    6: "Exp Strife",
-  } as EmojiSymbols,
-  D12: {
-    1: "Blank",
-    2: "blank",
-    3: "opp",
-    4: "opp",
-    5: "opp",
-    6: "success strife",
-    7: "success strife",
-    8: "success",
-    9: "success",
-    10: "success opp",
-    11: "Exp strife",
-    12: "Exp",
-  } as EmojiSymbols,
-};
 
 export class Die {
   readonly type: DieType;
@@ -159,9 +111,7 @@ export class Die {
   }
 
   toString(): string {
-    return `${this.getEmoji()}(${this.getSourceIcon()})${
-      this.rerolled ? "🔄" : ""
-    }`;
+    return `${this.getEmoji()}`;
   }
 }
 

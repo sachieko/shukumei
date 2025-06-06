@@ -3,7 +3,6 @@ import {
   ButtonBuilder,
   ButtonStyle,
   CommandInteraction,
-  MessageFlags,
   SlashCommandBuilder,
 } from "discord.js";
 import { Roll } from "../../helpers/diceUtils";
@@ -59,15 +58,23 @@ export const execute = async (interaction: CommandInteraction) => {
   const resultStrings = roll.getStringResults();
   const buttonResults = resultStrings.map((result, index) => {
     return new ButtonBuilder()
-      .setCustomId(`roll-${index}`)
-      .setLabel(result)
-      .setStyle(ButtonStyle.Primary)
-  })
-  const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(buttonResults)
+      .setCustomId(`roll-${index}-${rollDataKey}`)
+      .setEmoji(result)
+      .setStyle(ButtonStyle.Primary);
+  });
 
+  // this function is necessary because each action row can only hold 5 buttons.
+  const diceActionRoWBuilder = (diceButtons: ButtonBuilder[]) => {
+    const result = [];
+    for (let i = 0; i < diceButtons.length; i+= 4) {
+      result.push(new ActionRowBuilder<ButtonBuilder>().addComponents(diceButtons.slice(i, i + 4)))
+    }
+    return result;
+  } 
+  const actionRows = diceActionRoWBuilder(buttonResults)
   await interaction.reply({
-    content: "Dice result test phase 1:",
-    components: [buttonRow]
+    content: `${resultStrings.join('')}`,
+    components: [...actionRows],
   });
 };
 
