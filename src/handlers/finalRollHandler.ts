@@ -23,9 +23,9 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
-  roll.removeUnkept();
+  const keptStrings = roll.getKeptStrings();
   roll.setState(STATE.FINAL);
-  const resultString = roll.getStringResults().join("");
+  const resultString = keptStrings.join("");
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

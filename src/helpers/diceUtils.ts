@@ -286,10 +286,11 @@ export class Roll {
     );
   }
 
-  removeUnkept() {
-    this.#dice = this.#dice.filter((die) => {
+  getKeptStrings() {
+    const keptDie = this.#dice.filter((die) => {
       return die.kept;
     });
+    return keptDie.map((die => die.toString()))
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.

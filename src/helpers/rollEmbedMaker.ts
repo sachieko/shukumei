@@ -42,11 +42,12 @@ export const rollEmbedMaker = (
         name: "Rerolls",
         value: `${roll.getRerolls()}`,
         inline: true,
-      },
+      })
+      .addFields(
       {
         name: "Status",
         value: `${roll.getStateString()}`,
-        inline: false,
+        inline: true,
       },
       {
         name: "Modifiers",
