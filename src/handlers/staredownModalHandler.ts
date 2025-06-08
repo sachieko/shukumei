@@ -1,5 +1,6 @@
 import { MessageFlags, ModalSubmitInteraction, EmbedBuilder } from "discord.js";
 import bidData from "./bidDataStore";
+import { fetchNickname } from "../helpers/fetchUtils";
 
 const staredownModalHandler = async (interaction: ModalSubmitInteraction) => {
   const bidKey = interaction.customId.replace("staredown-modal-", "");
@@ -14,35 +15,34 @@ const staredownModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
     return;
   }
-
+  const initialDisplayName = await fetchNickname(interaction, initiatorId);
+  const responderDisplayName = await fetchNickname(interaction, targetId);
   const originalNumber = bidData[bidKey];
   delete bidData[bidKey];
   const embedObject = new EmbedBuilder()
-          .setTitle("Staredown Summary")
-          .setAuthor({
-            name: "Shukumei",
-            iconURL: interaction.client.user?.displayAvatarURL(),
-          })
-          .setDescription(
-            `<@${initiatorId}> stares down <@${targetId}>.`
-          );
+    .setTitle("Staredown Summary")
+    .setAuthor({
+      name: "Shukumei",
+      iconURL: interaction.client.user?.displayAvatarURL(),
+    })
+    .setDescription(`<@${initiatorId}> stares down <@${targetId}>.`);
   embedObject.setColor("#76C2E4").addFields(
-            {
-              name: `Initiator's Bid`,
-              value: `**${originalNumber}** strife`,
-              inline: true,
-            },
-            {
-              name: `Responder's Bid`,
-              value: `**${responseNumber}** strife`,
-              inline: true,
-            },
-          );
+    {
+      name: `${initialDisplayName + "'s" || "Initiator's"} Bid`,
+      value: `**${originalNumber}** strife`,
+      inline: true,
+    },
+    {
+      name: `${responderDisplayName + "'s" || "Responder's"} Bid`,
+      value: `**${responseNumber}** strife`,
+      inline: true,
+    }
+  );
   await interaction.message?.delete().catch(console.error);
   await interaction.reply({
-          embeds: [embedObject],
-          components: [],
-        });
+    embeds: [embedObject],
+    components: [],
+  });
 };
 
 export default staredownModalHandler;
