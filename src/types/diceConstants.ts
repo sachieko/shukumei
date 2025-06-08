@@ -1,11 +1,3 @@
-export const D6 = "D6";
-export const D12 = "D12";
-export const BASE = "base";
-export const ASSISTANCE = "assistance";
-export const VOID = "void";
-export const BONUS = "bonus";
-export const EXPLODE = "explode";
-export const NEWROLL = 0;
 export type DieType = "D6" | "D12";
 export type DieSource =
   | typeof BASE
@@ -13,6 +5,17 @@ export type DieSource =
   | typeof VOID
   | typeof BONUS
   | typeof EXPLODE;
+export type RollState = "AWAIT" | "FINAL";
+export const AWAIT = "AWAIT";
+export const FINAL: RollState = "FINAL";
+export const D6: DieType = "D6";
+export const D12: DieType = "D12";
+export const BASE = "base";
+export const ASSISTANCE = "assistance";
+export const VOID = "void";
+export const BONUS = "bonus";
+export const EXPLODE = "explode";
+export const NEWROLL = 0;
 
 export const DISCORD_DIE_EMOJI = {
   D6: {
@@ -86,11 +89,6 @@ export interface Dice {
   rerolled: boolean;
   source: "base" | "assistance" | "void" | "bonus";
 }
-
-// These values represent the explosive faces.
-export const D6_EXP = 6;
-export const D12_EXP = 12;
-export const D12_EXP2 = 11;
 
 export const D6_SYMBOLS: Record<number, DieSymbols> = {
   1: { success: false, opportunity: false, strife: false, explosive: false }, // Blank

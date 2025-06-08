@@ -14,9 +14,9 @@ import {
   EXPLODE,
   D6_SYMBOLS,
   D12_SYMBOLS,
-  D6_EXP,
-  D12_EXP,
-  D12_EXP2,
+  RollState,
+  AWAIT,
+  FINAL,
 } from "../types/diceConstants";
 
 export class Die {
@@ -53,10 +53,12 @@ export class Die {
   }
 
   #rollDie() {
+    const timeEntropy = (Date.now() % 1000) / 1000;
+    const entropicRoll = (Math.random() + timeEntropy) % 1;
     this.#value =
       this.type === D6
-        ? Math.ceil(Math.random() * 6)
-        : Math.ceil(Math.random() * 12);
+        ? Math.floor(entropicRoll * 6) + 1
+        : Math.floor(entropicRoll * 12) + 1;
     this.#symbols = this.getSymbol();
     return this.#value;
   }
@@ -127,6 +129,7 @@ export class Roll {
   #unskilledAssist: number;
   #skilledAssist: number;
   #void?: boolean;
+  #state: RollState;
 
   constructor(
     ring: number,
@@ -142,6 +145,7 @@ export class Roll {
     this.#void = voidpoint;
     this.#dice = [];
     this.#keptDice = 0;
+    this.#state = AWAIT;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
@@ -159,22 +163,21 @@ export class Roll {
   }
 
   keepDie(index: number) {
-    if (this.#keptDice < this.#keepLimit) {
+    if (
+      this.#keptDice < this.#keepLimit ||
+      this.#dice[index].source === EXPLODE
+    ) {
       const die = this.#dice[index];
       die.keep();
       this.#keptDice++;
-      if (die.type === D6 && die.getValue() === D6_EXP) {
+      if (die.type === D6 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
-      if (
-        die.type === D12 &&
-        (die.getValue() === D12_EXP || die.getValue() === D12_EXP2)
-      ) {
+      if (die.type === D12 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
       return;
     }
-    throw new Error("Can't keep more dice than the ring value.");
   }
 
   // Currently unused, would have to modify so dice from explosions track which dice preceded them.
@@ -191,12 +194,12 @@ export class Roll {
       return;
     }
     if (die.source === EXPLODE) {
-      // dice from an explosion do not count against the limit of kept die
+      // dice from an explosion do not count against the limit of #kept die
       die.unkeep();
       return;
     }
     throw new Error(
-      "Can't unkeep dice if no dice have been chosen to keep yet, if it's a bonus kept die."
+      "Can't unkeep dice if no dice have been chosen to keep yet, if it's a bonus #kept die."
     );
   }
 
@@ -215,16 +218,17 @@ export class Roll {
   getKeptLimit() {
     return this.#keepLimit;
   }
+  // Roll Result Summing Methods
 
   getAssists() {
     return this.#skilledAssist + this.#unskilledAssist;
   }
-  // Roll Result Summing Methods
-  // We sum the corresponding value of only kept dice for these methods
+  // We sum the corresponding value of only #kept dice for these methods
+
   getBonusDice() {
     return this.#dice.reduce(
       (cummulative, current) =>
-        cummulative + (current.source === BONUS ? 1 : 0), // die.kept is true for all bonus die by default
+        cummulative + (current.source === BONUS ? 1 : 0), // die.#kept is true for all bonus die by default
       0
     );
   }
@@ -270,11 +274,33 @@ export class Roll {
   getSourceStrings() {
     return this.#dice.map((die) => {
       return die.getSourceIcon();
-    })
+    });
+  }
+
+  getRerolls() {
+    return this.#dice.reduce(
+      (cummulative, current) =>
+        cummulative + (current.kept && current.rerolled ? 1 : 0),
+      0
+    );
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
   setDie(index: number, value: number) {
     this.#dice[index].setValue(value);
+  }
+
+  getState() {
+    return this.#state;
+  }
+
+  setState(state: RollState) {
+    this.#state = state;
+  }
+
+  getStateString() {
+    // Chose the if (state comparison) pattern in case more complex state exists for features later
+    if (this.#state === AWAIT) return "Rerolling or keeping...";
+    if (this.#state === FINAL) return "Finalized";
   }
 }
