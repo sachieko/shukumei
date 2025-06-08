@@ -117,6 +117,7 @@ const command: Command = {
           }
         );
         await interaction.editReply({
+          content: "",
           embeds: [embedObject],
           components: [],
         });
