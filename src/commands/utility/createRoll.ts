@@ -1,10 +1,7 @@
-import {
-  CommandInteraction,
-  SlashCommandBuilder,
-} from "discord.js";
+import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Roll } from "../../helpers/diceUtils";
 import rollData from "../../handlers/rollDataStore";
-import { rollEmbedMaker } from "../../helpers/rollEmbedMaker";
+import { rollButtonRowFactory, rollEmbedMaker } from "../../helpers/rollEmbedMaker";
 
 export const data = new SlashCommandBuilder()
   .setName("roll")
@@ -53,11 +50,13 @@ export const execute = async (interaction: CommandInteraction) => {
   const roll = new Roll(ring, skill, voidpoint, unskillAssist, skillAssist);
   const rollDataKey = `${user.id}-${Math.floor(Math.random() * 1000)}`;
   rollData[rollDataKey] = roll;
-
-  const rollEmbed = rollEmbedMaker(interaction, roll);
+  const resultString = roll.getStringResults().join("");
+  const actionRow = rollButtonRowFactory(rollDataKey);
+  const rollEmbed = rollEmbedMaker(user.displayName, user.displayAvatarURL(), interaction.client.user?.displayAvatarURL(), roll);
   await interaction.reply({
+    content: `${resultString}`,
     embeds: [rollEmbed],
-    components: [],
+    components: [actionRow],
   });
 };
 
