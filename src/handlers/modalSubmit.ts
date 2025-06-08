@@ -3,6 +3,7 @@ import InteractionHandler from "../types/interactionHandler";
 import dotenv from "dotenv";
 import staredownModalHandler from "./staredownModalHandler";
 import keepModalHandler from "./keepModalHandler";
+import rerollModalHandler from "./rerollModalHandler";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const handler: InteractionHandler<ModalSubmitInteraction> = {
       return;
     }
     if (interaction.customId.startsWith("rollreroll-modal-")) {
+      await rerollModalHandler(interaction);
       return;
     }
     if (interaction.customId.startsWith("rolladd-modal-")) {

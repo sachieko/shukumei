@@ -4,7 +4,7 @@ import {
   rollEmbedMaker,
 } from "../helpers/rollEmbedMaker";
 
-const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
+const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
     return await interaction.reply({
       content: "Error: Cannot locate the original message.",
@@ -14,7 +14,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("rollreroll-modal-", "");
   const rollIndexes = interaction.fields
-    .getTextInputValue("keepIndex")
+    .getTextInputValue("rollIndex")
     .split("");
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
@@ -42,4 +42,4 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   await interaction.deferUpdate();
 };
 
-export default keepModalHandler;
+export default rerollModalHandler;
