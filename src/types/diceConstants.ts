@@ -11,6 +11,14 @@ export const STATE = {
   FINAL: 5,
   MODDED: 6,
 };
+export const SOURCE_EMOJI = {
+      base: "",
+      assistance: "🫱🏽",
+      void: "✴️",
+      bonus: "🪭",
+      explode: "💢",
+      modded: "🔁"
+    }
 export const D6: DieType = "D6";
 export const D12: DieType = "D12";
 export const BASE = "base";

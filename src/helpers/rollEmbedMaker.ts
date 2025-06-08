@@ -23,7 +23,7 @@ export const rollEmbedMaker = (
       iconURL: botAvatarURL,
     })
     .setDescription(
-      `${SUCCESS}${roll.getSuccesses()} | ${OPPORTUNITY}${roll.getOpportunities()} | ${STRIFE}${roll.getStrife()}`
+      `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}`
     );
   embedObject
     .setColor(`${roll.getState() === STATE.FINAL ? FINALCOLOR : AWAITCOLOR}`)
@@ -40,13 +40,13 @@ export const rollEmbedMaker = (
       },
       {
         name: "Rerolls",
-        value: `🔁${roll.getRerolls()}`,
+        value: `🔁 ${roll.getRerolls()}`,
         inline: true,
       })
       .addFields(
       {
         name: "Status",
-        value: `${roll.getState() === STATE.FINAL ? "✅" + roll.getStateString() : "🤔" + roll.getStateString()}`,
+        value: `${roll.getState() === STATE.FINAL ? "✅ " + roll.getStateString() : "🤔 " + roll.getStateString()}`,
         inline: true,
       },
       {

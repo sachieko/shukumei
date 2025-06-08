@@ -16,6 +16,7 @@ import {
   D12_SYMBOLS,
   STATE,
   State,
+  SOURCE_EMOJI,
 } from "../types/diceConstants";
 
 export class Die {
@@ -109,14 +110,7 @@ export class Die {
   }
 
   getSourceIcon(): string {
-    return {
-      base: "",
-      assistance: "🫱🏽",
-      void: "🌀",
-      bonus: "㊗️",
-      explode: "💢",
-      modded: "♻️"
-    }[this.#source];
+    return SOURCE_EMOJI[this.#source];
   }
 
   toString(): string {
@@ -284,9 +278,21 @@ export class Roll {
   }
 
   getSourceStrings() {
-    return this.#dice.map((die) => {
+    const strings = this.#dice.map((die) => {
       return die.getSourceIcon();
     });
+    // Unfortunately when dice get rerolled or modded, it sometimes hides these modifiers
+    // So we have to check if they are there to add them
+    if (this.#void && !strings.includes(SOURCE_EMOJI.void)) {
+      strings.push(SOURCE_EMOJI.void);
+    }
+    const assistStrings = strings.filter(string => string === SOURCE_EMOJI.assistance)
+    if (this.#skilledAssist + this.#unskilledAssist > assistStrings.length) {
+      for (let i = 0; i < this.#skilledAssist + this.#unskilledAssist - assistStrings.length; i++) {
+        strings.push(SOURCE_EMOJI.assistance);
+      }
+    }
+    return strings;
   }
 
   getRerolls() {
@@ -323,10 +329,11 @@ export class Roll {
 
   getStateString() {
     // Chose the if (state comparison) pattern in case more complex state exists for features later
-    if (this.#state === STATE.AWAIT) return "Rerolling or keeping...";
+    if (this.#state === STATE.AWAIT) return "Deciding...";
     if (this.#state === STATE.KEPT) return "Kept dice...";
     if (this.#state === STATE.REROLLED) return "Rerolled dice...";
     if (this.#state === STATE.ADDED) return "Added kept dice...";
     if (this.#state === STATE.FINAL) return "Finalized";
+    if (this.#state === STATE.MODDED) return "Modified dice..."
   }
 }
