@@ -16,10 +16,10 @@ export const VOID = "void";
 export const BONUS = "bonus";
 export const EXPLODE = "explode";
 export const NEWROLL = 0;
-
+// Discord emoji records
 export const DISCORD_DIE_EMOJI = {
   D6: {
-    1: "<:blackb:1380603514446938193>", // blank
+    1: "<:blackb:1381268338071699527>", // blank
     2: "<:blackos:1380603664892428298>", // opp  strife
     3: "<:blacko:1380603530804465764>", // opp
     4: "<:blacksst:1380603516804137040>", // success strife
@@ -42,9 +42,9 @@ export const DISCORD_DIE_EMOJI = {
   } as EmojiSymbols,
 };
 
-export const DISCORD_KEPT_EMOJI = {
+export const DISCORD_KEPT_EMOJI = { // see above
   D6: {
-    1: "<:blackb:1380603514446938193>",
+    1: "<:blackb:1381268338071699527>",
     2: "<:blackos:1380603664892428298>",
     3: "<:blacko:1380603530804465764>",
     4: "<:blacksst:1380603516804137040>",

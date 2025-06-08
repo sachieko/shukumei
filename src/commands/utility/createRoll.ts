@@ -5,6 +5,7 @@ import {
   rollButtonRowFactory,
   rollEmbedMaker,
 } from "../../helpers/rollEmbedMaker";
+import { fetchNickname } from "../../helpers/fetchUtils";
 
 export const data = new SlashCommandBuilder()
   .setName("roll")
@@ -42,6 +43,7 @@ export const data = new SlashCommandBuilder()
 
 export const execute = async (interaction: CommandInteraction) => {
   const user = interaction.user;
+  const nickname = await fetchNickname(interaction);
   const ring = interaction.options.get("ring", true).value as number;
   const skill = interaction.options.get("skill", true).value as number;
   const voidpoint =
@@ -56,7 +58,7 @@ export const execute = async (interaction: CommandInteraction) => {
   const resultString = roll.getStringResults().join("");
   const actionRow = rollButtonRowFactory(rollDataKey);
   const rollEmbed = rollEmbedMaker(
-    interaction.member?.user?.username || user.displayName,
+    nickname || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
     roll

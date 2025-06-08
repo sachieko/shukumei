@@ -1,6 +1,7 @@
 import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
+import { fetchNickname } from "../helpers/fetchUtils";
 
 const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -10,6 +11,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const user = interaction.user;
+  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("rollkeep-modal-", "");
   const rollIndexes = interaction.fields
     .getTextInputValue("keepIndex")
@@ -31,6 +33,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   ) {
     return await interaction.reply({
       content: "You can only enter numbers in the range.",
+      flags: MessageFlags.Ephemeral,
     });
   }
   rollIndexes.forEach((index) => {
@@ -38,7 +41,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   });
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
-    interaction.member?.user?.username || user.displayName,
+    nickname || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
     roll

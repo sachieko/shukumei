@@ -1,9 +1,8 @@
 import { MessageFlags, ButtonInteraction } from "discord.js";
 import rollData from "./rollDataStore";
-import {
-  rollEmbedMaker,
-} from "../helpers/rollEmbedMaker";
+import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { FINAL } from "../types/diceConstants";
+import { fetchNickname } from "../helpers/fetchUtils";
 
 const finalRollHandler = async (interaction: ButtonInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -13,6 +12,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     });
   }
   const user = interaction.user;
+  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("roll-final-", "");
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
@@ -27,7 +27,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   roll.setState(FINAL);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
-    interaction.member?.user?.username || user.displayName,
+    nickname || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
     roll
@@ -35,8 +35,9 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   await interaction.message.edit({
     content: `${resultString}`,
     embeds: [rollEmbed],
-    components: []
+    components: [],
   });
+  delete rollData[rollDataKey]; // clean up the mock db object
   await interaction.deferUpdate();
 };
 
