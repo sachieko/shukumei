@@ -23,6 +23,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
+  roll.removeUnkept();
   roll.setState(FINAL);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(

@@ -163,21 +163,20 @@ export class Roll {
   }
 
   keepDie(index: number) {
-    if (
-      this.#keptDice < this.#keepLimit ||
-      this.#dice[index].source === EXPLODE
-    ) {
+    const dieToKeep = this.#dice[index];
+    if (this.#keptDice < this.#keepLimit || dieToKeep.source === EXPLODE) {
       const die = this.#dice[index];
       die.keep();
-      this.#keptDice++;
+      if (dieToKeep.source !== EXPLODE) this.#keptDice++;
       if (die.type === D6 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
       if (die.type === D12 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
-      return;
+      return true;
     }
+    return false;
   }
 
   // Currently unused, would have to modify so dice from explosions track which dice preceded them.
@@ -283,6 +282,12 @@ export class Roll {
         cummulative + (current.kept && current.rerolled ? 1 : 0),
       0
     );
+  }
+
+  removeUnkept() {
+    this.#dice = this.#dice.filter((die) => {
+      return die.kept;
+    });
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
