@@ -33,13 +33,17 @@ export const deployCommands = async () => {
     console.log(
       "Requesting politely a refresh of application (/) commands from the Magistrates.."
     );
-    // Put method refreshes all commands in the guild with the given set
-    await rest.put(
-      Routes.applicationGuildCommands(config.APP_ID, config.GUILD_ID),
-      {
-        body: commands,
-      }
-    );
+    // Put method refreshes all commands in the one guild with the given set
+
+    // await rest.put(
+    //   Routes.applicationGuildCommands(config.APP_ID, config.GUILD_ID),
+    //   {
+    //     body: commands,
+    //   }
+    // );
+
+    // This puts the commands in ALL servers and should be used for releases.
+    rest.put(Routes.applicationCommands(config.APP_ID), { body: commands });
     console.log("The Magistrates have approved the (/) commands.");
   } catch (error) {
     console.error(error);
