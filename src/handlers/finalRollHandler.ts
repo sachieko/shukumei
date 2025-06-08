@@ -27,7 +27,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   roll.setState(FINAL);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
-    user.displayName,
+    interaction.member?.user?.username || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
     roll
@@ -35,6 +35,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   await interaction.message.edit({
     content: `${resultString}`,
     embeds: [rollEmbed],
+    components: []
   });
   await interaction.deferUpdate();
 };

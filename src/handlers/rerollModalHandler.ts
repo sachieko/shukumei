@@ -1,8 +1,6 @@
 import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
-import {
-  rollEmbedMaker,
-} from "../helpers/rollEmbedMaker";
+import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 
 const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -15,7 +13,9 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   const rollDataKey = interaction.customId.replace("rollreroll-modal-", "");
   const rollIndexes = interaction.fields
     .getTextInputValue("rollIndex")
-    .split("");
+    .split(/[,\s]+/) // split on comma or spaces
+    .filter((index) => index) // filter empty strings
+    .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -25,12 +25,20 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
+  if (
+    !rollIndexes.every((index) => typeof index === typeof 5) ||
+    rollIndexes.some((index) => index > roll.getDiceLength())
+  ) {
+    return await interaction.reply({
+      content: "You can only enter numbers in the range.",
+    });
+  }
   rollIndexes.forEach((index) => {
-    roll.rerollDie(Number(index) - 1); // users start counting at 1 :(
+    roll.rerollDie(index - 1); // users start counting at 1 :(
   });
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
-    user.displayName,
+    interaction.member?.user?.username || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
     roll

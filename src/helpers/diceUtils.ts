@@ -206,6 +206,9 @@ export class Roll {
     this.#dice[index].reroll();
   }
 
+  getDiceLength() {
+    return this.#dice.length;
+  }
   addKeptDie(type: DieType, value: number) {
     this.#dice.push(new Die(type, value, { source: BONUS })); // Kept will be set to true by default for bonus dice
   }

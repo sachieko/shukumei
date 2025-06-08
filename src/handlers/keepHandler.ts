@@ -11,8 +11,8 @@ export const keepHandler = async(interaction: ButtonInteraction<CacheType>) => {
       .setLabel("Enter numbers of the dice.")
       .setStyle(TextInputStyle.Short)
       .setMinLength(1)
-      .setMaxLength(15)
-      .setPlaceholder("1235")
+      .setMaxLength(30)
+      .setPlaceholder("1 2 3 5")
       .setRequired(true);
   
     const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(

@@ -96,7 +96,7 @@ export const D6_SYMBOLS: Record<number, DieSymbols> = {
   3: { success: false, opportunity: true, strife: false, explosive: false }, // Opp
   4: { success: true, opportunity: false, strife: true, explosive: false }, // Success Strife
   5: { success: true, opportunity: false, strife: false, explosive: false }, // Success
-  6: { success: true, opportunity: false, strife: false, explosive: true }, // Exp Strife
+  6: { success: true, opportunity: false, strife: true, explosive: true }, // Exp Strife
 };
 
 export const D12_SYMBOLS: Record<number, DieSymbols> = {
