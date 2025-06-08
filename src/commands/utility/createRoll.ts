@@ -1,12 +1,10 @@
 import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
   CommandInteraction,
   SlashCommandBuilder,
 } from "discord.js";
 import { Roll } from "../../helpers/diceUtils";
 import rollData from "../../handlers/rollDataStore";
+import { rollEmbedMaker } from "../../helpers/rollEmbedMaker";
 
 export const data = new SlashCommandBuilder()
   .setName("roll")
@@ -43,7 +41,7 @@ export const data = new SlashCommandBuilder()
   );
 
 export const execute = async (interaction: CommandInteraction) => {
-  const userId = interaction.user.id;
+  const user = interaction.user;
   const ring = interaction.options.get("ring", true).value as number;
   const skill = interaction.options.get("skill", true).value as number;
   const voidpoint =
@@ -53,28 +51,13 @@ export const execute = async (interaction: CommandInteraction) => {
   const unskillAssist =
     (interaction.options.get("unskillassist", false)?.value as number) || 0;
   const roll = new Roll(ring, skill, voidpoint, unskillAssist, skillAssist);
-  const rollDataKey = `${userId}-${Math.floor(Math.random() * 1000)}`;
+  const rollDataKey = `${user.id}-${Math.floor(Math.random() * 1000)}`;
   rollData[rollDataKey] = roll;
-  const resultStrings = roll.getStringResults();
-  const buttonResults = resultStrings.map((result, index) => {
-    return new ButtonBuilder()
-      .setCustomId(`roll-${index}-${rollDataKey}`)
-      .setEmoji(result)
-      .setStyle(ButtonStyle.Primary);
-  });
 
-  // this function is necessary because each action row can only hold 5 buttons.
-  const diceActionRoWBuilder = (diceButtons: ButtonBuilder[]) => {
-    const result = [];
-    for (let i = 0; i < diceButtons.length; i+= 4) {
-      result.push(new ActionRowBuilder<ButtonBuilder>().addComponents(diceButtons.slice(i, i + 4)))
-    }
-    return result;
-  } 
-  const actionRows = diceActionRoWBuilder(buttonResults)
+  const rollEmbed = rollEmbedMaker(interaction, roll);
   await interaction.reply({
-    content: `${resultStrings.join('')}`,
-    components: [...actionRows],
+    embeds: [rollEmbed],
+    components: [],
   });
 };
 

@@ -14,7 +14,32 @@ export type DieSource =
   | typeof BONUS
   | typeof EXPLODE;
 
-export const DISCORD_EMOJI = {
+export const DISCORD_DIE_EMOJI = {
+  D6: {
+    1: "<:blackb:1380603514446938193>", // blank
+    2: "<:blackos:1380603664892428298>", // opp  strife
+    3: "<:blacko:1380603530804465764>", // opp
+    4: "<:blacksst:1380603516804137040>", // success strife
+    5: "<:blacks:1380603663659302923>", // success
+    6: "<:blackexpst:1380603521686307027>", // exp strife
+  } as EmojiSymbols,
+  D12: {
+    1: "<:whiteb:1380603524529917972>", // blank
+    2: "<:whiteb:1380603524529917972>", // blank
+    3: "<:whiteo:1380603526090330152>", // opp
+    4: "<:whiteo:1380603526090330152>", // opp
+    5: "<:whiteo:1380603526090330152>", // opp
+    6: " <:whitesst:1380603522969633000>", // success strife
+    7: " <:whitesst:1380603522969633000>", /// success strife
+    8: "<:whites:1380603518745837689>", // success
+    9: "<:whites:1380603518745837689>", // success
+    10: "<:whiteso:1380603520209653953>", // success opp
+    11: "<:whiteexpst:1380603512727146747>", // explosive strife
+    12: "<:whiteex:1380603527314804776>", // explosive
+  } as EmojiSymbols,
+};
+
+export const DISCORD_KEPT_EMOJI = {
   D6: {
     1: "<:blackb:1380603514446938193>",
     2: "<:blackos:1380603664892428298>",
@@ -40,6 +65,8 @@ export const DISCORD_EMOJI = {
 };
 
 export const STRIFE = "<:strife:1380611106417934376>";
+export const SUCCESS = DISCORD_DIE_EMOJI.D6[5];
+export const OPPORTUNITY = DISCORD_DIE_EMOJI.D6[3];
 
 export interface DieSymbols {
   success: boolean;

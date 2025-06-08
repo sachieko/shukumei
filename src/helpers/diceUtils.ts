@@ -2,7 +2,8 @@ import {
   DieSymbols,
   DieType,
   DieSource,
-  DISCORD_EMOJI,
+  DISCORD_DIE_EMOJI,
+  DISCORD_KEPT_EMOJI,
   D6,
   D12,
   BASE,
@@ -88,8 +89,10 @@ export class Die {
   }
 
   getEmoji(): string {
-    const SYMBOL_EMOJIS = DISCORD_EMOJI;
-    return SYMBOL_EMOJIS[this.type][this.#value];
+    if (this.kept) {
+      return DISCORD_KEPT_EMOJI[this.type][this.#value];
+    }
+    return DISCORD_DIE_EMOJI[this.type][this.#value];
   }
 
   setValue(value: number) {
@@ -119,11 +122,11 @@ export class Roll {
   #dice: Die[];
   #keepLimit: number;
   #keptDice: number;
-  readonly baseD6: number;
-  readonly baseD12: number;
-  readonly unskilledAssist: number;
-  readonly skilledAssist: number;
-  readonly void?: boolean;
+  #baseD6: number;
+  #baseD12: number;
+  #unskilledAssist: number;
+  #skilledAssist: number;
+  #void?: boolean;
 
   constructor(
     ring: number,
@@ -132,25 +135,25 @@ export class Roll {
     unskillAssist: number,
     skillAssist: number
   ) {
-    this.baseD6 = ring;
-    this.baseD12 = skill;
-    this.unskilledAssist = unskillAssist || 0;
-    this.skilledAssist = skillAssist || 0;
-    this.void = voidpoint;
+    this.#baseD6 = ring;
+    this.#baseD12 = skill || 0;
+    this.#unskilledAssist = unskillAssist || 0;
+    this.#skilledAssist = skillAssist || 0;
+    this.#void = voidpoint;
     this.#dice = [];
     this.#keptDice = 0;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
-    for (let i = 0; i < this.baseD6 + this.unskilledAssist; i++) {
+    for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
-        new Die(D6, NEWROLL, { source: i < this.baseD6 ? BASE : ASSISTANCE })
+        new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE })
       );
     }
-    for (let i = 0; i < this.baseD12 + this.skilledAssist; i++) {
+    for (let i = 0; i < this.#baseD12 + this.#skilledAssist; i++) {
       this.#dice.push(
-        new Die(D12, NEWROLL, { source: i < this.baseD12 ? BASE : ASSISTANCE })
+        new Die(D12, NEWROLL, { source: i < this.#baseD12 ? BASE : ASSISTANCE })
       );
     }
-    if (this.void) {
+    if (this.#void) {
       this.#dice.push(new Die(D6, NEWROLL, { source: VOID }));
     }
   }
@@ -174,6 +177,7 @@ export class Roll {
     throw new Error("Can't keep more dice than the ring value.");
   }
 
+  // Currently unused, would have to modify so dice from explosions track which dice preceded them.
   unkeepDie(index: number) {
     const die = this.#dice[index];
     if (
@@ -213,7 +217,7 @@ export class Roll {
   }
 
   getAssists() {
-    return this.skilledAssist + this.unskilledAssist;
+    return this.#skilledAssist + this.#unskilledAssist;
   }
   // Roll Result Summing Methods
   // We sum the corresponding value of only kept dice for these methods
@@ -261,6 +265,12 @@ export class Roll {
     return this.#dice.map((die) => {
       return die.toString();
     });
+  }
+
+  getSourceStrings() {
+    return this.#dice.map((die) => {
+      return die.getSourceIcon();
+    })
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
