@@ -23,6 +23,13 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
+  if (roll.getKeptDie() === 0) {
+    await interaction.reply({
+      content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
   const keptStrings = roll.getKeptStrings();
   roll.setState(STATE.FINAL);
   const resultString = keptStrings.join("");
