@@ -40,15 +40,11 @@ export class Die {
     } = {}
   ) {
     this.type = type;
-    this.kept = kept;
     this.rerolled = rerolled;
     this.source = source;
+    this.kept = source === BONUS ? true: kept;
     this.#value = value === 0 ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
-
-    if (source === BONUS) {
-      this.kept = true;
-    }
   }
 
   #rollDie() {

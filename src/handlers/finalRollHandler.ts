@@ -38,7 +38,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     components: [],
   });
   delete rollData[rollDataKey]; // clean up the mock db object
-  await interaction.deferUpdate();
+  await interaction.deferUpdate().catch(console.error);
 };
 
 export default finalRollHandler;
