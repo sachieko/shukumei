@@ -5,7 +5,7 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import { Roll } from "./diceUtils";
-import { STRIFE, OPPORTUNITY, SUCCESS, AWAIT } from "../types/diceConstants";
+import { STRIFE, OPPORTUNITY, SUCCESS, STATE } from "../types/diceConstants";
 const AWAITCOLOR = "#FF06BD";
 const FINALCOLOR = "#21FF3A";
 
@@ -26,11 +26,11 @@ export const rollEmbedMaker = (
       `${SUCCESS}${roll.getSuccesses()} | ${OPPORTUNITY}${roll.getOpportunities()} | ${STRIFE}${roll.getStrife()}`
     );
   embedObject
-    .setColor(`${roll.getState() === AWAIT ? AWAITCOLOR : FINALCOLOR}`)
+    .setColor(`${roll.getState() === STATE.FINAL ? FINALCOLOR : AWAITCOLOR}`)
     .addFields(
       {
-        name: "Modifiers",
-        value: `${roll.getSourceStrings().join("")}`,
+        name: "Kept",
+        value: `${roll.getKeptDie()}`,
         inline: true,
       },
       {
@@ -47,6 +47,11 @@ export const rollEmbedMaker = (
         name: "Status",
         value: `${roll.getStateString()}`,
         inline: false,
+      },
+      {
+        name: "Modifiers",
+        value: `${roll.getSourceStrings().join("")}`,
+        inline: true,
       }
     );
   return embedObject;

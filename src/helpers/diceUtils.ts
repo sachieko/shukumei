@@ -14,9 +14,8 @@ import {
   EXPLODE,
   D6_SYMBOLS,
   D12_SYMBOLS,
-  RollState,
-  AWAIT,
-  FINAL,
+  STATE,
+  State,
 } from "../types/diceConstants";
 
 export class Die {
@@ -129,7 +128,7 @@ export class Roll {
   #unskilledAssist: number;
   #skilledAssist: number;
   #void?: boolean;
-  #state: RollState;
+  #state: State;
 
   constructor(
     ring: number,
@@ -145,7 +144,7 @@ export class Roll {
     this.#void = voidpoint;
     this.#dice = [];
     this.#keptDice = 0;
-    this.#state = AWAIT;
+    this.#state = STATE.AWAIT;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
@@ -302,13 +301,16 @@ export class Roll {
     return this.#state;
   }
 
-  setState(state: RollState) {
+  setState(state: State) {
     this.#state = state;
   }
 
   getStateString() {
     // Chose the if (state comparison) pattern in case more complex state exists for features later
-    if (this.#state === AWAIT) return "Rerolling or keeping...";
-    if (this.#state === FINAL) return "Finalized";
+    if (this.#state === STATE.AWAIT) return "Rerolling or keeping...";
+    if (this.#state === STATE.KEPT) return "Kept dice...";
+    if (this.#state === STATE.REROLLED) return "Rerolled dice...";
+    if (this.#state === STATE.ADDED) return "Added kept dice...";
+    if (this.#state === STATE.FINAL) return "Finalized";
   }
 }

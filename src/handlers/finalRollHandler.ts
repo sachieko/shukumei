@@ -1,7 +1,7 @@
 import { MessageFlags, ButtonInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
-import { FINAL } from "../types/diceConstants";
+import { STATE } from "../types/diceConstants";
 import { fetchNickname } from "../helpers/fetchUtils";
 
 const finalRollHandler = async (interaction: ButtonInteraction) => {
@@ -24,7 +24,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   }
   const roll = rollData[rollDataKey];
   roll.removeUnkept();
-  roll.setState(FINAL);
+  roll.setState(STATE.FINAL);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,

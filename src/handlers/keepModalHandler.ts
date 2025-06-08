@@ -2,6 +2,7 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
+import { STATE } from "../types/diceConstants";
 
 const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -39,6 +40,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   rollIndexes.forEach((index) => {
     roll.keepDie(index - 1); // users start counting at 1 :(
   });
+  roll.setState(STATE.KEPT);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,

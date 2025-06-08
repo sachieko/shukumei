@@ -5,9 +5,18 @@ export type DieSource =
   | typeof VOID
   | typeof BONUS
   | typeof EXPLODE;
-export type RollState = "AWAIT" | "FINAL";
-export const AWAIT = "AWAIT";
-export const FINAL: RollState = "FINAL";
+export type State = number;
+
+export interface RollState {
+  [key: string]: number;
+}
+export const STATE = {
+  AWAIT: 1,
+  KEPT: 2,
+  REROLLED: 3,
+  ADDED: 4,
+  FINAL: 5
+}
 export const D6: DieType = "D6";
 export const D12: DieType = "D12";
 export const BASE = "base";
