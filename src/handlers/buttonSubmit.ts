@@ -10,7 +10,7 @@ const handler: InteractionHandler<ButtonInteraction> = {
   handle: async (interaction) => {
     // use interaction.customId to determine which string select menu was used
     if (interaction.customId === "choosestance") {
-      return; // All logic handled inside predict.ts in commands/utility
+      return; // All logic handled inside predict.ts in commands/utility/predict.ts
     }
     if (interaction.customId.startsWith(`roll-`)) {
       await diceInteractHandler(interaction);
