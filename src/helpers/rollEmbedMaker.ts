@@ -40,13 +40,13 @@ export const rollEmbedMaker = (
       },
       {
         name: "Rerolls",
-        value: `${roll.getRerolls()}`,
+        value: `🔁${roll.getRerolls()}`,
         inline: true,
       })
       .addFields(
       {
         name: "Status",
-        value: `${roll.getStateString()}`,
+        value: `${roll.getState() === STATE.FINAL ? "✅" + roll.getStateString() : "🤔" + roll.getStateString()}`,
         inline: true,
       },
       {
@@ -71,6 +71,10 @@ export const rollButtonRowFactory = (rollIdentifier: string) => {
     .setCustomId(`roll-add-${rollIdentifier}`)
     .setLabel("Add Kept")
     .setStyle(ButtonStyle.Danger);
+  const modButton = new ButtonBuilder()
+    .setCustomId(`roll-mod-${rollIdentifier}`)
+    .setLabel("Modify")
+    .setStyle(ButtonStyle.Primary)
   const finalizeButton = new ButtonBuilder()
     .setCustomId(`roll-final-${rollIdentifier}`)
     .setLabel("Done")
@@ -79,6 +83,7 @@ export const rollButtonRowFactory = (rollIdentifier: string) => {
     keepButton,
     rerollButton,
     addKeptButton,
+    modButton,
     finalizeButton,
   ]);
   return buttonRow;

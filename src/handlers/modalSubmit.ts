@@ -5,6 +5,7 @@ import staredownModalHandler from "./staredownModalHandler";
 import keepModalHandler from "./keepModalHandler";
 import rerollModalHandler from "./rerollModalHandler";
 import addDieModalHandler from "./addDieModalHandler";
+import modDieModalHandler from "./modDieModalHandler";
 
 dotenv.config();
 
@@ -25,6 +26,10 @@ const handler: InteractionHandler<ModalSubmitInteraction> = {
     }
     if (interaction.customId.startsWith("rolladd-modal-")) {
       await addDieModalHandler(interaction);
+      return;
+    }
+    if (interaction.customId.startsWith("rollmod-modal-")) {
+      await modDieModalHandler(interaction);
       return;
     }
     console.error(`Unknown ModalSubmitInteraction ${interaction.customId}`);

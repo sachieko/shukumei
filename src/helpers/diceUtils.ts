@@ -20,7 +20,7 @@ import {
 
 export class Die {
   readonly type: DieType;
-  readonly source: DieSource;
+  #source: DieSource;
   kept: boolean;
   rerolled: boolean;
   #value: number;
@@ -41,7 +41,7 @@ export class Die {
   ) {
     this.type = type;
     this.rerolled = rerolled;
-    this.source = source;
+    this.#source = source;
     this.kept = source === BONUS ? true: kept;
     this.#value = value === 0 ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
@@ -96,6 +96,14 @@ export class Die {
     this.#value = value;
   }
 
+  setSource(value: DieSource) {
+    this.#source = value;
+  }
+
+  getSource() {
+    return this.#source;
+  }
+
   getValue() {
     return this.#value;
   }
@@ -105,9 +113,10 @@ export class Die {
       base: "",
       assistance: "🫱🏽",
       void: "🌀",
-      bonus: "⚔️",
+      bonus: "㊗️",
       explode: "💢",
-    }[this.source];
+      modded: "♻️"
+    }[this.#source];
   }
 
   toString(): string {
@@ -159,10 +168,11 @@ export class Roll {
 
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
-    if (this.#keptDice < this.#keepLimit || dieToKeep.source === EXPLODE) {
+    const dieSource = dieToKeep.getSource()
+    if (this.#keptDice < this.#keepLimit || dieSource === EXPLODE) {
       const die = this.#dice[index];
       die.keep();
-      if (dieToKeep.source !== EXPLODE) this.#keptDice++;
+      if (dieSource !== EXPLODE) this.#keptDice++;
       if (die.type === D6 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
@@ -177,18 +187,19 @@ export class Roll {
   // Currently unused, would have to modify so dice from explosions track which dice preceded them.
   unkeepDie(index: number) {
     const die = this.#dice[index];
+    const dieSource = die.getSource();
     if (
       this.#keptDice > 0 &&
       die.kept &&
-      die.source !== BONUS &&
-      die.source !== EXPLODE
+      dieSource !== BONUS &&
+      dieSource !== EXPLODE
     ) {
       die.unkeep();
       this.#keptDice--;
       return;
     }
-    if (die.source === EXPLODE) {
-      // dice from an explosion do not count against the limit of #kept die
+    if (dieSource === EXPLODE) {
+      // diSourcedieSourcean explosion do not count against the limit of #kept die
       die.unkeep();
       return;
     }
@@ -199,6 +210,10 @@ export class Roll {
 
   rerollDie(index: number) {
     this.#dice[index].reroll();
+  }
+
+  getDieType(index: number) {
+    return this.#dice[index].type;
   }
 
   getDiceLength() {
@@ -225,7 +240,7 @@ export class Roll {
   getBonusDice() {
     return this.#dice.reduce(
       (cummulative, current) =>
-        cummulative + (current.source === BONUS ? 1 : 0), // die.#kept is true for all bonus die by default
+        cummulative + (current.getSource() === BONUS ? 1 : 0), // die.#kept is true for all bonus die by default
       0
     );
   }
@@ -290,8 +305,12 @@ export class Roll {
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
-  setDie(index: number, value: number) {
+  setDie(index: number, value: number, source?: DieSource) {
     this.#dice[index].setValue(value);
+    if (source) {
+      this.#dice[index].setSource(source)
+    }
+    return this.#dice[index]
   }
 
   getState() {

@@ -2,32 +2,8 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
-import { D12, D6, STATE } from "../types/diceConstants";
-interface DieValue {
-  OS: number;
-  S: number;
-  O: number;
-  SS: number;
-}
-interface SymbolToValue {
-  D6: DieValue;
-  D12: DieValue;
-}
+import { D12, D6, STATE, SYMBOL_TO_VALUE } from "../types/diceConstants";
 
-const SYMBOL_TO_VALUE: SymbolToValue = {
-  D6: {
-    OS: 2,
-    S: 5,
-    O: 3,
-    SS:  4
-  },
-  D12: {
-    OS: 10,
-    S: 8,
-    O: 3,
-    SS: 6,
-  }
-}
 
 const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {

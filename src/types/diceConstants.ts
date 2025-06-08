@@ -1,12 +1,5 @@
 export type DieType = "D6" | "D12";
-export type DieSource =
-  | typeof BASE
-  | typeof ASSISTANCE
-  | typeof VOID
-  | typeof BONUS
-  | typeof EXPLODE;
 export type State = number;
-
 export interface RollState {
   [key: string]: number;
 }
@@ -15,8 +8,9 @@ export const STATE = {
   KEPT: 2,
   REROLLED: 3,
   ADDED: 4,
-  FINAL: 5
-}
+  FINAL: 5,
+  MODDED: 6,
+};
 export const D6: DieType = "D6";
 export const D12: DieType = "D12";
 export const BASE = "base";
@@ -24,6 +18,14 @@ export const ASSISTANCE = "assistance";
 export const VOID = "void";
 export const BONUS = "bonus";
 export const EXPLODE = "explode";
+export const MODDED = "modded";
+export type DieSource =
+  | typeof BASE
+  | typeof ASSISTANCE
+  | typeof VOID
+  | typeof BONUS
+  | typeof EXPLODE
+  | typeof MODDED;
 export const NEWROLL = 0;
 // Discord emoji records
 export const DISCORD_DIE_EMOJI = {
@@ -51,7 +53,8 @@ export const DISCORD_DIE_EMOJI = {
   } as EmojiSymbols,
 };
 
-export const DISCORD_KEPT_EMOJI = { // see above
+export const DISCORD_KEPT_EMOJI = {
+  // see above
   D6: {
     1: "<:blackb:1381268338071699527>",
     2: "<:blackos:1380603664892428298>",
@@ -96,7 +99,7 @@ export interface Dice {
   value: number;
   kept: boolean;
   rerolled: boolean;
-  source: "base" | "assistance" | "void" | "bonus";
+  source: "base" | "assistance" | "void" | "bonus" | "modded";
 }
 
 export const D6_SYMBOLS: Record<number, DieSymbols> = {
@@ -121,4 +124,30 @@ export const D12_SYMBOLS: Record<number, DieSymbols> = {
   10: { success: true, opportunity: true, strife: false, explosive: false }, // Success Opp
   11: { success: true, opportunity: false, strife: true, explosive: true }, // Exp Strife
   12: { success: true, opportunity: false, strife: false, explosive: true }, // Exp
+};
+// For converting user input text which represents the above symbols into their respective value
+interface DieValue {
+  OS: number;
+  S: number;
+  O: number;
+  SS: number;
+}
+interface SymbolToValue {
+  D6: DieValue;
+  D12: DieValue;
+}
+
+export const SYMBOL_TO_VALUE: SymbolToValue = {
+  D6: {
+    OS: 2,
+    S: 5,
+    O: 3,
+    SS: 4,
+  },
+  D12: {
+    OS: 10,
+    S: 8,
+    O: 3,
+    SS: 6,
+  },
 };
