@@ -14,10 +14,10 @@ export const STATE = {
 export const SOURCE_EMOJI = {
       base: "",
       assistance: "🫱🏽",
-      void: "✴️",
+      void: "🌀",
       bonus: "🪭",
       explode: "💢",
-      modded: "🔁"
+      modded: "⤵️"
     }
 export const D6: DieType = "D6";
 export const D12: DieType = "D12";
