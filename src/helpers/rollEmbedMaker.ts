@@ -16,10 +16,10 @@ export const rollEmbedMaker = (
   roll: Roll
 ) => {
   const embedObject = new EmbedBuilder()
-    .setTitle(`${displayName}'s Roll Results`)
+    .setTitle(`Roll Results`)
     .setThumbnail(userAvatarURL)
     .setAuthor({
-      name: "Shukumei",
+      name: displayName,
       iconURL: botAvatarURL,
     })
     .setDescription(
@@ -42,11 +42,16 @@ export const rollEmbedMaker = (
         name: "Rerolls",
         value: `🔁 ${roll.getRerolls()}`,
         inline: true,
-      })
-      .addFields(
+      }
+    )
+    .addFields(
       {
         name: "Status",
-        value: `${roll.getState() === STATE.FINAL ? "✅ " + roll.getStateString() : "🤔 " + roll.getStateString()}`,
+        value: `${
+          roll.getState() === STATE.FINAL
+            ? "✅ " + roll.getStateString()
+            : "🤔 " + roll.getStateString()
+        }`,
         inline: true,
       },
       {
@@ -74,7 +79,7 @@ export const rollButtonRowFactory = (rollIdentifier: string) => {
   const modButton = new ButtonBuilder()
     .setCustomId(`roll-mod-${rollIdentifier}`)
     .setLabel("Modify")
-    .setStyle(ButtonStyle.Primary)
+    .setStyle(ButtonStyle.Primary);
   const finalizeButton = new ButtonBuilder()
     .setCustomId(`roll-final-${rollIdentifier}`)
     .setLabel("Done")
