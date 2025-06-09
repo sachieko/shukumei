@@ -43,7 +43,7 @@ export class Die {
     this.type = type;
     this.rerolled = rerolled;
     this.#source = source;
-    this.kept = source === BONUS ? true : kept;
+    this.kept = kept;
     this.#value = value === 0 ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
   }
@@ -213,8 +213,8 @@ export class Roll {
   getDiceLength() {
     return this.#dice.length;
   }
-  addKeptDie(type: DieType, value: number) {
-    this.#dice.push(new Die(type, value, { source: BONUS })); // Kept will be set to true by default for bonus dice
+  addKeptDie(type: DieType, value: number, kept: boolean) {
+    this.#dice.push(new Die(type, value, { source: BONUS, kept: kept }));
   }
 
   getKeptDie() {

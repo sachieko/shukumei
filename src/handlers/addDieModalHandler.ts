@@ -2,12 +2,7 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
-import {
-  D12,
-  D6,
-  STATE,
-  SYMBOL_TO_VALUE,
-} from "../types/diceConstants";
+import { D12, D6, STATE, SYMBOL_TO_VALUE } from "../types/diceConstants";
 
 const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -19,6 +14,9 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("rolladd-modal-", "");
   const dieType = interaction.fields.getTextInputValue("dieType").toUpperCase();
+  const dieIsKept = interaction.fields
+    .getTextInputValue("dieKept")
+    .toUpperCase();
   const dieSymbol = interaction.fields
     .getTextInputValue("dieSymbol")
     .toUpperCase();
@@ -56,7 +54,7 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const nickname = await fetchNickname(interaction);
 
   const value = SYMBOL_TO_VALUE[type][dieSymbol];
-  roll.addKeptDie(type, value);
+  roll.addKeptDie(type, value, dieIsKept === "Y" ? true : false);
   roll.setState(STATE.ADDED);
   const resultString = roll.getStringResults().join("");
   const rollEmbed = rollEmbedMaker(
