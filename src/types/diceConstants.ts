@@ -13,7 +13,7 @@ export const STATE = {
 };
 export const SOURCE_EMOJI = {
       base: "",
-      assistance: "🫱🏽",
+      assistance: "🤝🏽",
       void: "🌀",
       bonus: "🪭",
       explode: "💢",
