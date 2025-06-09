@@ -30,9 +30,8 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     });
     return;
   }
-  const keptStrings = roll.getKeptStrings();
   roll.setState(STATE.FINAL);
-  const resultString = keptStrings.join("");
+  const resultString = roll.getFinalStrings().join("");
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

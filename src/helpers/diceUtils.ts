@@ -43,7 +43,7 @@ export class Die {
     this.type = type;
     this.rerolled = rerolled;
     this.#source = source;
-    this.kept = source === BONUS ? true: kept;
+    this.kept = source === BONUS ? true : kept;
     this.#value = value === 0 ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
   }
@@ -162,7 +162,7 @@ export class Roll {
 
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
-    const dieSource = dieToKeep.getSource()
+    const dieSource = dieToKeep.getSource();
     if (this.#keptDice < this.#keepLimit || dieSource === EXPLODE) {
       const die = this.#dice[index];
       die.keep();
@@ -286,9 +286,15 @@ export class Roll {
     if (this.#void && !strings.includes(SOURCE_EMOJI.void)) {
       strings.push(SOURCE_EMOJI.void);
     }
-    const assistStrings = strings.filter(string => string === SOURCE_EMOJI.assistance)
+    const assistStrings = strings.filter(
+      (string) => string === SOURCE_EMOJI.assistance
+    );
     if (this.#skilledAssist + this.#unskilledAssist > assistStrings.length) {
-      for (let i = 0; i < this.#skilledAssist + this.#unskilledAssist - assistStrings.length; i++) {
+      for (
+        let i = 0;
+        i < this.#skilledAssist + this.#unskilledAssist - assistStrings.length;
+        i++
+      ) {
         strings.push(SOURCE_EMOJI.assistance);
       }
     }
@@ -307,16 +313,27 @@ export class Roll {
     const keptDie = this.#dice.filter((die) => {
       return die.kept;
     });
-    return keptDie.map((die => die.toString()))
+    return keptDie.map((die) => die.toString());
+  }
+  getUnkeptStrings() {
+    const unKeptDie = this.#dice.filter((die) => {
+      return !die.kept;
+    });
+    return unKeptDie.map((die) => die.toString());
+  }
+
+  getFinalStrings() {
+    const finalString = [...this.getKeptStrings(), ...this.getUnkeptStrings()];
+    return finalString;
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
   setDie(index: number, value: number, source?: DieSource) {
     this.#dice[index].setValue(value);
     if (source) {
-      this.#dice[index].setSource(source)
+      this.#dice[index].setSource(source);
     }
-    return this.#dice[index]
+    return this.#dice[index];
   }
 
   getState() {
@@ -334,6 +351,6 @@ export class Roll {
     if (this.#state === STATE.REROLLED) return "Rerolled dice...";
     if (this.#state === STATE.ADDED) return "Added kept dice...";
     if (this.#state === STATE.FINAL) return "Finalized";
-    if (this.#state === STATE.MODDED) return "Modified dice..."
+    if (this.#state === STATE.MODDED) return "Modified dice...";
   }
 }
