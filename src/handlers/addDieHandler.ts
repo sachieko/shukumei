@@ -28,7 +28,7 @@ export const addDieHandler = async (
     .setCustomId("keptInput")
     .setLabel("K = Kept")
     .setStyle(TextInputStyle.Short)
-    .setMinLength(1)
+    .setMinLength(0)
     .setMaxLength(1)
     .setPlaceholder("K")
     .setRequired(true);

@@ -74,7 +74,7 @@ export const rollButtonRowFactory = (rollIdentifier: string) => {
     .setStyle(ButtonStyle.Danger);
   const addKeptButton = new ButtonBuilder()
     .setCustomId(`roll-add-${rollIdentifier}`)
-    .setLabel("Add Kept")
+    .setLabel("Add Die")
     .setStyle(ButtonStyle.Danger);
   const modButton = new ButtonBuilder()
     .setCustomId(`roll-mod-${rollIdentifier}`)
