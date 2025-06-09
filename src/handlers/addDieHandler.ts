@@ -24,14 +24,6 @@ export const addDieHandler = async (
     .setPlaceholder("R")
     .setRequired(true);
 
-  const keptInput = new TextInputBuilder()
-    .setCustomId("keptInput")
-    .setLabel("K = Kept")
-    .setStyle(TextInputStyle.Short)
-    .setMinLength(0)
-    .setMaxLength(1)
-    .setPlaceholder("K")
-    .setRequired(true);
 
   const dieValueInput = new TextInputBuilder()
     .setCustomId("dieSymbol")
@@ -41,6 +33,16 @@ export const addDieHandler = async (
     .setMaxLength(2)
     .setPlaceholder("OS")
     .setRequired(true);
+
+    const keptInput = new TextInputBuilder()
+    .setCustomId("dieKept")
+    .setLabel("K = Kept, R = Rolled")
+    .setStyle(TextInputStyle.Short)
+    .setMinLength(0)
+    .setMaxLength(1)
+    .setPlaceholder("K")
+    .setRequired(false);
+
 
   const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
     dieTypeInput
