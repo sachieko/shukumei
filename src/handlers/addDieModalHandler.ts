@@ -2,8 +2,12 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
-import { D12, D6, STATE, SYMBOL_TO_VALUE } from "../types/diceConstants";
-
+import {
+  D12,
+  D6,
+  STATE,
+  SYMBOL_TO_VALUE,
+} from "../types/diceConstants";
 
 const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -13,7 +17,6 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const user = interaction.user;
-  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("rolladd-modal-", "");
   const dieType = interaction.fields.getTextInputValue("dieType").toUpperCase();
   const dieSymbol = interaction.fields
@@ -35,19 +38,23 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
       flags: MessageFlags.Ephemeral,
     });
   }
+  const type = dieType === "R" ? D6 : D12;
   if (
     dieSymbol !== "OS" &&
     dieSymbol !== "S" &&
     dieSymbol !== "SS" &&
-    dieSymbol !== "O"
+    dieSymbol !== "O" &&
+    dieSymbol !== "E" &&
+    dieSymbol !== "ES"
   ) {
     return await interaction.reply({
       content:
-        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, and SS for Success and Strife. These are letters and not numbers.",
+        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive, ES for Explosive with Strife, and SS for Success and Strife. These are letters and not numbers.",
       flags: MessageFlags.Ephemeral,
     });
   }
-  const type = dieType === "R" ? D6 : D12;
+  const nickname = await fetchNickname(interaction);
+
   const value = SYMBOL_TO_VALUE[type][dieSymbol];
   roll.addKeptDie(type, value);
   roll.setState(STATE.ADDED);

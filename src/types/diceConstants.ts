@@ -134,11 +134,13 @@ export const D12_SYMBOLS: Record<number, DieSymbols> = {
   12: { success: true, opportunity: false, strife: false, explosive: true }, // Exp
 };
 // For converting user input text which represents the above symbols into their respective value
-interface DieValue {
+export interface DieValue {
   OS: number;
   S: number;
   O: number;
   SS: number;
+  ES: number;
+  E: number;
 }
 interface SymbolToValue {
   D6: DieValue;
@@ -151,11 +153,15 @@ export const SYMBOL_TO_VALUE: SymbolToValue = {
     S: 5,
     O: 3,
     SS: 4,
+    E: 6,
+    ES: 6
   },
   D12: {
     OS: 10,
     S: 8,
     O: 3,
     SS: 6,
+    E: 12,
+    ES: 11
   },
 };

@@ -12,28 +12,12 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const user = interaction.user;
-  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("rollmod-modal-", "");
   const rollIndexes = interaction.fields
-    .getTextInputValue("rollIndex")
-    .split(/[,\s]+/) // split on comma or spaces
-    .filter((index) => index) // filter empty strings
-    .map((index) => Number(index));
-  const dieSymbol = interaction.fields
-    .getTextInputValue("dieSymbol")
-    .toUpperCase();
-    if (
-    dieSymbol !== "OS" &&
-    dieSymbol !== "S" &&
-    dieSymbol !== "SS" &&
-    dieSymbol !== "O"
-  ) {
-    return await interaction.reply({
-      content:
-        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, and SS for Success and Strife. These are letters and not numbers.",
-      flags: MessageFlags.Ephemeral,
-    });
-  }
+  .getTextInputValue("rollIndex")
+  .split(/[,\s]+/) // split on comma or spaces
+  .filter((index) => index) // filter empty strings
+  .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -41,6 +25,21 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
       flags: MessageFlags.Ephemeral,
     });
     return;
+  }
+  const dieSymbol = interaction.fields
+  .getTextInputValue("dieSymbol")
+  .toUpperCase();
+  if (
+    dieSymbol !== "OS" &&
+    dieSymbol !== "S" &&
+    dieSymbol !== "SS" &&
+    dieSymbol !== "O"
+  ) {
+    return await interaction.reply({
+      content:
+      "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, and SS for Success and Strife. These are letters and not numbers.",
+      flags: MessageFlags.Ephemeral,
+    });
   }
   const roll = rollData[rollDataKey];
   if (
@@ -52,6 +51,7 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
       flags: MessageFlags.Ephemeral,
     });
   }
+  const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
     const dieType = roll.getDieType(index - 1);
     roll.setDie(index - 1, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED); // users start counting at 1 :(

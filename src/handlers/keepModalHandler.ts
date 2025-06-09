@@ -12,13 +12,12 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const user = interaction.user;
-  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("rollkeep-modal-", "");
   const rollIndexes = interaction.fields
-    .getTextInputValue("keepIndex")
-    .split(/[,\s]+/)
-    .filter((index) => index)
-    .map((index) => Number(index));
+  .getTextInputValue("keepIndex")
+  .split(/[,\s]+/)
+  .filter((index) => index)
+  .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -37,6 +36,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
       flags: MessageFlags.Ephemeral,
     });
   }
+  const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
     roll.keepDie(index - 1); // users start counting at 1 :(
   });

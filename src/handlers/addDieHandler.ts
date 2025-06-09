@@ -24,9 +24,18 @@ export const addDieHandler = async (
     .setPlaceholder("R")
     .setRequired(true);
 
+  const keptInput = new TextInputBuilder()
+    .setCustomId("keptInput")
+    .setLabel("K = Kept")
+    .setStyle(TextInputStyle.Short)
+    .setMinLength(1)
+    .setMaxLength(1)
+    .setPlaceholder("K")
+    .setRequired(true);
+
   const dieValueInput = new TextInputBuilder()
     .setCustomId("dieSymbol")
-    .setLabel(`Symbol: OS, SS, S, O`)
+    .setLabel(`Symbol: OS, SS, S, O, E, ES`)
     .setStyle(TextInputStyle.Short)
     .setMinLength(1)
     .setMaxLength(2)
@@ -36,11 +45,16 @@ export const addDieHandler = async (
   const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
     dieTypeInput
   );
+  
   const nextActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
     dieValueInput
   );
 
-  modal.addComponents(actionRow, nextActionRow);
+  const keptActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
+    keptInput
+  );
+
+  modal.addComponents(actionRow, nextActionRow, keptActionRow);
 
   await interaction.showModal(modal);
 };

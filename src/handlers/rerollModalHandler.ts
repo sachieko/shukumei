@@ -12,13 +12,12 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const user = interaction.user;
-  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("rollreroll-modal-", "");
   const rollIndexes = interaction.fields
-    .getTextInputValue("rollIndex")
-    .split(/[,\s]+/) // split on comma or spaces
-    .filter((index) => index) // filter empty strings
-    .map((index) => Number(index));
+  .getTextInputValue("rollIndex")
+  .split(/[,\s]+/) // split on comma or spaces
+  .filter((index) => index) // filter empty strings
+  .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -37,6 +36,7 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
       flags: MessageFlags.Ephemeral,
     });
   }
+  const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
     roll.rerollDie(index - 1); // users start counting at 1 :(
   });

@@ -12,7 +12,6 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     });
   }
   const user = interaction.user;
-  const nickname = await fetchNickname(interaction);
   const rollDataKey = interaction.customId.replace("roll-final-", "");
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
@@ -30,6 +29,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     });
     return;
   }
+  const nickname = await fetchNickname(interaction);
   roll.setState(STATE.FINAL);
   const resultString = roll.getFinalStrings().join("");
   const rollEmbed = rollEmbedMaker(
