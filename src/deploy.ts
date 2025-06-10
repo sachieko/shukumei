@@ -1,3 +1,3 @@
-import { deployCommands } from "./deploy-commands";
+import { deployGuildCommands } from "./deploy-commands";
 // Refreshes commands, supposedly
-deployCommands();
+deployGuildCommands();

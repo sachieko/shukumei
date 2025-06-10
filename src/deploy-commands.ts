@@ -28,7 +28,7 @@ for (const folder of commandFolders) {
 
 const rest = new REST().setToken(config.DISCORD_BOT_TOKEN);
 
-export const deployCommands = async () => {
+export const deployGuildCommands = async () => {
   try {
     console.log(
       "Requesting politely a refresh of application (/) commands from the Magistrates.."
@@ -59,4 +59,8 @@ export const deleteCommands = async (guildId?: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const deployCommands = async (clientId?: string) => {
+  await rest.put(Routes.applicationCommands(config.APP_ID), { body: commands });
 };
