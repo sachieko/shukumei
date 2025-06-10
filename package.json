@@ -7,7 +7,8 @@
     "build": "tsc",
     "test": "test",
     "start": "tsc && node -r dotenv/config ./build/app.js",
-    "deploy": "tsc && node -r dotenv/config ./build/deploy.js",
+    "deployg": "tsc && node -r dotenv/config ./build/deploy.js",
+    "deployall": "tsc && node -r dotenv/config ./build/deployall.js",
     "cmd:d": "tsc && node -r dotenv/config ./build/deleteCommand.js"
   },
   "repository": {
