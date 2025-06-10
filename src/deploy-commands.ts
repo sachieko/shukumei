@@ -62,5 +62,15 @@ export const deleteCommands = async (guildId?: string) => {
 };
 
 export const deployCommands = async (clientId?: string) => {
-  await rest.put(Routes.applicationCommands(config.APP_ID), { body: commands });
+  try {
+    console.log(
+      "Politely requesting all (/) commands be sent to the Magistrates for approval..."
+    );
+    await rest.put(Routes.applicationCommands(config.APP_ID), {
+      body: commands,
+    });
+    console.log("The Magistrates have approved the (/) command changes.");
+  } catch (error) {
+    console.error(error);
+  }
 };
