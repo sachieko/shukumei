@@ -30,7 +30,7 @@ export const rollEmbedMaker = (
     .addFields(
       {
         name: "Kept",
-        value: `${roll.getKeptDie()}/${roll.getKeptLimit()}}`,
+        value: `${roll.getKeptDie()}/${roll.getKeptLimit()}`,
         inline: true,
       },
       {
@@ -63,7 +63,7 @@ export const rollEmbedMaker = (
     .setFooter({
       text: `TN: ${roll.getTN()}${
         roll.getState() === STATE.FINAL
-          ? `- ${roll.getSuccesses()} Successes`
+          ? ` VS ${roll.getSuccesses()} Successes`
           : ""
       }`,
     });
