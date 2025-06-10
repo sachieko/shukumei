@@ -39,6 +39,16 @@ export const data = new SlashCommandBuilder()
       .setName("unskillassist")
       .setDescription("How much unskilled assistance do you have?")
       .setRequired(false)
+  )
+  .addNumberOption((option) =>
+    option
+      .setName("tn")
+      .setDescription("What is the TN?")
+      .setMinValue(0)
+      .setRequired(false)
+  )
+  .addStringOption((option) =>
+    option.setName("label").setDescription("Label").setRequired(false)
   );
 
 export const execute = async (interaction: CommandInteraction) => {
@@ -47,12 +57,19 @@ export const execute = async (interaction: CommandInteraction) => {
   const ring = interaction.options.get("ring", true).value as number;
   const skill = interaction.options.get("skill", true).value as number;
   const voidpoint =
-    (interaction.options.get("voidpoint", false)?.value as boolean) || false;
+    (interaction.options.get("voidpoint", false)?.value as boolean) ?? false;
   const skillAssist =
-    (interaction.options.get("skillassist", false)?.value as number) || 0;
+    (interaction.options.get("skillassist", false)?.value as number) ?? 0;
   const unskillAssist =
-    (interaction.options.get("unskillassist", false)?.value as number) || 0;
-  const roll = new Roll(ring, skill, voidpoint, unskillAssist, skillAssist);
+    (interaction.options.get("unskillassist", false)?.value as number) ?? 0;
+  const TN = (interaction.options.get("tn", false)?.value as number) ?? "?";
+  const label =
+    (interaction.options.get("label", false)?.value as string) ?? "";
+  const roll = new Roll(ring, skill, unskillAssist, skillAssist, {
+    voidpoint,
+    TN,
+    label,
+  });
   const rollDataKey = `${user.id}-${Math.floor(Math.random() * 1000)}`;
   rollData[rollDataKey] = roll;
   const resultString = roll.getStringResults().join("");

@@ -126,25 +126,37 @@ export class Roll {
   #baseD12: number;
   #unskilledAssist: number;
   #skilledAssist: number;
-  #void?: boolean;
   #state: State;
+  #void: boolean;
+  #label: string;
+  #TN?: number | "?";
 
   constructor(
     ring: number,
     skill: number,
-    voidpoint: boolean,
     unskillAssist: number,
-    skillAssist: number
+    skillAssist: number,
+    {
+      voidpoint = false,
+      TN = "?",
+      label = "Roll Results",
+    }: {
+      voidpoint: boolean;
+      TN: number | "?";
+      label: string;
+    }
   ) {
     this.#baseD6 = ring;
-    this.#baseD12 = skill || 0;
-    this.#unskilledAssist = unskillAssist || 0;
-    this.#skilledAssist = skillAssist || 0;
+    this.#baseD12 = skill ?? 0;
+    this.#unskilledAssist = unskillAssist ?? 0;
+    this.#skilledAssist = skillAssist ?? 0;
     this.#void = voidpoint;
     this.#dice = [];
     this.#keptDice = 0;
     this.#state = STATE.AWAIT;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
+    this.#TN = TN;
+    this.#label = label;
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
         new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE })
@@ -159,7 +171,7 @@ export class Roll {
       this.#dice.push(new Die(D6, NEWROLL, { source: VOID }));
     }
   }
-
+  // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
     const dieSource = dieToKeep.getSource();
@@ -176,6 +188,14 @@ export class Roll {
       return true;
     }
     return false;
+  }
+
+  getTN() {
+    return this.#TN;
+  }
+
+  getLabel() {
+    return this.#label;
   }
 
   // Currently unused, would have to modify so dice from explosions track which dice preceded them.
@@ -208,6 +228,14 @@ export class Roll {
 
   getDieType(index: number) {
     return this.#dice[index].type;
+  }
+
+  getRingDice() {
+    return this.#baseD6;
+  }
+
+  getSkillDice() {
+    return this.#baseD12;
   }
 
   getDiceLength() {

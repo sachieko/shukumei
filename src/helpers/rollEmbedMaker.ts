@@ -16,7 +16,7 @@ export const rollEmbedMaker = (
   roll: Roll
 ) => {
   const embedObject = new EmbedBuilder()
-    .setTitle(`Roll Results`)
+    .setTitle(`${roll.getLabel()}`)
     .setThumbnail(userAvatarURL)
     .setAuthor({
       name: displayName,
@@ -30,12 +30,12 @@ export const rollEmbedMaker = (
     .addFields(
       {
         name: "Kept",
-        value: `${roll.getKeptDie()}`,
+        value: `${roll.getKeptDie()}/${roll.getKeptLimit()}}`,
         inline: true,
       },
       {
-        name: "Keep Limit",
-        value: `${roll.getKeptLimit()}`,
+        name: "Ring/Skill",
+        value: `${roll.getRingDice()}/${roll.getSkillDice()}`,
         inline: true,
       },
       {
@@ -59,7 +59,14 @@ export const rollEmbedMaker = (
         value: `${roll.getSourceStrings().join("")}`,
         inline: true,
       }
-    );
+    )
+    .setFooter({
+      text: `TN: ${roll.getTN()}${
+        roll.getState() === STATE.FINAL
+          ? `- ${roll.getSuccesses()} Successes`
+          : ""
+      }`,
+    });
   return embedObject;
 };
 
