@@ -134,17 +134,11 @@ export class Roll {
   constructor(
     ring: number,
     skill: number,
-    unskillAssist: number,
-    skillAssist: number,
-    {
-      voidpoint = false,
-      TN = "?",
-      label = "Roll Results",
-    }: {
-      voidpoint: boolean;
-      TN: number | "?";
-      label: string;
-    }
+    unskillAssist: number = 0,
+    skillAssist: number = 0,
+    voidpoint: boolean = false,
+    TN: number | "?" = "?",
+    label: string = "Roll Results"
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
