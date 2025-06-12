@@ -326,7 +326,7 @@ export class Roll {
   getRerolls() {
     return this.#dice.reduce(
       (cummulative, current) =>
-        cummulative + (current.kept && current.rerolled ? 1 : 0),
+        cummulative + (current.rerolled ? 1 : 0),
       0
     );
   }
