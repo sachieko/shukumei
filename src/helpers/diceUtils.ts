@@ -172,14 +172,13 @@ export class Roll {
     const keptDice = this.getKeptDice();
     const dieSource = dieToKeep.getSource();
     if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
-      const die = this.#dice[index];
-      die.keep();
-      if (dieSource !== EXPLODE) keptDice;
-      if (die.type === D6 && die.isExploding()) {
-        this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
+      dieToKeep.keep();
+      if (dieSource !== EXPLODE) return true;
+      if (dieToKeep.type === D6 && dieToKeep.isExploding()) {
+        this.#dice.push(new Die(dieToKeep.type, NEWROLL, { source: EXPLODE }));
       }
-      if (die.type === D12 && die.isExploding()) {
-        this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
+      if (dieToKeep.type === D12 && dieToKeep.isExploding()) {
+        this.#dice.push(new Die(dieToKeep.type, NEWROLL, { source: EXPLODE }));
       }
       return true;
     }
