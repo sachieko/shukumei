@@ -121,7 +121,6 @@ export class Die {
 export class Roll {
   #dice: Die[];
   #keepLimit: number;
-  #keptDice: number;
   #baseD6: number;
   #baseD12: number;
   #unskilledAssist: number;
@@ -146,7 +145,6 @@ export class Roll {
     this.#skilledAssist = skillAssist ?? 0;
     this.#void = voidpoint;
     this.#dice = [];
-    this.#keptDice = 0;
     this.#state = STATE.AWAIT;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     this.#TN = TN;
@@ -168,11 +166,15 @@ export class Roll {
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
+    if (dieToKeep.kept === true) { // If the dice is already kept, just stop.
+      return false;
+    }
+    const keptDice = this.getKeptDice();
     const dieSource = dieToKeep.getSource();
-    if (this.#keptDice < this.#keepLimit || dieSource === EXPLODE) {
+    if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
       const die = this.#dice[index];
       die.keep();
-      if (dieSource !== EXPLODE) this.#keptDice++;
+      if (dieSource !== EXPLODE) keptDice;
       if (die.type === D6 && die.isExploding()) {
         this.#dice.push(new Die(die.type, NEWROLL, { source: EXPLODE }));
       }
@@ -197,13 +199,12 @@ export class Roll {
     const die = this.#dice[index];
     const dieSource = die.getSource();
     if (
-      this.#keptDice > 0 &&
+      this.getKeptDice() > 0 &&
       die.kept &&
       dieSource !== BONUS &&
       dieSource !== EXPLODE
     ) {
       die.unkeep();
-      this.#keptDice--;
       return;
     }
     if (dieSource === EXPLODE) {
@@ -224,6 +225,14 @@ export class Roll {
     return this.#dice[index].type;
   }
 
+  getKeptDice() {
+    return this.#dice.reduce(
+      (cummulative, current) =>
+        cummulative + (current.kept === true ? 1 : 0), // die.#kept is true for all bonus die by default
+      0
+    );
+  }
+
   getRingDice() {
     return this.#baseD6;
   }
@@ -237,10 +246,6 @@ export class Roll {
   }
   addKeptDie(type: DieType, value: number, kept: boolean) {
     this.#dice.push(new Die(type, value, { source: BONUS, kept: kept }));
-  }
-
-  getKeptDie() {
-    return this.#keptDice;
   }
 
   getKeptLimit() {
@@ -325,8 +330,7 @@ export class Roll {
 
   getRerolls() {
     return this.#dice.reduce(
-      (cummulative, current) =>
-        cummulative + (current.rerolled ? 1 : 0),
+      (cummulative, current) => cummulative + (current.rerolled ? 1 : 0),
       0
     );
   }
