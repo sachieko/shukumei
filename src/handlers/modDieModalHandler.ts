@@ -33,16 +33,18 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     dieSymbol !== "OS" &&
     dieSymbol !== "S" &&
     dieSymbol !== "SS" &&
-    dieSymbol !== "O"
+    dieSymbol !== "O" &&
+    dieSymbol !== "E" &&
+    dieSymbol !== "ES"
   ) {
     return await interaction.reply({
       content:
-      "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, and SS for Success and Strife. These are letters and not numbers.",
+      "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive or Explosive Strife on a Ring die, ES for Explosive and Strife, and SS for Success and Strife. These are letters and not numbers.",
       flags: MessageFlags.Ephemeral,
     });
   }
   const roll = rollData[rollDataKey];
-  if (
+  if ( // We use typeof 5 to get the type of a number here
     !rollIndexes.every((index) => typeof index === typeof 5) ||
     rollIndexes.some((index) => index > roll.getDiceLength())
   ) {

@@ -26,7 +26,7 @@ export const modDieHandler = async (
 
   const symbolInput = new TextInputBuilder()
     .setCustomId("dieSymbol")
-    .setLabel(`Symbol: OS, SS, S, O`)
+    .setLabel(`Symbol: OS, SS, S, O, ES, E`)
     .setStyle(TextInputStyle.Short)
     .setMinLength(1)
     .setMaxLength(2)
