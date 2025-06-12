@@ -173,7 +173,7 @@ export class Roll {
     const dieSource = dieToKeep.getSource();
     if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
       dieToKeep.keep();
-      if (dieSource !== EXPLODE) return true;
+      if (!dieToKeep.isExploding()) return true;
       if (dieToKeep.type === D6 && dieToKeep.isExploding()) {
         this.#dice.push(new Die(dieToKeep.type, NEWROLL, { source: EXPLODE }));
       }
