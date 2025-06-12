@@ -8,7 +8,7 @@ import {
   CommandInteraction
 } from "discord.js";
 import Command from "../../types/command";
-import { Stances, stances } from "../../stances";
+import { Stances, stances } from "../../types/stances";
 
 const command: Command = {
   data: new SlashCommandBuilder()
