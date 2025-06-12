@@ -77,7 +77,7 @@ export const execute = async (interaction: CommandInteraction) => {
       You may choose to stare yourself down, such as if you are the GM and 2 NPCs are dueling for some reason. A message will be put into chat asking them to input a bid.
       
       Only the chosen target of the staredown can use the button to bid. Once clicked by the target user, they will be prompted to type a number of how much strife they would like to bid, including 0.
-      Once they have put their bid in, the result will be displayed in chat and previous messages will be erased.`;
+      Once they have put their bid in, the result will be displayed in chat and previous messages will be erased. Bids cannot be greater than 12 in either case.`;
       break;
     case "reminder":
       content = `Reminder Help:
