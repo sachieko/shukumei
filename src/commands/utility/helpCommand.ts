@@ -52,13 +52,13 @@ Meaning of Modifiers:
       break;
     case "symbols":
       content = `Die Symbol Help:
-      If adding or modifying a die to a result and you have to choose what the die shows, enter in one of the following letters:
-      OS - Opportunity Success on Skill die, Opportunity Strife on Ring die
-      SS - Success and Strife
-      E - Explosive, or Explosive Strife on a Ring die
-      ES - Explosive and Strife
-      O - Opportunity
-      S - Success`
+If adding or modifying a die to a result and you have to choose what the die shows, enter in one of the following letters:
+OS - Opportunity Success on Skill die, Opportunity Strife on Ring die
+SS - Success and Strife
+E - Explosive, or Explosive Strife on a Ring die
+ES - Explosive and Strife
+O - Opportunity
+S - Success`;
       break;
     case "predict":
       content = `Prediction Help:
@@ -90,7 +90,7 @@ NOTE: Currently this bot is incapable of knowing where in the world you are, so 
 I apologize for the inconvenience, a future update will request a timezone so it has a reference for which time to start from.`;
       break;
     default:
-      content = "Sorry that command has no help file."
+      content = "Sorry that command has no help file.";
       break;
   }
   await interaction.reply({
