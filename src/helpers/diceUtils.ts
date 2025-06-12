@@ -227,7 +227,7 @@ export class Roll {
   getKeptDice() {
     return this.#dice.reduce(
       (cummulative, current) =>
-        cummulative + (current.kept === true ? 1 : 0), // die.#kept is true for all bonus die by default
+        cummulative + (current.kept === true  && current.getSource() !== EXPLODE ? 1 : 0), // Exploding die do not count against the number of kept dice
       0
     );
   }
