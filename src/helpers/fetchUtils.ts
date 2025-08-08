@@ -1,7 +1,7 @@
-import { Interaction, CacheType, CommandInteraction } from "discord.js";
+import { Interaction, CacheType, ChatInputCommandInteraction } from "discord.js";
 
 export const fetchNickname = async (
-  interaction: Interaction<CacheType> | CommandInteraction,
+  interaction: Interaction<CacheType> | ChatInputCommandInteraction,
   userId?: string
 ): Promise<string> => {
   if (!interaction.guild) return "???";

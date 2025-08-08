@@ -31,10 +31,9 @@ const command: Command = {
 
   execute: async (interaction: ChatInputCommandInteraction) => {
     const target = interaction.options.getUser("opponent", true);
-    const bid = interaction.options.getNumber("bid", true);
+    const bid = interaction.options.getInteger("bid", true);
     const user = interaction.user;
-    const nickname = fetchNickname(interaction, user.id);
-    const targetNickname = fetchNickname(interaction, target.id);
+    
     // user validation
     if (target.bot) {
       await interaction.reply({
@@ -43,6 +42,7 @@ const command: Command = {
       });
       return;
     }
+    
     /* We allow users to target themselves, but may change this behavior in the future.
     if (target.user?.id === interaction.user.id) {
       
@@ -56,6 +56,7 @@ const command: Command = {
       });
       return;
     }
+    
     const bidKey = `${user.id}-${target.id}`;
     if (bidData[bidKey] !== undefined) {
       await interaction.reply({
@@ -65,8 +66,11 @@ const command: Command = {
       });
       return;
     }
+    // Fetch names after validation checks are passed.
+    const nickname = await fetchNickname(interaction, user.id);
+    const targetNickname = await fetchNickname(interaction, target.id);
     // Store staredown bid
-    bidData[bidKey] = Number(bid);
+    bidData[bidKey] = bid;
     // fetch nicknames
     const beginBidButton = new ButtonBuilder()
       .setCustomId(`staredown-bid-${bidKey}`)

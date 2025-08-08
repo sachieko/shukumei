@@ -58,7 +58,7 @@ const command: Command = {
     }`;
     const discordString = `${
       roleToMention?.toString() ?? ""
-    } ${interaction.user.toString()}> Set a timestamp for **${eventName}** <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
+    } ${interaction.user.toString()} Set a timestamp for **${eventName}** <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
     await interaction.reply(discordString);
   },
 };
