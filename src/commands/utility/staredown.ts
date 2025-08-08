@@ -66,7 +66,7 @@ const command: Command = {
       return;
     }
     // Store staredown bid
-    bidData[bidKey] = Number(bid);
+    bidData[bidKey] = bid;
     // fetch nicknames
     const beginBidButton = new ButtonBuilder()
       .setCustomId(`staredown-bid-${bidKey}`)
