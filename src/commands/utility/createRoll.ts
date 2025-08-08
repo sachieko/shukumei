@@ -56,16 +56,16 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     const user = interaction.user;
     const nickname = await fetchNickname(interaction);
     const ring = interaction.options.getNumber("ring", true);
-    const skill = interaction.options.getNumber("skill", true) ?? 0;
+    const skill = interaction.options.getNumber("skill", true) || 0;
     const voidpoint =
-      (interaction.options.getBoolean("voidpoint", false) ?? false);
+      (interaction.options.getBoolean("voidpoint", false) || false);
     const skillAssist =
-      (interaction.options.getNumber("skillassist", false) ?? 0);
+      (interaction.options.getNumber("skillassist", false) || 0);
     const unskillAssist =
-      (interaction.options.getNumber("unskillassist", false) ?? 0);
-    const TN = (interaction.options.getNumber("tn", false) ?? "?");
+      (interaction.options.getNumber("unskillassist", false) || 0);
+    const TN = (interaction.options.getNumber("tn", false) || "?");
     const label =
-      (interaction.options.getString("label", false) ?? "");
+      (interaction.options.getString("label", false) || "");
     const roll = new Roll(
       ring,
       skill,
