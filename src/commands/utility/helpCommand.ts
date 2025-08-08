@@ -1,9 +1,13 @@
 import {
-  CommandInteraction,
   SlashCommandBuilder,
   MessageFlags,
+  ChatInputCommandInteraction,
 } from "discord.js";
 import { DISCORD_DIE_EMOJI } from "../../types/diceConstants";
+// Update these when PRIVACYPOLICY.md or TERMSOFSERVICE.md update, 
+// this is the only location these are required.
+const PRIVACYDATE = "8/8/2025";
+const TOSDATE = "8/8/2025";
 
 export const data = new SlashCommandBuilder()
   .setName("help")
@@ -18,12 +22,13 @@ export const data = new SlashCommandBuilder()
         { name: "Predict", value: "predict" },
         { name: "Staredown", value: "staredown" },
         { name: "Reminder", value: "reminder" },
-        { name: "Add/Mod Symbols", value: "symbols" }
+        { name: "Add/Mod Symbols", value: "symbols" },
+        { name: "Policies", value: "policies" }
       )
   );
 
-export const execute = async (interaction: CommandInteraction) => {
-  const command = interaction.options.get("command", true).value as string;
+export const execute = async (interaction: ChatInputCommandInteraction) => {
+  const command = interaction.options.getString("command", true);
   let content = "";
   switch (command) {
     case "roll":
@@ -85,8 +90,11 @@ Ex: You put '21', however it is already the 22nd. Then the reminder will be set 
       
 There are optional inputs for the minute if you would like to do 15 after the hour you can enter 15, and role if you would like to ping a role with the reminder as well.
       
-**NOTE:** Currently this bot is incapable of knowing where in the world you are, so the default timezone for this is Mountain Time. Due to this, please convert your times to Mountain Time when using the command.
-I apologize for the inconvenience, a future update will request a timezone so it has a reference for which time to start from.`;
+**NOTE:** This bot is incapable of knowing where in the world you are, so the default timezone for this is **MST (-7 UTC)**. Keep this in mind when setting a reminder.`;
+      break;
+    case "policies":
+      content = `**[Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md) last updated on ${PRIVACYDATE}**:
+      **[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md) last updated on ${TOSDATE}`;
       break;
     default:
       content = "Sorry that command has no help file.";

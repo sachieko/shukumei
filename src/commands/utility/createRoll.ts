@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Roll } from "../../helpers/diceUtils";
 import rollData from "../../handlers/rollDataStore";
 import {
@@ -51,21 +51,21 @@ export const data = new SlashCommandBuilder()
     option.setName("label").setDescription("Label").setRequired(false)
   );
 
-export const execute = async (interaction: CommandInteraction) => {
+export const execute = async (interaction: ChatInputCommandInteraction) => {
   try {
     const user = interaction.user;
     const nickname = await fetchNickname(interaction);
-    const ring = interaction.options.get("ring", true).value as number;
-    const skill = interaction.options.get("skill", true).value as number;
+    const ring = interaction.options.getNumber("ring", true);
+    const skill = interaction.options.getNumber("skill", true) ?? 0;
     const voidpoint =
-      (interaction.options.get("voidpoint", false)?.value as boolean);
+      (interaction.options.getBoolean("voidpoint", false) ?? false);
     const skillAssist =
-      (interaction.options.get("skillassist", false)?.value as number);
+      (interaction.options.getNumber("skillassist", false) ?? 0);
     const unskillAssist =
-      (interaction.options.get("unskillassist", false)?.value as number);
-    const TN = (interaction.options.get("tn", false)?.value as number);
+      (interaction.options.getNumber("unskillassist", false) ?? 0);
+    const TN = (interaction.options.getNumber("tn", false) ?? "?");
     const label =
-      (interaction.options.get("label", false)?.value as string);
+      (interaction.options.getString("label", false) ?? "");
     const roll = new Roll(
       ring,
       skill,

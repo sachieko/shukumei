@@ -3,11 +3,12 @@ import {
   ButtonBuilder,
   ButtonStyle,
   SlashCommandBuilder,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   MessageFlags,
 } from "discord.js";
 import Command from "../../types/command";
 import bidData from "../../handlers/bidDataStore";
+import { fetchNickname } from "../../helpers/fetchUtils";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -28,26 +29,26 @@ const command: Command = {
         .setDescription("Your duel opponent.")
     ),
 
-  execute: async (interaction: CommandInteraction) => {
-    const target = interaction.options.get("opponent", true);
-    const bid = interaction.options.get("bid", true).value;
+  execute: async (interaction: ChatInputCommandInteraction) => {
+    const target = interaction.options.getUser("opponent", true);
+    const bid = interaction.options.getNumber("bid", true);
     const user = interaction.user;
+    const nickname = fetchNickname(interaction, user.id);
+    const targetNickname = fetchNickname(interaction, target.id);
     // user validation
-    if (target.user?.bot) {
+    if (target.bot) {
       await interaction.reply({
         content: "You can't stare a bot down.",
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
+    /* We allow users to target themselves, but may change this behavior in the future.
     if (target.user?.id === interaction.user.id) {
-      // check if they chose themselves, and inform but allow interaction to continue
-      // await interaction.reply({
-      //   content: "You are staring yourself down.",
-      //   flags: MessageFlags.Ephemeral,
-      // });
+      
     }
-    if (!target?.user) {
+    */
+    if (!target) {
       // valid user check
       await interaction.reply({
         content: "That user wasn't valid to staredown!",
@@ -55,17 +56,18 @@ const command: Command = {
       });
       return;
     }
-    const bidKey = `${user.id}-${target.user.id}`;
+    const bidKey = `${user.id}-${target.id}`;
     if (bidData[bidKey] !== undefined) {
       await interaction.reply({
         content:
-          "There is already an active staredown between  you and that user.",
+          "There is already an active staredown between you and that user.",
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
     // Store staredown bid
     bidData[bidKey] = Number(bid);
+    // fetch nicknames
     const beginBidButton = new ButtonBuilder()
       .setCustomId(`staredown-bid-${bidKey}`)
       .setLabel("Bid")
@@ -76,7 +78,7 @@ const command: Command = {
     );
 
     await interaction.reply({
-      content: `Waiting for <@${target.user.id}> to bid for staredown initiated by <@${user.id}>:`,
+      content: `Waiting for **${targetNickname}** to bid for staredown initiated by **${nickname}**:`,
       components: [beginBidRow],
     });
   },

@@ -1,5 +1,5 @@
 import {
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
   SlashCommandOptionsOnlyBuilder
@@ -11,5 +11,5 @@ export default interface Command {
     | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">
     | SlashCommandSubcommandsOnlyBuilder;
   /** The function to execute when the command is called */
-  execute: (interaction: CommandInteraction) => Promise<unknown>;
+  execute: (interaction: ChatInputCommandInteraction) => Promise<unknown>;
 }

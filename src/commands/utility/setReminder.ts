@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import Command from "../../types/command";
 
 const command: Command = {
@@ -38,15 +38,15 @@ const command: Command = {
         .setRequired(false)
     ),
 
-  execute: async (interaction: CommandInteraction) => {
-    const eventName = interaction.options.get("event", true).value as string;
+  execute: async (interaction: ChatInputCommandInteraction) => {
+    const eventName = interaction.options.getString("event", true);
     const nextDate = new Date();
-    const dayOfMonth = interaction.options.get("day", true).value as number;
-    const hour = interaction.options.get("hour", true).value as number;
-    const minutes = interaction.options.get("minutes", false)?.value as number || 0; // If minutes is not given, default to 0
-    const roleToMention = interaction.options.get("role", false);
+    const dayOfMonth = interaction.options.getNumber("day", true);
+    const hour = interaction.options.getNumber("hour", true);
+    const minutes = interaction.options.getNumber("minutes", false) ?? 0; // If minutes is not given, default to 0
+    const roleToMention = interaction.options.getRole("role", false);
     // If the day of the month is less than the current day, the user wants the next day of the month.
-    if (dayOfMonth< nextDate.getDate()) {
+    if (dayOfMonth < nextDate.getDate()) {
       nextDate.setMonth(nextDate.getMonth() + 1);
     }
     nextDate.setDate(Number(dayOfMonth));
@@ -56,9 +56,9 @@ const command: Command = {
     const UTCstamp = `${
       (nextDate.getTime() - (nextDate.getTime() % 1000)) / 1000
     }`;
-    const discordString = `${roleToMention?.role ? roleToMention.role : ""} <@${
-      interaction.user.id
-    }> Set a timestamp for **${eventName}** <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
+    const discordString = `${
+      roleToMention?.toString() ?? ""
+    } ${interaction.user.toString()}> Set a timestamp for **${eventName}** <t:${UTCstamp}:R> , <t:${UTCstamp}:F>! This time is based on your local time.`;
     await interaction.reply(discordString);
   },
 };

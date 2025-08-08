@@ -5,7 +5,7 @@ import {
   StringSelectMenuOptionBuilder,
   CollectorFilter,
   EmbedBuilder,
-  CommandInteraction
+  ChatInputCommandInteraction
 } from "discord.js";
 import Command from "../../types/command";
 import { Stances, stances } from "../../types/stances";
@@ -33,12 +33,12 @@ const command: Command = {
         )
     ),
 
-  execute: async (interaction: CommandInteraction) => {
-    const target = interaction.options.get("target", true);
-    const targetId = target?.user?.id;
-    const predict = interaction.options.get("predict", true);
+  execute: async (interaction: ChatInputCommandInteraction) => {
+    const target = interaction.options.getUser("target", true);
+    const targetId = target.id;
+    const predictedStance = interaction.options.getString("predict", true);
     const userId = interaction.user.id;
-    if (!target?.user) {
+    if (!target) {
       return;
     }
     const select = new StringSelectMenuBuilder()
@@ -91,13 +91,13 @@ const command: Command = {
           iconURL: interaction.client.user?.displayAvatarURL(),
         })
         .setDescription(
-          `<@${userId}> predicted that <@${targetId}> will enter ${predict?.value} stance.`
+          `<@${userId}> predicted that <@${targetId}> will enter ${predictedStance} stance.`
         );
       if (
         selection.isStringSelectMenu() && // makes TS happy about selection.values existing
-        predict?.value === selection.values[0]
+        predictedStance === selection.values[0]
       ) {
-        const prediction = predict.value as keyof Stances;
+        const prediction = predictedStance as keyof Stances;
         const stance = selection.values[0] as keyof Stances;
         embedObject.setColor("#eb4034").addFields(
           {
@@ -123,8 +123,8 @@ const command: Command = {
         });
         return;
       }
-      if (selection.isStringSelectMenu() && predict?.value) {
-        const prediction = predict.value as keyof Stances; // These values strictly match the keys due to choices on the slash command
+      if (selection.isStringSelectMenu() && predictedStance) {
+        const prediction = predictedStance as keyof Stances; // These values strictly match the keys due to choices on the slash command
         const stance = selection.values[0] as keyof Stances; // These values strictly will match the keys due to options
         embedObject.setColor("#42f584").addFields(
           {

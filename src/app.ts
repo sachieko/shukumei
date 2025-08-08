@@ -4,7 +4,7 @@ import * as path from "path";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 
 export const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
 });
 
 client.commands = new Collection();
