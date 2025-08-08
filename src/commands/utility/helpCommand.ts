@@ -93,8 +93,8 @@ There are optional inputs for the minute if you would like to do 15 after the ho
 **NOTE:** This bot is incapable of knowing where in the world you are, so the default timezone for this is **MST (-7 UTC)**. Keep this in mind when setting a reminder.`;
       break;
     case "policies":
-      content = `**[Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md) last updated on ${PRIVACYDATE}**:
-      **[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md) last updated on ${TOSDATE}`;
+      content = `**[Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md) last updated on ${PRIVACYDATE}**
+**[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md) last updated on ${TOSDATE}**`;
       break;
     default:
       content = "Sorry that command has no help file.";
@@ -102,6 +102,6 @@ There are optional inputs for the minute if you would like to do 15 after the ho
   }
   await interaction.reply({
     content: content,
-    flags: MessageFlags.Ephemeral,
+    flags: [MessageFlags.Ephemeral, MessageFlags.SuppressEmbeds], 
   });
 };
