@@ -8,6 +8,9 @@ There are also some additional commands I am developing for convenience for GMs.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
+[Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md)
+[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md)
+
 ## Working Commands
 
 * Ping: Confirm the bot is working and responding
