@@ -17,6 +17,7 @@ import {
   STATE,
   State,
   SOURCE_EMOJI,
+  SHAME_EMOJI,
 } from "../types/diceConstants";
 
 export class Die {
@@ -136,6 +137,7 @@ export class Roll {
   #state: State;
   #void: boolean;
   #label: string;
+  #unkept: number;
   #TN?: number | "?";
 
   constructor(
@@ -145,7 +147,8 @@ export class Roll {
     skillAssist: number = 0,
     voidpoint: boolean = false,
     TN: number | "?" = "?",
-    label: string = "Roll Results"
+    label: string = "Roll Results",
+    unkept: number = 0
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
@@ -157,6 +160,7 @@ export class Roll {
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     this.#TN = TN;
     this.#label = label;
+    this.#unkept = unkept;
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
         new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE })
@@ -238,6 +242,7 @@ export class Roll {
       this.removeResultingDie(index);
     }
     die.unkeep();
+    this.#unkept++;
     return;
   }
 
@@ -355,7 +360,14 @@ export class Roll {
         strings.push(SOURCE_EMOJI.assistance);
       }
     }
+    for (let i = 0; i < this.#unkept; i++) {
+      strings.push(SHAME_EMOJI);
+    }
     return strings;
+  }
+
+  getUnkept() {
+    return this.#unkept;
   }
 
   getRerolls() {
