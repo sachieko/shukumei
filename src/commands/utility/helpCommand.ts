@@ -3,7 +3,7 @@ import {
   MessageFlags,
   ChatInputCommandInteraction,
 } from "discord.js";
-import { DISCORD_DIE_EMOJI } from "../../types/diceConstants";
+import { DISCORD_DIE_EMOJI, SHAME_EMOJI } from "../../types/diceConstants";
 // Update these when PRIVACYPOLICY.md or TERMSOFSERVICE.md update,
 // this is the only location these are required.
 const PRIVACYDATE = "8/8/2025";
@@ -53,7 +53,8 @@ You can always keep the results of explosive dice even if you already kept your 
 :folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
 :anger: - An explosive was kept
 :arrow_heading_down: - A dice was set to a specific result
-:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
+:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.
+${SHAME_EMOJI} - Shame symbol for # of times someone has unkept dice.`;
       break;
     case "symbols":
       content = `**Die Symbol Help:**
