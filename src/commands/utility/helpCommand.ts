@@ -4,7 +4,7 @@ import {
   ChatInputCommandInteraction,
 } from "discord.js";
 import { DISCORD_DIE_EMOJI } from "../../types/diceConstants";
-// Update these when PRIVACYPOLICY.md or TERMSOFSERVICE.md update, 
+// Update these when PRIVACYPOLICY.md or TERMSOFSERVICE.md update,
 // this is the only location these are required.
 const PRIVACYDATE = "8/8/2025";
 const TOSDATE = "8/8/2025";
@@ -23,6 +23,7 @@ export const data = new SlashCommandBuilder()
         { name: "Staredown", value: "staredown" },
         { name: "Reminder", value: "reminder" },
         { name: "Add/Mod Symbols", value: "symbols" },
+        { name: "Unkeep", value: "unkeep" },
         { name: "Policies", value: "policies" }
       )
   );
@@ -41,8 +42,6 @@ If you have any assistance, you will have to enter the number of characters givi
 **Choosing kept dice, dice to reroll, or dice to modify:**
 The dice are displayed in a specific order, which you use to choose kept dice. Using the following dice roll: ${DISCORD_DIE_EMOJI.D6[3]}${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]}
 You can keep 2 dice since the used Ring was 2. If you wanted to keep ${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]} then you need to keep the 2nd and 3rd die. To do this, click Keep under the roll and then enter "2 3" or "2,3" and you will keep the second and third dice. Using this method you can keep any number of dice up to the limit allowed for your roll based on Ring dice, assists, and void points spent. If you try to keep more than you are allowed, they are kept in order from left to right until you can't keep dice anymore.
-
-Unkeeping dice can be done by choosing an already kept dice to keep. **Be careful! This removes any dice it created if it was explosive!**
 
 **Explosive Rerolls:**
 When you keep an explosive die, a new rolled die will be added to the original dice. Ex: if you keep an explosive in the example above, there will be 4 rolled dice.
@@ -76,6 +75,12 @@ Once they respond by selecting their stance, the bot will compare their selectio
 Note that void stance is not a valid stance to predict according to the core rules, because it represents instinct and self sacrifice. 
 Therefore it is valid to enter as a stance, but cannot be predicted because you cannot predict someone's instincts or know what they are willing to sacrifice.`;
       break;
+    case "unkeep":
+      content = `**Unkeeping Dice:**
+      To unkeep dice, simply choose to keep a dice that is already considered kept (has a green border). 
+      **Be careful! This removes any dice it created if it was explosive! This will also remove any results if it resulted in explosives that were also kept!!**
+      `;
+      break;
     case "staredown":
       content = `**Staredown Help:**
 To use staredown, input the number of strife you wish to bid and the player or GM in the server who controls the other opponent in the duel.
@@ -104,6 +109,6 @@ There are optional inputs for the minute if you would like to do 15 after the ho
   }
   await interaction.reply({
     content: content,
-    flags: [MessageFlags.Ephemeral, MessageFlags.SuppressEmbeds], 
+    flags: [MessageFlags.Ephemeral, MessageFlags.SuppressEmbeds],
   });
 };

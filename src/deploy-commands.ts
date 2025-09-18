@@ -31,7 +31,7 @@ const rest = new REST().setToken(config.DISCORD_BOT_TOKEN);
 export const deployGuildCommands = async () => {
   try {
     console.log(
-      "Requesting politely a refresh of application (/) commands from the Magistrates.."
+      "Requesting politely a refresh of guild (/) commands from the Magistrates.."
     );
     // Put method refreshes all commands in the guild with the given set
     await rest.put(
