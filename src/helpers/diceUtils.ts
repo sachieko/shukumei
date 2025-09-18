@@ -231,8 +231,8 @@ export class Roll {
     if (!die.kept) {
       return;
     }
-    // If explosive, remove any dice resulting from it.
-    if (die.isExploding()) {
+    // If explosive and kept, remove any dice resulting from it.
+    if (die.isExploding() && die.kept) {
       this.removeResultingDie(index);
     }
     die.unkeep();
