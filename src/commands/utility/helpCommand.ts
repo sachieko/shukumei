@@ -53,8 +53,7 @@ You can always keep the results of explosive dice even if you already kept your 
 :folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
 :anger: - An explosive was kept
 :arrow_heading_down: - A dice was set to a specific result
-:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.
-${SHAME_EMOJI} - Shame symbol for # of times someone has unkept dice.`;
+:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
       break;
     case "symbols":
       content = `**Die Symbol Help:**
@@ -80,6 +79,7 @@ Therefore it is valid to enter as a stance, but cannot be predicted because you 
       content = `**Unkeeping Dice:**
       To unkeep dice, simply choose to keep a dice that is already considered kept (has a green border). 
       **Be careful! This removes any dice it created if it was explosive! This will also remove any results if it resulted in explosives that were also kept!!**
+      ${SHAME_EMOJI} - Shame symbol for # of times someone has unkept dice. This is so GMs can track abusers of the system.
       `;
       break;
     case "staredown":
