@@ -216,13 +216,14 @@ export class Roll {
   removeResultingDie(index: number) {
     this.#dice.map((die, index2) => {
       // If a die is the result of exploding from the given index
-      if (die.getExplosiveIndex() === index)
+      if (die.getExplosiveIndex() === index) {
         if (die.isExploding() && die.kept) {
           // If it is also explosive and kept, call the function again with the new index.
           this.removeResultingDie(index2);
         }
       // Remove the die from the dice array
       this.#dice.splice(index2, 1);
+      }
     });
   }
 
