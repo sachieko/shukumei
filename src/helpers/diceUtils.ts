@@ -184,23 +184,24 @@ export class Roll {
     if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
       dieToKeep.keep();
       if (!dieToKeep.isExploding()) return true;
-      if (dieToKeep.type === D6 && dieToKeep.isExploding()) {
-        this.#dice.push(
-          new Die(dieToKeep.type, NEWROLL, {
-            source: EXPLODE,
-            explosiveIndex: index,
-          })
-        );
+      if (dieToKeep.isExploding()) {
+        if (dieToKeep.type === D6) {
+          this.#dice.push(
+            new Die(dieToKeep.type, NEWROLL, {
+              source: EXPLODE,
+              explosiveIndex: index,
+            })
+          );
+        }
+        if (dieToKeep.type === D12) {
+          this.#dice.push(
+            new Die(dieToKeep.type, NEWROLL, {
+              source: EXPLODE,
+              explosiveIndex: index,
+            })
+          );
+        }
       }
-      if (dieToKeep.type === D12 && dieToKeep.isExploding()) {
-        this.#dice.push(
-          new Die(dieToKeep.type, NEWROLL, {
-            source: EXPLODE,
-            explosiveIndex: index,
-          })
-        );
-      }
-      return true;
     }
     return false;
   }
@@ -221,8 +222,8 @@ export class Roll {
           // If it is also explosive and kept, call the function again with the new index.
           this.removeResultingDie(index2);
         }
-      // Remove the die from the dice array
-      this.#dice.splice(index2, 1);
+        // Remove the die from the dice array
+        this.#dice.splice(index2, 1);
       }
     });
   }
@@ -253,9 +254,11 @@ export class Roll {
       (cummulative, current) =>
         // Exploding/bonus kept die do not count against the number of kept dice
         cummulative +
-        (current.kept === true && current.getSource() !== (EXPLODE || BONUS)
+        (current.kept === true &&
+        current.getSource() !== EXPLODE &&
+        current.getSource() !== BONUS
           ? 1
-          : 0),
+          : 0), // Exploding die do not count against the number of kept dice
       0
     );
   }
