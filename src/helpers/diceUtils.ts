@@ -385,7 +385,9 @@ export class Roll {
 
   // This Method allows certain techniques to turn a dice into a specific result.
   setDie(index: number, value: number, source?: DieSource) {
-    this.#dice[index].setValue(value);
+    const dieToSet = this.#dice[index];
+    dieToSet.setValue(value);
+    dieToSet.setSymbol();
     if (source) {
       this.#dice[index].setSource(source);
     }
