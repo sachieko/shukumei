@@ -22,6 +22,7 @@ import {
 export class Die {
   readonly type: DieType;
   #source: DieSource;
+  #explosiveIndex: number | undefined;
   kept: boolean;
   rerolled: boolean;
   #value: number;
@@ -34,10 +35,12 @@ export class Die {
       kept = false,
       rerolled = false,
       source = BASE,
+      explosiveIndex = undefined,
     }: {
       kept?: boolean;
       rerolled?: boolean;
       source?: DieSource;
+      explosiveIndex?: number | undefined;
     } = {}
   ) {
     this.type = type;
@@ -46,6 +49,7 @@ export class Die {
     this.kept = kept;
     this.#value = value === 0 ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
+    this.#explosiveIndex = explosiveIndex;
   }
 
   #rollDie() {
@@ -66,6 +70,10 @@ export class Die {
 
   keep() {
     this.kept = true;
+  }
+
+  getExplosiveIndex() {
+    return this.#explosiveIndex;
   }
 
   unkeep() {
@@ -167,8 +175,9 @@ export class Roll {
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
     if (dieToKeep.kept === true) {
-      // If the dice is already kept, just stop.
-      return false;
+      // If the dice is already kept, unkeep it and exit
+      this.unkeepDie(index);
+      return true;
     }
     const keptDice = this.getKeptDice();
     const dieSource = dieToKeep.getSource();
@@ -176,10 +185,20 @@ export class Roll {
       dieToKeep.keep();
       if (!dieToKeep.isExploding()) return true;
       if (dieToKeep.type === D6 && dieToKeep.isExploding()) {
-        this.#dice.push(new Die(dieToKeep.type, NEWROLL, { source: EXPLODE }));
+        this.#dice.push(
+          new Die(dieToKeep.type, NEWROLL, {
+            source: EXPLODE,
+            explosiveIndex: index,
+          })
+        );
       }
       if (dieToKeep.type === D12 && dieToKeep.isExploding()) {
-        this.#dice.push(new Die(dieToKeep.type, NEWROLL, { source: EXPLODE }));
+        this.#dice.push(
+          new Die(dieToKeep.type, NEWROLL, {
+            source: EXPLODE,
+            explosiveIndex: index,
+          })
+        );
       }
       return true;
     }
@@ -194,10 +213,28 @@ export class Roll {
     return this.#label;
   }
 
-  // Currently users can keep any kept die again to unkeep it, regardless of source.
-  // There are a lot of conditionals and not a big benefit, so we'll assume users use it responsibly.
+  removeResultingDie(index: number) {
+    this.#dice.map((die, index2) => {
+      // If a die is the result of exploding from the given index
+      if (die.getExplosiveIndex() === index)
+        if (die.isExploding() && die.kept) {
+          // If it is also explosive and kept, call the function again with the new index.
+          this.removeResultingDie(index2);
+        }
+      // Remove the die from the dice array
+      this.#dice.splice(index2, 1);
+    });
+  }
+
   unkeepDie(index: number) {
     const die = this.#dice[index];
+    if (!die.kept) {
+      return;
+    }
+    // If explosive, remove any dice resulting from it.
+    if (die.isExploding()) {
+      this.removeResultingDie(index);
+    }
     die.unkeep();
     return;
   }
