@@ -166,7 +166,8 @@ export class Roll {
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
-    if (dieToKeep.kept === true) { // If the dice is already kept, just stop.
+    if (dieToKeep.kept === true) {
+      // If the dice is already kept, just stop.
       return false;
     }
     const keptDice = this.getKeptDice();
@@ -193,27 +194,12 @@ export class Roll {
     return this.#label;
   }
 
-  // Currently unused, would have to modify so dice from explosions track which dice preceded them.
+  // Currently users can keep any kept die again to unkeep it, regardless of source.
+  // There are a lot of conditionals and not a big benefit, so we'll assume users use it responsibly.
   unkeepDie(index: number) {
     const die = this.#dice[index];
-    const dieSource = die.getSource();
-    if (
-      this.getKeptDice() > 0 &&
-      die.kept &&
-      dieSource !== BONUS &&
-      dieSource !== EXPLODE
-    ) {
-      die.unkeep();
-      return;
-    }
-    if (dieSource === EXPLODE) {
-      // diSourcedieSourcean explosion do not count against the limit of #kept die
-      die.unkeep();
-      return;
-    }
-    throw new Error(
-      "Can't unkeep dice if no dice have been chosen to keep yet, if it's a bonus #kept die."
-    );
+    die.unkeep();
+    return;
   }
 
   rerollDie(index: number) {
@@ -228,7 +214,10 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         // Exploding/bonus kept die do not count against the number of kept dice
-        cummulative + (current.kept === true  && current.getSource() !== (EXPLODE || BONUS) ? 1 : 0), 
+        cummulative +
+        (current.kept === true && current.getSource() !== (EXPLODE || BONUS)
+          ? 1
+          : 0),
       0
     );
   }
