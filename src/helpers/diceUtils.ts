@@ -177,7 +177,7 @@ export class Roll {
     if (dieToKeep.kept === true) {
       // If the dice is already kept, unkeep it and exit
       this.unkeepDie(index);
-      return true;
+      return false;
     }
     const keptDice = this.getKeptDice();
     const dieSource = dieToKeep.getSource();
