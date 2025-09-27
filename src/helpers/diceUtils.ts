@@ -348,8 +348,7 @@ export class Roll {
     for (let i = 1; i < this.#dice.length + 1; i++) {
       indexEmoji += DICE_TRACKER_EMOJI[`${i % 10}`];
     }
-    return `${stringResults}
-      ${indexEmoji}`;
+    return `${stringResults}\n${indexEmoji}`;
   }
   // returns emoji for dice modifiers and special circumstances for GMs to track
   getSourceStrings() {
