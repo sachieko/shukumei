@@ -210,6 +210,22 @@ export class Roll {
     return false;
   }
 
+  getUnskilledAssists() {
+    return this.#unskilledAssist;
+  }
+
+  getSkilledAssists() {
+    return this.#skilledAssist;
+  }
+
+  getVoid() {
+    return this.#void;
+  }
+
+  getDice() {
+    return this.#dice;
+  }
+
   getTN() {
     return this.#TN;
   }
@@ -339,7 +355,7 @@ export class Roll {
         return die.toString();
       })
       .join("");
-      return `${stringResults}
+    return `${stringResults}
       `;
   }
 

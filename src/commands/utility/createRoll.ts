@@ -75,7 +75,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       TN,
       label
     );
-    const rollDataKey = `${user.id}-${Math.floor(Math.random() * 1000)}`;
+    const rollDataKey = `${user.id}-${Math.floor(Math.random() * 10000)}`;
     rollData[rollDataKey] = roll;
     const resultString = roll.getStringResults();
     const actionRow = rollButtonRowFactory(rollDataKey);

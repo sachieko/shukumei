@@ -121,6 +121,7 @@ export interface EmojiSymbols {
 export interface Dice {
   type: "D6" | "D12";
   value: number;
+  explosive_index: number | undefined;
   kept: boolean;
   rerolled: boolean;
   source: "base" | "assistance" | "void" | "bonus" | "modded";

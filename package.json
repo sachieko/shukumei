@@ -33,10 +33,12 @@
   "homepage": "https://github.com/sachieko/shukumei#readme",
   "dependencies": {
     "discord.js": "^14.19.3",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/node": "^22.7.7",
+    "@types/pg": "^8.15.5",
     "eslint": "^9.13.0",
     "typescript": "^5.6.3"
   }
