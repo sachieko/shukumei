@@ -87,6 +87,19 @@ export const DISCORD_KEPT_EMOJI = {
   } as EmojiSymbols,
 };
 
+export const DICE_TRACKER_EMOJI = {
+    0: ":one:",
+    1: ":two:",
+    2: ":two:",
+    3: ":two:",
+    4: ":two:",
+    5: ":two:",
+    6: ":two:",
+    7: ":two:",
+    8: ":two:",
+    9: ":two:",
+}
+
 // This emoji is for shaming those who unkeep dice because it's a mistake.
 // Which is actually useful because GMs in play-by-play may need to keep track of abuse of unkeeping and keeping explosives repeatedly.
 export const SHAME_EMOJI = "<:sadcat:1246356985826377779>";

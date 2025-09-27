@@ -339,7 +339,8 @@ export class Roll {
         return die.toString();
       })
       .join("");
-      return stringResults;
+      return `${stringResults}
+      `;
   }
 
   getSourceStrings() {
