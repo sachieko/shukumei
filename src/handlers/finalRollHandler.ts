@@ -22,7 +22,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
-  //// In some cases, users need to keep 0.
+  //// In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
   // if (roll.getKeptDice() === 0) {
   //   await interaction.reply({
   //     content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
