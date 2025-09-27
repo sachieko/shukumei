@@ -41,7 +41,7 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
     roll.rerollDie(index - 1); // users start counting at 1 :(
   });
   roll.setState(STATE.REROLLED);
-  const resultString = roll.getStringResults().join("");
+  const resultString = roll.getStringResults();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

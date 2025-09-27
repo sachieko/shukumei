@@ -22,13 +22,14 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
-  if (roll.getKeptDice() === 0) {
-    await interaction.reply({
-      content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
-      flags: MessageFlags.Ephemeral,
-    });
-    return;
-  }
+  //// In some cases, users need to keep 0.
+  // if (roll.getKeptDice() === 0) {
+  //   await interaction.reply({
+  //     content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
+  //     flags: MessageFlags.Ephemeral,
+  //   });
+  //   return;
+  // }
   const nickname = await fetchNickname(interaction);
   roll.setState(STATE.FINAL);
   const resultString = roll.getFinalStrings().join("");

@@ -7,7 +7,7 @@ import { STATE } from "../types/diceConstants";
 const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
     return await interaction.reply({
-      content: "Error: Cannot locate the original message.",
+      content: "Error: Cannot locate the original message. (This bot was not designed to work for DMs)",
       ephemeral: true,
     });
   }
@@ -41,7 +41,7 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
     roll.keepDie(index - 1); // users start counting at 1 :(
   });
   roll.setState(STATE.KEPT);
-  const resultString = roll.getStringResults().join("");
+  const resultString = roll.getStringResults();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

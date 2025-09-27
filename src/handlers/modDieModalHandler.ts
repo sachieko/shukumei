@@ -60,7 +60,7 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   });
 
   roll.setState(STATE.MODDED);
-  const resultString = roll.getStringResults().join("");
+  const resultString = roll.getStringResults();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

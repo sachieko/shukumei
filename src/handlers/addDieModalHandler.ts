@@ -56,7 +56,7 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const value = SYMBOL_TO_VALUE[type][dieSymbol];
   roll.addKeptDie(type, value, dieIsKept === "K" ? true : false);
   roll.setState(STATE.ADDED);
-  const resultString = roll.getStringResults().join("");
+  const resultString = roll.getStringResults();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),
