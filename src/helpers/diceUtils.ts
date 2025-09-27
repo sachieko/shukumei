@@ -334,9 +334,12 @@ export class Roll {
   }
 
   getStringResults() {
-    return this.#dice.map((die) => {
-      return die.toString();
-    });
+    const stringResults = this.#dice
+      .map((die) => {
+        return die.toString();
+      })
+      .join("");
+      return stringResults;
   }
 
   getSourceStrings() {
