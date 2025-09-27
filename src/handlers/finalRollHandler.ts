@@ -32,7 +32,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   // }
   const nickname = await fetchNickname(interaction);
   roll.setState(STATE.FINAL);
-  const resultString = roll.getFinalStrings().join("");
+  const resultString = roll.getFinalStrings();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

@@ -88,16 +88,16 @@ export const DISCORD_KEPT_EMOJI = {
 };
 
 export const DICE_TRACKER_EMOJI = {
-    0: ":one:",
-    1: ":two:",
-    2: ":two:",
-    3: ":two:",
-    4: ":two:",
-    5: ":two:",
-    6: ":two:",
-    7: ":two:",
-    8: ":two:",
-    9: ":two:",
+    0: "🔟",
+    1: "1️⃣",
+    2: "2️⃣",
+    3: "3️⃣",
+    4: "4️⃣",
+    5: "5️⃣",
+    6: "6️⃣",
+    7: "7️⃣",
+    8: "8️⃣",
+    9: "9️⃣",
 }
 
 // This emoji is for shaming those who unkeep dice because it's a mistake.

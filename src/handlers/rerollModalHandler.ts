@@ -49,7 +49,7 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
     roll
   );
   await interaction.message.edit({
-    content: `${resultString}`,
+    content: resultString,
     embeds: [rollEmbed],
   });
   await interaction.deferUpdate().catch(console.error);

@@ -396,7 +396,7 @@ export class Roll {
 
   getFinalStrings() {
     const finalString = [...this.getKeptStrings(), ...this.getUnkeptStrings()];
-    return finalString;
+    return finalString.join("");
   }
 
   // This Method allows certain techniques to turn a dice into a specific result.
