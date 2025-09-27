@@ -87,7 +87,7 @@ export const DISCORD_KEPT_EMOJI = {
   } as EmojiSymbols,
 };
 
-export const DICE_TRACKER_EMOJI = {
+export const DICE_TRACKER_EMOJI: EmojiSymbols = {
     0: "🔟",
     1: "1️⃣",
     2: "2️⃣",

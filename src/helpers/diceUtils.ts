@@ -18,6 +18,7 @@ import {
   State,
   SOURCE_EMOJI,
   SHAME_EMOJI,
+  DICE_TRACKER_EMOJI,
 } from "../types/diceConstants";
 
 export class Die {
@@ -339,8 +340,13 @@ export class Roll {
         return die.toString();
       })
       .join("");
+      let indexEmoji = "";
+      // Start counting at one like our users
+      for (let i = 1; i < this.#dice.length + 1; i++) {
+        indexEmoji += DICE_TRACKER_EMOJI[`${i % 10}`]
+      }
       return `${stringResults}
-      `;
+      ${indexEmoji}`;
   }
 
   getSourceStrings() {
