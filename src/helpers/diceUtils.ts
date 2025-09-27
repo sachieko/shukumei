@@ -179,6 +179,7 @@ export class Roll {
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
+    if (!dieToKeep) return false; // return early if the dice was removed due to exploding
     if (dieToKeep.kept === true) {
       // If the dice is already kept, unkeep it and exit
       this.unkeepDie(index);
