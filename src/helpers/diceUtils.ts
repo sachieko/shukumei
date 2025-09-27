@@ -177,39 +177,39 @@ export class Roll {
     }
   }
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
+  // Returns true if die was kept or unkept successfully, false if die could not be kept or unkept.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
     if (!dieToKeep) return false; // return early if the dice was removed due to exploding
     if (dieToKeep.kept === true) {
-      // If the dice is already kept, unkeep it and exit
+      // If the dice is already kept, unkeep
       this.unkeepDie(index);
-      return false;
+      return true;
     }
     const keptDice = this.getKeptDice();
     const dieSource = dieToKeep.getSource();
     if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
       dieToKeep.keep();
-      if (!dieToKeep.isExploding()) return true;
-      if (dieToKeep.isExploding()) {
-        if (dieToKeep.type === D6) {
-          this.#dice.push(
-            new Die(dieToKeep.type, NEWROLL, {
-              source: EXPLODE,
-              explosiveIndex: index,
-            })
-          );
-        }
-        if (dieToKeep.type === D12) {
-          this.#dice.push(
-            new Die(dieToKeep.type, NEWROLL, {
-              source: EXPLODE,
-              explosiveIndex: index,
-            })
-          );
-        }
+      if (!dieToKeep.isExploding()) return true; // exit early if not exploding
+
+      if (dieToKeep.type === D6) {
+        this.#dice.push(
+          new Die(dieToKeep.type, NEWROLL, {
+            source: EXPLODE,
+            explosiveIndex: index,
+          })
+        );
+      }
+      if (dieToKeep.type === D12) {
+        this.#dice.push(
+          new Die(dieToKeep.type, NEWROLL, {
+            source: EXPLODE,
+            explosiveIndex: index,
+          })
+        );
       }
     }
-    return false;
+    return true;
   }
 
   getTN() {
@@ -220,6 +220,7 @@ export class Roll {
     return this.#label;
   }
 
+  // Removes all die that exploded from a unkept die
   removeResultingDie(index: number) {
     this.#dice.map((die, index2) => {
       // If a die is the result of exploding from the given index
@@ -281,6 +282,7 @@ export class Roll {
   getDiceLength() {
     return this.#dice.length;
   }
+
   addKeptDie(type: DieType, value: number, kept: boolean) {
     this.#dice.push(new Die(type, value, { source: BONUS, kept: kept }));
   }
@@ -293,8 +295,8 @@ export class Roll {
   getAssists() {
     return this.#skilledAssist + this.#unskilledAssist;
   }
-  // We sum the corresponding value of only #kept dice for these methods
 
+  // We sum the corresponding value of only #kept dice for these methods
   getBonusDice() {
     return this.#dice.reduce(
       (cummulative, current) =>
@@ -341,15 +343,15 @@ export class Roll {
         return die.toString();
       })
       .join("");
-      let indexEmoji = "";
-      // Start counting at one like our users
-      for (let i = 1; i < this.#dice.length + 1; i++) {
-        indexEmoji += DICE_TRACKER_EMOJI[`${i % 10}`]
-      }
-      return `${stringResults}
+    let indexEmoji = "";
+    // Start counting at one like our users
+    for (let i = 1; i < this.#dice.length + 1; i++) {
+      indexEmoji += DICE_TRACKER_EMOJI[`${i % 10}`];
+    }
+    return `${stringResults}
       ${indexEmoji}`;
   }
-
+  // returns emoji for dice modifiers and special circumstances for GMs to track
   getSourceStrings() {
     const strings = this.#dice.map((die) => {
       return die.getSourceIcon();
