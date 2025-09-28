@@ -8,6 +8,8 @@ There are also some additional commands I am developing for convenience for GMs.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
+QA Team: Snowbear, Logos, jhunal and all the other players and fellow GMs who used it!
+
 [Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md)
 [Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md)
 
