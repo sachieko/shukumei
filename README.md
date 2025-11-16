@@ -40,7 +40,7 @@ Rolls have indexes to help players track which dice they wish to keep.
 * Want me to make it work for other editions? I have no plans to unfortunately.
 * Have a feature idea? I'll consider it depending on how complicated it is. :)
 
-## How to install
+## How to run as your own dice bot.
 
 1. Clone the repository, then use `npm install` to install necessary NPM packages
 2. Fill in the necessary information for your discord bot in a `.env` file
