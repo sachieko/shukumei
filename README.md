@@ -13,6 +13,12 @@ QA Team: Snowbear, Logos, jhunal and all the other players and fellow GMs who us
 [Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md)
 [Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md)
 
+# How to Install in your Discord Server
+
+Simply use this link [https://discord.com/oauth2/authorize?client_id=1297430172886241373](https://discord.com/oauth2/authorize?client_id=1297430172886241373) and follow the steps to select the server you would like to add it to. It does not currently function as a personal app.
+
+The bot will be discoverable in discord's app directory only if it's used in 100+ servers.
+
 ## Working Commands
 
 * Ping: Confirm the bot is working and responding
