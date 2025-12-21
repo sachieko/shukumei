@@ -38,7 +38,8 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     dieSymbol !== "SS" &&
     dieSymbol !== "O" &&
     dieSymbol !== "E" &&
-    dieSymbol !== "ES"
+    dieSymbol !== "ES" &&
+    dieSymbol !== undefined
   ) {
     return await interaction.reply({
       content:
@@ -59,9 +60,11 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   }
   const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
-    const trueIndex = index - 1;
+    const trueIndex = index - 1; // users count from 1
     const dieType = roll.getDieType(trueIndex);
-    roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED); // users start counting at 1 :(
+    if (dieSymbol !== undefined) {
+      roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED);
+    }
     if (dieIsKept === "K") {
       roll.forceKeepDie(trueIndex);
     }

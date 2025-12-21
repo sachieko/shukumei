@@ -31,7 +31,7 @@ export const modDieHandler = async (
     .setMinLength(1)
     .setMaxLength(2)
     .setPlaceholder("OS")
-    .setRequired(true);
+    .setRequired(false);
 
   const keptInput = new TextInputBuilder()
     .setCustomId("dieKept")
