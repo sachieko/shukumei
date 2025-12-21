@@ -239,9 +239,11 @@ export class Roll {
     if (dieToKeep.kept) {
       return;
     }
-    this.#keepLimit++;
+    if (dieToKeep.getSource() !== EXPLODE) { // Only non-exploding dice affect keep limits
+      this.#keepLimit++;
+      this.#forceKept++;
+    }
     dieToKeep.keep();
-    this.#forceKept++;
     this.explode(dieToKeep, index);
   }
 
