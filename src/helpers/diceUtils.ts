@@ -151,7 +151,7 @@ export class Roll {
     voidpoint: boolean = false,
     TN: number | "?" = "?",
     label: string = "Roll Results",
-    unkept: number = 0,
+    unkept: number = 0
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
@@ -182,6 +182,27 @@ export class Roll {
       this.#dice.push(new Die(D6, NEWROLL, { source: VOID }));
     }
   }
+
+  explode(die: Die, index: number) {
+    if (!die.isExploding()) return true; // exit early if not exploding
+
+    if (die.type === D6) {
+      this.#dice.push(
+        new Die(die.type, NEWROLL, {
+          source: EXPLODE,
+          explosiveIndex: index,
+        })
+      );
+    }
+    if (die.type === D12) {
+      this.#dice.push(
+        new Die(die.type, NEWROLL, {
+          source: EXPLODE,
+          explosiveIndex: index,
+        })
+      );
+    }
+  }
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   // Returns true if die was kept or unkept successfully, false if die could not be kept or unkept.
   keepDie(index: number) {
@@ -196,24 +217,7 @@ export class Roll {
     const dieSource = dieToKeep.getSource();
     if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
       dieToKeep.keep();
-      if (!dieToKeep.isExploding()) return true; // exit early if not exploding
-
-      if (dieToKeep.type === D6) {
-        this.#dice.push(
-          new Die(dieToKeep.type, NEWROLL, {
-            source: EXPLODE,
-            explosiveIndex: index,
-          })
-        );
-      }
-      if (dieToKeep.type === D12) {
-        this.#dice.push(
-          new Die(dieToKeep.type, NEWROLL, {
-            source: EXPLODE,
-            explosiveIndex: index,
-          })
-        );
-      }
+      this.explode(dieToKeep, index);
     }
     return true;
   }
@@ -227,7 +231,7 @@ export class Roll {
   }
 
   getForceKept() {
-    return  this.#forceKept;
+    return this.#forceKept;
   }
   // Keep a dice without regard for keep limits
   forceKeepDie(index: number) {
@@ -238,6 +242,7 @@ export class Roll {
     this.#keepLimit++;
     dieToKeep.keep();
     this.#forceKept++;
+    this.explode(dieToKeep, index);
   }
 
   // Removes all die that exploded from a unkept die
@@ -455,7 +460,7 @@ export class Roll {
     if (this.#state === STATE.FINAL) return "Finalized";
     if (this.#state === STATE.MODDED) return "Modified dice...";
   }
-    
+
   getExpiry() {
     return this.#expiry;
   }
