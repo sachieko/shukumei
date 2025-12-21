@@ -14,10 +14,10 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("rollmod-modal-", "");
   const rollIndexes = interaction.fields
-  .getTextInputValue("rollIndex")
-  .split(/[,\s]+/) // split on comma or spaces
-  .filter((index) => index) // filter empty strings
-  .map((index) => Number(index));
+    .getTextInputValue("rollIndex")
+    .split(/[,\s]+/) // split on comma or spaces
+    .filter((index) => index) // filter empty strings
+    .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -27,8 +27,11 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     return;
   }
   const dieSymbol = interaction.fields
-  .getTextInputValue("dieSymbol")
-  .toUpperCase();
+    .getTextInputValue("dieSymbol")
+    .toUpperCase();
+  const dieIsKept = interaction.fields
+    .getTextInputValue("dieKept")
+    .toUpperCase();
   if (
     dieSymbol !== "OS" &&
     dieSymbol !== "S" &&
@@ -39,12 +42,13 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   ) {
     return await interaction.reply({
       content:
-      "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive or Explosive Strife on a Ring die, ES for Explosive and Strife, and SS for Success and Strife. These are letters and not numbers.",
+        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive or Explosive Strife on a Ring die, ES for Explosive and Strife, and SS for Success and Strife. These are letters and not numbers.",
       flags: MessageFlags.Ephemeral,
     });
   }
   const roll = rollData[rollDataKey];
-  if ( // We use typeof 5 to get the type of a number here
+  if (
+    // We use typeof 5 to get the type of a number here
     !rollIndexes.every((index) => typeof index === typeof 5) ||
     rollIndexes.some((index) => index > roll.getDiceLength())
   ) {
@@ -55,8 +59,12 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   }
   const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
-    const dieType = roll.getDieType(index - 1);
-    roll.setDie(index - 1, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED); // users start counting at 1 :(
+    const trueIndex = index - 1;
+    const dieType = roll.getDieType(trueIndex);
+    roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED); // users start counting at 1 :(
+    if (dieIsKept === "K") {
+      roll.forceKeepDie(trueIndex);
+    }
   });
 
   roll.setState(STATE.MODDED);

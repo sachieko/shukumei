@@ -24,6 +24,7 @@ export const data = new SlashCommandBuilder()
         { name: "Reminder", value: "reminder" },
         { name: "Add/Mod Symbols", value: "symbols" },
         { name: "Unkeep", value: "unkeep" },
+        { name: "Modify Dice", value: "modify" },
         { name: "Policies", value: "policies" }
       )
   );
@@ -55,6 +56,7 @@ You can always keep the results of explosive dice even if you already kept your 
 :arrow_heading_down: - A dice was set to a specific result
 :repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
       break;
+
     case "symbols":
       content = `**Die Symbol Help:**
 If adding or modifying a die to a result and you have to choose what the die shows, enter in one of the following letters:
@@ -65,6 +67,7 @@ ES - Explosive and Strife
 O - Opportunity
 S - Success`;
       break;
+
     case "predict":
       content = `**Prediction Help:**
 To use prediction, choose the stance you predict your target will enter when using the command and choose the person in the discord server who controls that character.
@@ -75,6 +78,7 @@ Once they respond by selecting their stance, the bot will compare their selectio
 Note that void stance is not a valid stance to predict according to the core rules, because it represents instinct and self sacrifice. 
 Therefore it is valid to enter as a stance, but cannot be predicted because you cannot predict someone's instincts or know what they are willing to sacrifice.`;
       break;
+
     case "unkeep":
       content = `**Unkeeping Dice:**
       To unkeep dice, simply choose to keep a dice that is already considered kept (has a green border). 
@@ -82,6 +86,7 @@ Therefore it is valid to enter as a stance, but cannot be predicted because you 
       ${SHAME_EMOJI} - Shame symbol for # of times someone has unkept dice. This is so GMs can track abusers of the system.
       `;
       break;
+
     case "staredown":
       content = `**Staredown Help:**
 To use staredown, input the number of strife you wish to bid and the player or GM in the server who controls the other opponent in the duel.
@@ -90,6 +95,7 @@ You may choose to stare yourself down, such as if you are the GM and 2 NPCs are 
 Only the chosen target of the staredown can use the button to bid. Once clicked by the target user, they will be prompted to type a number of how much strife they would like to bid, including 0.
 Once they have put their bid in, the result will be displayed in chat and previous messages will be erased. Bids cannot be greater than 12 in either case.`;
       break;
+
     case "reminder":
       content = `**Reminder Help:**
 To use reminder, you will have to enter the reason for the reminder as the event name, the day of the month the reminder should be set for, and the hour in 24-hour time.
@@ -100,10 +106,26 @@ There are optional inputs for the minute if you would like to do 15 after the ho
       
 **NOTE:** This bot is incapable of knowing where in the world you are, so the default timezone for this is **MST (-7 UTC)**. Keep this in mind when setting a reminder.`;
       break;
+
+    case "modify":
+      content = `Modifying dice allows you to change dice to certain results, or keep dice beyond your kept limit.
+If keeping dice beyond the normal limit, it will keep only dice not already kept. The post will also denote that you have done so.
+This is intended for school abilities or conditions which allow you to keep extra dice beyond usual.
+
+If modifying a die to a result and you have to choose what the die shows, enter in one of the following letters:
+OS - Opportunity Success on Skill die, Opportunity Strife on Ring die
+SS - Success and Strife
+E - Explosive, or Explosive Strife on a Ring die
+ES - Explosive and Strife
+O - Opportunity
+S - Success`;
+      break;
+
     case "policies":
       content = `**[Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md) last updated on ${PRIVACYDATE}**
 **[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md) last updated on ${TOSDATE}**`;
       break;
+
     default:
       content = "Sorry that command has no help file.";
       break;

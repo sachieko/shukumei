@@ -139,6 +139,8 @@ export class Roll {
   #void: boolean;
   #label: string;
   #unkept: number;
+  #forceKept: number;
+  #expiry: Date;
   #TN?: number | "?";
 
   constructor(
@@ -149,7 +151,7 @@ export class Roll {
     voidpoint: boolean = false,
     TN: number | "?" = "?",
     label: string = "Roll Results",
-    unkept: number = 0
+    unkept: number = 0,
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
@@ -159,9 +161,13 @@ export class Roll {
     this.#dice = [];
     this.#state = STATE.AWAIT;
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
+    this.#forceKept = 0;
     this.#TN = TN;
     this.#label = label;
     this.#unkept = unkept;
+    const expDate = new Date();
+    expDate.setDate(expDate.getDate() + 14);
+    this.#expiry = expDate;
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
         new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE })
@@ -218,6 +224,20 @@ export class Roll {
 
   getLabel() {
     return this.#label;
+  }
+
+  getForceKept() {
+    return  this.#forceKept;
+  }
+  // Keep a dice without regard for keep limits
+  forceKeepDie(index: number) {
+    const dieToKeep = this.#dice[index];
+    if (dieToKeep.kept) {
+      return;
+    }
+    this.#keepLimit++;
+    dieToKeep.keep();
+    this.#forceKept++;
   }
 
   // Removes all die that exploded from a unkept die
@@ -434,5 +454,9 @@ export class Roll {
     if (this.#state === STATE.ADDED) return "Added kept dice...";
     if (this.#state === STATE.FINAL) return "Finalized";
     if (this.#state === STATE.MODDED) return "Modified dice...";
+  }
+    
+  getExpiry() {
+    return this.#expiry;
   }
 }

@@ -30,7 +30,9 @@ export const rollEmbedMaker = (
     .addFields(
       {
         name: "Kept",
-        value: `${roll.getKeptDice()}/${roll.getKeptLimit()}`,
+        value: `${roll.getKeptDice()}/${roll.getKeptLimit()}${
+          roll.getForceKept() > 0 ? ` (+${roll.getForceKept()})` : ""
+        }`,
         inline: true,
       },
       {

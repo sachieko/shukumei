@@ -104,8 +104,8 @@ export const DICE_TRACKER_EMOJI: EmojiSymbols = {
 // Which is actually useful because GMs in play-by-play may need to keep track of abuse of unkeeping and keeping explosives repeatedly.
 export const SHAME_EMOJI = "<:sadcat:1246356985826377779>";
 export const STRIFE = "<:strife:1380611106417934376>";
-export const SUCCESS = DISCORD_DIE_EMOJI.D6[5];
-export const OPPORTUNITY = DISCORD_DIE_EMOJI.D6[3];
+export const SUCCESS = "<:success:1452177745240129627>"
+export const OPPORTUNITY = "<:opportunity:1452177695348756610>";
 
 export interface DieSymbols {
   success: boolean;
@@ -181,3 +181,5 @@ export const SYMBOL_TO_VALUE: SymbolToValue = {
     ES: 11
   },
 };
+
+export const EXPIRY_IN_DAYS = 14;

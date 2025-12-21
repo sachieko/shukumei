@@ -32,6 +32,16 @@ export const modDieHandler = async (
     .setMaxLength(2)
     .setPlaceholder("OS")
     .setRequired(true);
+
+  const keptInput = new TextInputBuilder()
+    .setCustomId("dieKept")
+    .setLabel("Enter K to keep beyond keep limit.")
+    .setStyle(TextInputStyle.Short)
+    .setMinLength(0)
+    .setMaxLength(1)
+    .setPlaceholder("K")
+    .setRequired(false);
+
   const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
     dieIndexInput
   );
@@ -39,7 +49,11 @@ export const modDieHandler = async (
     symbolInput
   );
 
-  modal.addComponents(actionRow, valueActionRow);
+  const keptActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
+    keptInput
+  );
+
+  modal.addComponents(actionRow, valueActionRow, keptActionRow);
 
   await interaction.showModal(modal);
 };
