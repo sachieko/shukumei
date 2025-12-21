@@ -432,13 +432,17 @@ export class Roll {
     return finalString.join("");
   }
 
+  setDieSource(index: number, source: DieSource) {
+    this.#dice[index].setSource(source);
+  }
+
   // This Method allows certain techniques to turn a dice into a specific result.
   setDie(index: number, value: number, source?: DieSource) {
     const dieToSet = this.#dice[index];
     dieToSet.setValue(value);
     dieToSet.setSymbol();
     if (source) {
-      this.#dice[index].setSource(source);
+      this.setDieSource(index, source);
     }
     return this.#dice[index];
   }

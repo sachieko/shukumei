@@ -53,7 +53,7 @@ You can always keep the results of explosive dice even if you already kept your 
 :cyclone: - Void point spent
 :folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
 :anger: - An explosive was kept
-:arrow_heading_down: - A dice was set to a specific result
+:arrow_heading_down: - A dice was set to a specific result/modified to kept
 :repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
       break;
 
