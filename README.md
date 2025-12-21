@@ -14,9 +14,17 @@ QA Team: Snowbear, Logos, jhunal, Moonlit, and all the other players and fellow 
 [Privacy Policy](https://github.com/sachieko/shukumei/blob/main/PRIVACYPOLICY.md)
 [Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md)
 
+
 ## Example of Use
 
 <img src="./assets/ShukumeiExample0.png" alt="Using shukumei bot to roll and keep dice" width="300">
+
+# How to Install in your Discord Server
+
+Simply use this link [https://discord.com/oauth2/authorize?client_id=1297430172886241373](https://discord.com/oauth2/authorize?client_id=1297430172886241373) and follow the steps to select the server you would like to add it to. It does not currently function as a personal app.
+
+The bot will be discoverable in discord's app directory only if it's used in 100+ servers.
+
 
 ## Working Commands
 
@@ -40,7 +48,7 @@ Rolls have indexes to help players track which dice they wish to keep.
 * Want me to make it work for other editions? I have no plans to unfortunately. Lots of other dice bots already do that.
 * Have a feature idea? I'll consider it depending on how complicated it is and the benefit. :)
 
-## How to install
+## How to run as your own dice bot.
 
 1. Clone the repository, then use `npm install` to install necessary NPM packages
 2. Fill in the necessary information for your discord bot in a `.env` file
