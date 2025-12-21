@@ -2,7 +2,12 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
-import { MODDED, STATE, SYMBOL_TO_VALUE } from "../types/diceConstants";
+import {
+  EXPLODE,
+  MODDED,
+  STATE,
+  SYMBOL_TO_VALUE,
+} from "../types/diceConstants";
 
 const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -67,7 +72,8 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     }
     if (dieIsKept === "K") {
       roll.forceKeepDie(trueIndex);
-      if (!roll.isDieExplosive(trueIndex))  { // if we overwrite dice from explosives, it affects kept dice.
+      if (roll.getDieSource(trueIndex) !== EXPLODE) {
+        // if we overwrite dice from explosives, it affects kept dice.
         roll.setDieSource(trueIndex, MODDED);
       }
     }

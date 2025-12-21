@@ -243,7 +243,7 @@ export class Roll {
     if (dieToKeep.kept) {
       return;
     }
-    if (dieToKeep.getSource() !== EXPLODE) { // Only non-exploding dice affect keep limits
+    if (!dieToKeep.getExplosiveIndex()) { // Only dice not from exploding affect kept limit
       this.#keepLimit++;
       this.#forceKept++;
     }
@@ -252,7 +252,7 @@ export class Roll {
   }
 
   // Removes all die that exploded from a unkept die
-  removeResultingDie(index: number) {
+  private removeResultingDie(index: number) {
     this.#dice.map((die, index2) => {
       // If a die is the result of exploding from the given index
       if (die.getExplosiveIndex() === index) {
@@ -436,6 +436,10 @@ export class Roll {
   getFinalStrings() {
     const finalString = [...this.getKeptStrings(), ...this.getUnkeptStrings()];
     return finalString.join("");
+  }
+
+  getDieSource(index: number) {
+    return this.#dice[index].getSource();
   }
 
   setDieSource(index: number, source: DieSource) {
