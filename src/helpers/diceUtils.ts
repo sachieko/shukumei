@@ -226,6 +226,10 @@ export class Roll {
     return this.#TN;
   }
 
+  isDieExplosive(index: number) {
+    return this.#dice[index].isExploding();
+  }
+
   getLabel() {
     return this.#label;
   }
