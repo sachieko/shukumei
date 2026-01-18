@@ -36,13 +36,21 @@ const staredownModalHandler = async (interaction: ModalSubmitInteraction) => {
       name: `${responderDisplayName + "'s" || "Responder's"} Bid`,
       value: `**${responseNumber}** strife`,
       inline: true,
-    }
+    },
   );
   await interaction.message?.delete().catch(console.error);
-  await interaction.reply({
-    embeds: [embedObject],
-    components: [],
-  });
+  try {
+    await interaction.reply({
+      embeds: [embedObject],
+      components: [],
+    });
+  } catch (err) {
+    interaction.reply({
+      content:
+        "Shukumei does not have permissions to interact with the message in this channel it seems. Make sure it is in the member list for this channel!",
+      flags: MessageFlags.Ephemeral,
+    });
+  }
 };
 
 export default staredownModalHandler;

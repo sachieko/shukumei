@@ -39,11 +39,20 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     interaction.client.user?.displayAvatarURL(),
     roll
   );
-  await interaction.message.edit({
-    content: `${resultString}`,
-    embeds: [rollEmbed],
-    components: [],
-  });
+  try {
+
+    await interaction.message.edit({
+      content: `${resultString}`,
+      embeds: [rollEmbed],
+      components: [],
+    });
+  } catch (err) {
+    interaction.reply({
+      content: "Shukumei does not have permissions to interact with the message in this channel it seems. Make sure it is in the member list for this channel!",
+      flags: MessageFlags.Ephemeral
+    }
+    )
+  }
   delete rollData[rollDataKey]; // clean up the mock db object
   await interaction.deferUpdate().catch(console.error);
 };

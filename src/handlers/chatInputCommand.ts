@@ -8,7 +8,7 @@ const handler: InteractionHandler<ChatInputCommandInteraction> = {
     if (!command) {
       console.error(`Command ${interaction.commandName} not found.`);
       await interaction.reply({
-        content: "Command not found on server.",
+        content: "Command not found on server. The magistrates chastise you.",
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -19,7 +19,7 @@ const handler: InteractionHandler<ChatInputCommandInteraction> = {
     } catch (error) {
       console.error(error);
       await interaction.reply({
-        content: "There was an error while executing this command.",
+        content: "There was an error while executing this command. Most commonly this is because the bot cannot see the channel. Ensure it is on the member list on the right while in the channel, as it needs the right travel permits.",
         flags: MessageFlags.Ephemeral,
       });
     }

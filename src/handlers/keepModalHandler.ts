@@ -7,17 +7,18 @@ import { STATE } from "../types/diceConstants";
 const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
     return await interaction.reply({
-      content: "Error: Cannot locate the original message. (This bot was not designed to work for DMs)",
-      ephemeral: true,
+      content:
+        "Error: Cannot locate the original message. (This bot was not designed to work for DMs)",
+      flags: MessageFlags.Ephemeral,
     });
   }
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("rollkeep-modal-", "");
   const rollIndexes = interaction.fields
-  .getTextInputValue("keepIndex")
-  .split(/[,\s]+/)
-  .filter((index) => index)
-  .map((index) => Number(index));
+    .getTextInputValue("keepIndex")
+    .split(/[,\s]+/)
+    .filter((index) => index)
+    .map((index) => Number(index));
   const [userId] = rollDataKey.split("-");
   if (user.id !== userId) {
     await interaction.reply({
@@ -46,12 +47,20 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
     nickname || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
-    roll
+    roll,
   );
-  await interaction.message.edit({
-    content: resultString,
-    embeds: [rollEmbed],
-  });
+  try {
+    await interaction.message.edit({
+      content: resultString,
+      embeds: [rollEmbed],
+    });
+  } catch (err) {
+    interaction.reply({
+      content:
+        "Shukumei does not have permissions to interact with the message in this channel it seems. Make sure it is in the member list for this channel!",
+      flags: MessageFlags.Ephemeral,
+    });
+  }
   await interaction.deferUpdate().catch(console.error);
 };
 

@@ -61,12 +61,20 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     nickname || user.displayName,
     user.displayAvatarURL(),
     interaction.client.user?.displayAvatarURL(),
-    roll
+    roll,
   );
-  await interaction.message.edit({
-    content: resultString,
-    embeds: [rollEmbed],
-  });
+  try {
+    await interaction.message.edit({
+      content: resultString,
+      embeds: [rollEmbed],
+    });
+  } catch (err) {
+    interaction.reply({
+      content:
+        "Shukumei does not have permissions to interact with the message in this channel it seems. Make sure it is in the member list for this channel!",
+      flags: MessageFlags.Ephemeral,
+    });
+  }
   await interaction.deferUpdate().catch(console.error);
 };
 
