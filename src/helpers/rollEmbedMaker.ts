@@ -6,14 +6,43 @@ import {
 } from "discord.js";
 import { Roll } from "./diceUtils";
 import { STRIFE, OPPORTUNITY, SUCCESS, STATE } from "../types/diceConstants";
-const AWAITCOLOR = "#FF06BD";
-const FINALCOLOR = "#21FF3A";
+const AWAITCOLOR = "#06daffff";
+const KEPTCOLOR = "#ddff00ff";
+const REROLLCOLOR = "#0627ffff";
+const MODCOLOR = "#ffffffff";
+const FINALCOLOR = "#006008ff";
+const SUCCESSCOLOR = "#00dd1aff";
+const FAILCOLOR = "#da003aff";
+
+// Returns a color depending on state and if a TN is given
+const colorPicker = (
+  tn: number | "?" | undefined,
+  successes: number,
+  state: number,
+) => {
+  if (state === STATE.AWAIT) {
+    return AWAITCOLOR;
+  }
+  if (state === STATE.KEPT) {
+    return KEPTCOLOR;
+  }
+  if (state === STATE.REROLLED) {
+    return REROLLCOLOR;
+  }
+  if (state === STATE.MODDED || state === STATE.ADDED) {
+    return MODCOLOR;
+  }
+  if (state === STATE.FINAL && tn && tn !== "?") {
+    return successes >= tn ? SUCCESSCOLOR : FAILCOLOR;
+  }
+  return FINALCOLOR;
+};
 
 export const rollEmbedMaker = (
   displayName: string,
   userAvatarURL: string,
   botAvatarURL: string,
-  roll: Roll
+  roll: Roll,
 ) => {
   const embedObject = new EmbedBuilder()
     .setTitle(`${roll.getLabel()}`)
@@ -23,10 +52,10 @@ export const rollEmbedMaker = (
       iconURL: botAvatarURL,
     })
     .setDescription(
-      `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}`
+      `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}`,
     );
   embedObject
-    .setColor(`${roll.getState() === STATE.FINAL ? FINALCOLOR : AWAITCOLOR}`)
+    .setColor(colorPicker(roll.getTN(), roll.getSuccesses(), roll.getState()))
     .addFields(
       {
         name: "Kept",
@@ -44,7 +73,7 @@ export const rollEmbedMaker = (
         name: "Rerolls",
         value: `🔁 ${roll.getRerolls()}`,
         inline: true,
-      }
+      },
     )
     .addFields(
       {
@@ -60,7 +89,7 @@ export const rollEmbedMaker = (
         name: "Modifiers",
         value: `${roll.getSourceStrings().join("")}`,
         inline: true,
-      }
+      },
     )
     .setFooter({
       text: `TN: ${roll.getTN()}${
