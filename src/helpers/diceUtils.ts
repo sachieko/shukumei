@@ -166,7 +166,7 @@ export class Roll {
     this.#label = label;
     this.#unkept = unkept;
     const expDate = new Date();
-    expDate.setDate(expDate.getDate() + 14);
+    expDate.setDate(expDate.getDate() + 7);
     this.#expiry = expDate;
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
