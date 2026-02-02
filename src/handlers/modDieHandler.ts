@@ -45,7 +45,6 @@ export const modDieHandler = async (
 
   const keptInput = new TextInputBuilder()
     .setCustomId("dieKept")
-    .setLabel("Enter K to keep beyond keep limit.")
     .setStyle(TextInputStyle.Short)
     .setMinLength(0)
     .setMaxLength(1)

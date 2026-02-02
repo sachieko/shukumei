@@ -6,13 +6,13 @@ import {
 } from "discord.js";
 import { Roll } from "./diceUtils";
 import { STRIFE, OPPORTUNITY, SUCCESS, STATE } from "../types/diceConstants";
-const AWAITCOLOR = "#06daffff";
-const KEPTCOLOR = "#ddff00ff";
-const REROLLCOLOR = "#0627ffff";
-const MODCOLOR = "#ffffffff";
-const FINALCOLOR = "#006008ff";
-const SUCCESSCOLOR = "#00dd1aff";
-const FAILCOLOR = "#da003aff";
+const AWAITCOLOR = "#06daff";
+const KEPTCOLOR = "#ddff00";
+const REROLLCOLOR = "#0627ff";
+const MODCOLOR = "#ffffff";
+const FINALCOLOR = "#006008";
+const SUCCESSCOLOR = "#00dd1a";
+const FAILCOLOR = "#da003a";
 
 // Returns a color depending on state and if a TN is given
 const colorPicker = (
@@ -52,7 +52,8 @@ export const rollEmbedMaker = (
       iconURL: botAvatarURL,
     })
     .setDescription(
-      `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}`,
+      `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}
+      TN${roll.getTN()}`,
     );
   embedObject
     .setColor(colorPicker(roll.getTN(), roll.getSuccesses(), roll.getState()))
@@ -92,11 +93,7 @@ export const rollEmbedMaker = (
       },
     )
     .setFooter({
-      text: `TN: ${roll.getTN()}${
-        roll.getState() === STATE.FINAL
-          ? ` VS ${roll.getSuccesses()} Successes`
-          : ""
-      }`,
+      text: `Shortfall or Bonus: ${roll.getTN() !== "?" ? `${roll.getSuccesses() - Number(roll.getTN())}`:"?"}`,
     });
   return embedObject;
 };
