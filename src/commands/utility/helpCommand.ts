@@ -104,7 +104,7 @@ Ex: You put '21', however it is already the 22nd. Then the reminder will be set 
       
 There are optional inputs for the minute if you would like to do 15 after the hour you can enter 15, and role if you would like to ping a role with the reminder as well.
       
-**NOTE:** This bot is incapable of knowing where in the world you are, so the default timezone for this is **MST (-7 UTC)**. Keep this in mind when setting a reminder.`;
+**NOTE:** This bot is incapable of knowing where in the world you are, so you must tell it your timezone if you want the timestamp accurately. Enter your GMT timezone offset without decimals or halves, and it will adjust. ie: -5 for EST, -8 for PST.`;
       break;
 
     case "modify":
