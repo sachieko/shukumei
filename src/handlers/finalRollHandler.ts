@@ -23,6 +23,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   }
   const roll = rollData[rollDataKey];
   //// In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
+  //// Uncomment the below if statement if you want to force players to keep at least 1 die
   // if (roll.getKeptDice() === 0) {
   //   await interaction.reply({
   //     content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
@@ -40,12 +41,12 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     roll
   );
   try {
-
     await interaction.message.edit({
       content: `${resultString}`,
       embeds: [rollEmbed],
       components: [],
     });
+    delete rollData[rollDataKey]; // clean up the mock db object only if editing message works.
   } catch (err) {
     interaction.reply({
       content: "Shukumei does not have permissions to interact with the message in this channel it seems. Make sure it is in the member list for this channel!",
@@ -53,7 +54,6 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     }
     )
   }
-  delete rollData[rollDataKey]; // clean up the mock db object
   await interaction.deferUpdate().catch(console.error);
 };
 
