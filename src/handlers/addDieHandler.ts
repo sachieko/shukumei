@@ -4,11 +4,11 @@ import {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
-  ActionRowBuilder,
+  LabelBuilder,
 } from "discord.js";
 
 export const addDieHandler = async (
-  interaction: ButtonInteraction<CacheType>
+  interaction: ButtonInteraction<CacheType>,
 ) => {
   const rollDataKey = interaction.customId.replace("roll-add-", "");
   const modal = new ModalBuilder()
@@ -17,46 +17,46 @@ export const addDieHandler = async (
 
   const dieTypeInput = new TextInputBuilder()
     .setCustomId("dieType")
-    .setLabel("Die Type: R or S")
     .setStyle(TextInputStyle.Short)
     .setMinLength(1)
     .setMaxLength(1)
     .setPlaceholder("R")
     .setRequired(true);
 
+  const dieTypeLabel = new LabelBuilder()
+    .setLabel("Ring or Skill Dice?")
+    .setDescription("Enter R for black Ring dice and S for white Skill dice.")
+    .setTextInputComponent(dieTypeInput);
 
   const dieValueInput = new TextInputBuilder()
     .setCustomId("dieSymbol")
-    .setLabel(`Symbol: OS, SS, S, O, E, ES`)
     .setStyle(TextInputStyle.Short)
     .setMinLength(1)
     .setMaxLength(2)
     .setPlaceholder("OS")
     .setRequired(true);
 
-    const keptInput = new TextInputBuilder()
+  const dieValueLabel = new LabelBuilder()
+    .setLabel("What Symbols on the dice?")
+    .setDescription(
+      "Choose: OS, S, ES, SS, O. Use /help symbols cmd for more information.",
+    )
+    .setTextInputComponent(dieValueInput);
+
+  const keptInput = new TextInputBuilder()
     .setCustomId("dieKept")
-    .setLabel("K = Kept, R = Rolled")
     .setStyle(TextInputStyle.Short)
     .setMinLength(0)
     .setMaxLength(1)
     .setPlaceholder("K")
     .setRequired(false);
 
+  const keptLabel = new LabelBuilder()
+    .setLabel("Is this die already kept?")
+    .setDescription("Input: K = Kept, R = Rolled")
+    .setTextInputComponent(keptInput);
 
-  const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-    dieTypeInput
-  );
-  
-  const nextActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-    dieValueInput
-  );
-
-  const keptActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-    keptInput
-  );
-
-  modal.addComponents(actionRow, nextActionRow, keptActionRow);
+  modal.addLabelComponents(dieTypeLabel, dieValueLabel, keptLabel);
 
   await interaction.showModal(modal);
 };

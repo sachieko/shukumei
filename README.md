@@ -1,11 +1,11 @@
-# Shukumei 1.2.1
+# Shukumei 1.3.0
 
 Shukumei means fate, and what are dice for but for deciding your fate? <img src="./assets/shukumei-avatar.png" height="100" align="left" alt="shukumei-bot">
 
 This is a simple dice bot configured specifically for using in discord for those running [Legend of the Five Rings 5th Edition (Created by Edge Studios under license of Fantasy Flight Games)](https://www.edge-studio.net/games/l5r-core-rulebook/).
 
 This contains additional commands unique to the game system, such as Prediction and Staredown for duels, with easy to read output.
-It also implements the interactive roll and keep system of course.
+It also implements the interactive roll and keep system with unkeep functionality for mistakes.
 
 Developed with the assistance of Logos who provided commentary and useful ideas. You know who you are :)
 
@@ -28,9 +28,9 @@ The bot will be discoverable in discord's app directory only if it's used in 100
 
 ## Working Commands
 
-* Ping: Confirm the bot is working and responding
+* Ping: Confirm the bot is working and responding via Discord. If this fails, check if the discord API is down on their end. :)
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
-* Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date.
+* Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date/time.
 * Staredown: Bid strife against another player or yourself (for GMs and NPCs), revealing the results only once everyone has bid.
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, including whether assistance was given or void points spent. Unkeeping is also supported now. 
 * Help: `/help` commands have been created and recommended if you aren't sure how to use Shukumei!
@@ -39,7 +39,7 @@ Rolls have indexes to help players track which dice they wish to keep.
 
 ### Commands in Development
 
-* None. Connecting to an SQL backend for version 2.0 update has been postponed indefinitely, as the performance benefits are negligible.
+* None. Connecting to an SQL backend for version 2.0 update has been postponed indefinitely, as the performance benefits are negligible, and forking of this project and running your own dicebot becomes incredibly more complicated for those unfamiliar with managing their own SQL databases.
 
 ## FAQ
 
@@ -51,7 +51,7 @@ Rolls have indexes to help players track which dice they wish to keep.
 ## How to run as your own dice bot.
 
 1. Clone the repository, then use `npm install` to install necessary NPM packages
-2. Fill in the necessary information for your discord bot in a `.env` file
+2. Fill in the necessary information for your discord bot in a `.env` file using the `.env.example` file as a guide.
 3. Run `npm run build` to create the program
 4. Run `npm run deploy` to deploy commands to the bot.
 5. Run `npm start` to start the bot.

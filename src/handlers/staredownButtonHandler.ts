@@ -1,6 +1,6 @@
 import {
-  ActionRowBuilder,
   ButtonInteraction,
+  LabelBuilder,
   MessageFlags,
   ModalBuilder,
   TextInputBuilder,
@@ -26,17 +26,18 @@ const staredownButtonHandler = async (interaction: ButtonInteraction) => {
 
   const bidInput = new TextInputBuilder()
     .setCustomId("bidAmount")
-    .setLabel("Enter a strife bid.")
     .setStyle(TextInputStyle.Short)
     .setMinLength(1)
     .setMaxLength(2)
     .setPlaceholder("0-Focus")
     .setRequired(true);
 
-  const actionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-    bidInput
-  );
-  modal.addComponents(actionRow);
+  const bidLabel = new LabelBuilder()
+    .setLabel("Enter a strife bid.")
+    .setDescription("Can bid between 0 up to your character''s focus.")
+    .setTextInputComponent(bidInput);
+
+  modal.addLabelComponents(bidLabel);
 
   await interaction.showModal(modal);
 };
