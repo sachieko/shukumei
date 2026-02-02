@@ -56,7 +56,7 @@ const command: Command = {
       nextDate.setMonth(nextDate.getMonth() + 1);
     }
     if (timezoneOffset) {
-      hour += (timezoneOffset - Number(config.GMTOFFSET));
+      hour -= (timezoneOffset - Number(config.GMTOFFSET));
     }
     nextDate.setDate(Number(dayOfMonth));
     nextDate.setHours(Number(hour));
