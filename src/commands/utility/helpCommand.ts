@@ -46,15 +46,7 @@ You can keep 2 dice since the used Ring was 2. If you wanted to keep ${DISCORD_D
 
 **Explosive Rerolls:**
 When you keep an explosive die, a new rolled die will be added to the original dice. Ex: if you keep an explosive in the example above, there will be 4 rolled dice.
-You can always keep the results of explosive dice even if you already kept your limit.
-
-**Meaning of Modifiers:**
-:handshake_tone3: - Assistance (1 per assist)
-:cyclone: - Void point spent
-:folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
-:anger: - An explosive was kept
-:arrow_heading_down: - A dice was set to a specific result/modified to kept
-:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
+You can always keep the results of explosive dice even if you already kept your limit.`;
       break;
 
     case "symbols":
@@ -65,7 +57,15 @@ SS - Success and Strife
 E - Explosive, or Explosive Strife on a Ring die
 ES - Explosive and Strife
 O - Opportunity
-S - Success`;
+S - Success
+
+**Meaning of Modifier Symbols:**
+:handshake_tone3: - Assistance (1 per assist)
+:cyclone: - Void point spent
+:folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
+:anger: - An explosive was kept
+:arrow_heading_down: - A dice was set to a specific result/modified to kept
+:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
       break;
 
     case "predict":
