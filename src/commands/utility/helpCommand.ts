@@ -25,8 +25,8 @@ export const data = new SlashCommandBuilder()
         { name: "Add/Mod Symbols", value: "symbols" },
         { name: "Unkeep", value: "unkeep" },
         { name: "Modify Dice", value: "modify" },
-        { name: "Policies", value: "policies" }
-      )
+        { name: "Policies", value: "policies" },
+      ),
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -35,18 +35,17 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
   switch (command) {
     case "roll":
       content = `**Using Roll:**
-Enter the ring and skill for your approach determined with your GM. These are the only required inputs to roll.
+Enter the ring and skill for your approach determined by GM. These are the only required inputs to roll.
 
 **Optional Inputs:**
-If you have any assistance, you will have to enter the number of characters giving unskilled or skilled assist separately. If you spent a voidpent, select True for voidpoint. You may also enter the TN if you would like it displayed, as well as give the roll a label such as "Saburo's Tea Ceremony Check". To remove an optional category you did not mean to use, you can backspace to remove it.
+If you have any assistance, enter the number of characters giving unskilled or skilled assist separately. If you spent a voidpent, select True for voidpoint. You may also enter the TN, as well as give the roll a label ie: "Saburo's Tea Ceremony Check". To remove an optional input you did not mean to use, backspace to remove it.
 
 **Choosing kept dice, dice to reroll, or dice to modify:**
 The dice are displayed in a specific order, which you use to choose kept dice. Using the following dice roll: ${DISCORD_DIE_EMOJI.D6[3]}${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]}
 You can keep 2 dice since the used Ring was 2. If you wanted to keep ${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]} then you need to keep the 2nd and 3rd die. To do this, click Keep under the roll and then enter "2 3" or "2,3" and you will keep the second and third dice. Using this method you can keep any number of dice up to the limit allowed for your roll based on Ring dice, assists, and void points spent. If you try to keep more than you are allowed, they are kept in order from left to right until you can't keep dice anymore.
 
 **Explosive Rerolls:**
-When you keep an explosive die, a new rolled die will be added to the original dice. Ex: if you keep an explosive in the example above, there will be 4 rolled dice.
-You can always keep the results of explosive dice even if you already kept your limit.`;
+When you keep an explosive die, a new rolled die will be added to the original dice. You can always keep the results of explosive dice even if you already kept your limit.`;
       break;
 
     case "symbols":
