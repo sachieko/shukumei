@@ -68,7 +68,7 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     const trueIndex = index - 1; // users count from 1
     const dieType = roll.getDieType(trueIndex);
     if (dieSymbol !== "") {
-      roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED);
+      roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol]);
     }
     if (dieIsKept === "K") {
       if (!roll.isDieKept(trueIndex)) {
