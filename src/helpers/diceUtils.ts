@@ -43,7 +43,7 @@ export class Die {
       rerolled?: boolean;
       source?: DieSource;
       explosiveIndex?: number | undefined;
-    } = {}
+    } = {},
   ) {
     this.type = type;
     this.rerolled = rerolled;
@@ -151,7 +151,7 @@ export class Roll {
     voidpoint: boolean = false,
     TN: number | "?" = "?",
     label: string = "Roll Results",
-    unkept: number = 0
+    unkept: number = 0,
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
@@ -170,12 +170,14 @@ export class Roll {
     this.#expiry = expDate;
     for (let i = 0; i < this.#baseD6 + this.#unskilledAssist; i++) {
       this.#dice.push(
-        new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE })
+        new Die(D6, NEWROLL, { source: i < this.#baseD6 ? BASE : ASSISTANCE }),
       );
     }
     for (let i = 0; i < this.#baseD12 + this.#skilledAssist; i++) {
       this.#dice.push(
-        new Die(D12, NEWROLL, { source: i < this.#baseD12 ? BASE : ASSISTANCE })
+        new Die(D12, NEWROLL, {
+          source: i < this.#baseD12 ? BASE : ASSISTANCE,
+        }),
       );
     }
     if (this.#void) {
@@ -191,7 +193,7 @@ export class Roll {
         new Die(die.type, NEWROLL, {
           source: EXPLODE,
           explosiveIndex: index,
-        })
+        }),
       );
     }
     if (die.type === D12) {
@@ -199,7 +201,7 @@ export class Roll {
         new Die(die.type, NEWROLL, {
           source: EXPLODE,
           explosiveIndex: index,
-        })
+        }),
       );
     }
   }
@@ -220,6 +222,10 @@ export class Roll {
       this.explode(dieToKeep, index);
     }
     return true;
+  }
+
+  isDieKept(index: number) {
+    return this.#dice[index].kept;
   }
 
   getTN() {
@@ -243,7 +249,8 @@ export class Roll {
     if (dieToKeep.kept) {
       return;
     }
-    if (!dieToKeep.getExplosiveIndex()) { // Only dice not from exploding affect kept limit
+    if (!dieToKeep.getExplosiveIndex()) {
+      // Only dice not from exploding affect kept limit
       this.#keepLimit++;
       this.#forceKept++;
     }
@@ -298,7 +305,7 @@ export class Roll {
         current.getSource() !== BONUS
           ? 1
           : 0), // Exploding die do not count against the number of kept dice
-      0
+      0,
     );
   }
 
@@ -332,7 +339,7 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         cummulative + (current.getSource() === BONUS ? 1 : 0), // die.#kept is true for all bonus die by default
-      0
+      0,
     );
   }
 
@@ -340,7 +347,7 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         cummulative + (current.kept && current.getSymbol().success ? 1 : 0),
-      0
+      0,
     );
   }
 
@@ -348,7 +355,7 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         cummulative + (current.kept && current.getSymbol().opportunity ? 1 : 0),
-      0
+      0,
     );
   }
 
@@ -356,7 +363,7 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         cummulative + (current.kept && current.getSymbol().strife ? 1 : 0),
-      0
+      0,
     );
   }
 
@@ -364,7 +371,7 @@ export class Roll {
     return this.#dice.reduce(
       (cummulative, current) =>
         cummulative + (current.kept && current.getSymbol().explosive ? 1 : 0),
-      0
+      0,
     );
   }
 
@@ -392,7 +399,7 @@ export class Roll {
       strings.push(SOURCE_EMOJI.void);
     }
     const assistStrings = strings.filter(
-      (string) => string === SOURCE_EMOJI.assistance
+      (string) => string === SOURCE_EMOJI.assistance,
     );
     if (this.#skilledAssist + this.#unskilledAssist > assistStrings.length) {
       for (
@@ -416,7 +423,7 @@ export class Roll {
   getRerolls() {
     return this.#dice.reduce(
       (cummulative, current) => cummulative + (current.rerolled ? 1 : 0),
-      0
+      0,
     );
   }
 

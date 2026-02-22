@@ -71,7 +71,9 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
       roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED);
     }
     if (dieIsKept === "K") {
-      roll.forceKeepDie(trueIndex);
+      if (!roll.isDieKept(trueIndex)) {
+        roll.forceKeepDie(trueIndex);
+      }
       if (roll.getDieSource(trueIndex) !== EXPLODE) {
         // if we overwrite dice from explosives, it affects kept dice.
         roll.setDieSource(trueIndex, MODDED);
