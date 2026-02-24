@@ -6,10 +6,14 @@ import { fetchNickname } from "../helpers/fetchUtils";
 
 const finalRollHandler = async (interaction: ButtonInteraction) => {
   if (!interaction.channel || !interaction.message) {
-    return await interaction.reply({
-      content: "Error: Cannot locate the original message.",
-      ephemeral: true,
-    });
+    try {
+      return await interaction.reply({
+        content: "Error: Cannot locate the original message.",
+        ephemeral: true,
+      });
+    } catch (err) {
+      console.error(`Error in final roll handler: ${err}`)
+    }
   }
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("roll-final-", "");
@@ -22,8 +26,15 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return;
   }
   const roll = rollData[rollDataKey];
-  //// In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
-  //// Uncomment the below if statement if you want to force players to keep at least 1 die
+  if (!roll) {
+    await interaction.reply({
+      content: "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
+      flags: MessageFlags.Ephemeral,
+    })
+    return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
+  }
+  //** In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
+  //** Uncomment the below if statement if you want to force players to keep at least 1 die
   // if (roll.getKeptDice() === 0) {
   //   await interaction.reply({
   //     content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
@@ -33,7 +44,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   // }
   const nickname = await fetchNickname(interaction);
   roll.setState(STATE.FINAL);
-  const resultString = roll.getFinalStrings();
+  const resultString = roll.getFinalDieStrings();
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

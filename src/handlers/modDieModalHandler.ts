@@ -3,7 +3,6 @@ import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
 import {
-  EXPLODE,
   MODDED,
   STATE,
   SYMBOL_TO_VALUE,
@@ -53,6 +52,13 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const roll = rollData[rollDataKey];
+  if (!roll) {
+    await interaction.reply({
+      content: "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
+      flags: MessageFlags.Ephemeral,
+    })
+    return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
+  }
   if (
     // We use typeof 5 to get the type of a number here
     !rollIndexes.every((index) => typeof index === typeof 5) ||
@@ -68,15 +74,11 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     const trueIndex = index - 1; // users count from 1
     const dieType = roll.getDieType(trueIndex);
     if (dieSymbol !== "") {
-      roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol]);
+      roll.setDie(trueIndex, SYMBOL_TO_VALUE[dieType][dieSymbol], MODDED);
     }
     if (dieIsKept === "K") {
       if (!roll.isDieKept(trueIndex)) {
         roll.forceKeepDie(trueIndex);
-      }
-      if (roll.getDieSource(trueIndex) !== EXPLODE) {
-        // if we overwrite dice from explosives, it affects kept dice.
-        roll.setDieSource(trueIndex, MODDED);
       }
     }
   });

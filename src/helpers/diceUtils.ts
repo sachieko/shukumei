@@ -19,6 +19,7 @@ import {
   SOURCE_EMOJI,
   SHAME_EMOJI,
   DICE_TRACKER_EMOJI,
+  UNSET,
 } from "../types/diceConstants";
 
 export class Die {
@@ -49,7 +50,7 @@ export class Die {
     this.rerolled = rerolled;
     this.#source = source;
     this.kept = kept;
-    this.#value = value === 0 ? this.#rollDie() : value;
+    this.#value = value === UNSET ? this.#rollDie() : value;
     this.#symbols = this.getSymbol();
     this.#explosiveIndex = explosiveIndex;
   }
@@ -78,6 +79,10 @@ export class Die {
     return this.#explosiveIndex;
   }
 
+  fromExplosive() {
+    return !(this.#explosiveIndex === undefined);
+  }
+
   unkeep() {
     this.kept = false;
   }
@@ -93,7 +98,7 @@ export class Die {
   }
 
   isExploding(): boolean {
-    return this.#symbols.explosive && this.kept;
+    return this.#symbols.explosive;
   }
 
   getEmoji(): string {
@@ -120,6 +125,9 @@ export class Die {
   }
 
   getSourceIcon(): string {
+    if (this.fromExplosive() && this.#source !== EXPLODE) {
+      return SOURCE_EMOJI[this.#source] + SOURCE_EMOJI.explode;
+    }
     return SOURCE_EMOJI[this.#source];
   }
 
@@ -209,7 +217,7 @@ export class Roll {
   // Returns true if die was kept or unkept successfully, false if die could not be kept or unkept.
   keepDie(index: number) {
     const dieToKeep = this.#dice[index];
-    if (!dieToKeep) return false; // return early if the dice was removed due to exploding
+    if (!dieToKeep) return false; // return early if the dice does not exist
     if (dieToKeep.kept === true) {
       // If the dice is already kept, unkeep
       this.unkeepDie(index);
@@ -249,7 +257,7 @@ export class Roll {
     if (dieToKeep.kept) {
       return;
     }
-    if (!dieToKeep.getExplosiveIndex()) {
+    if (dieToKeep.getExplosiveIndex() === undefined) {
       // Only dice not from exploding affect kept limit
       this.#keepLimit++;
       this.#forceKept++;
@@ -272,6 +280,10 @@ export class Roll {
       }
     });
   }
+  // only dice with explosive indexes are from explosives, so checking deep equals for undefined explosive index works here
+  dieFromExplosive(index: number) {
+    return this.#dice[index].fromExplosive();
+  }
 
   unkeepDie(index: number) {
     const die = this.#dice[index];
@@ -279,7 +291,7 @@ export class Roll {
       return;
     }
     // If explosive and kept, remove any dice resulting from it.
-    if (die.isExploding() && die.kept) {
+    if (die.isExploding()) {
       this.removeResultingDie(index);
     }
     die.unkeep();
@@ -301,10 +313,10 @@ export class Roll {
         // Exploding/bonus kept die do not count against the number of kept dice
         cummulative +
         (current.kept === true &&
-        current.getSource() !== EXPLODE &&
+        !current.fromExplosive() && // Exploded die do not count against the number of kept dice
         current.getSource() !== BONUS
           ? 1
-          : 0), // Exploding die do not count against the number of kept dice
+          : 0), 
       0,
     );
   }
@@ -321,8 +333,8 @@ export class Roll {
     return this.#dice.length;
   }
 
-  addKeptDie(type: DieType, value: number, kept: boolean) {
-    this.#dice.push(new Die(type, value, { source: BONUS, kept: kept }));
+  addDie(type: DieType, kept: boolean, value?: number,) {
+    this.#dice.push(new Die(type, value ?? UNSET, { source: BONUS, kept: kept }));
   }
 
   getKeptLimit() {
@@ -370,7 +382,7 @@ export class Roll {
   getExplosives() {
     return this.#dice.reduce(
       (cummulative, current) =>
-        cummulative + (current.kept && current.getSymbol().explosive ? 1 : 0),
+        cummulative + (current.kept && current.fromExplosive() ? 1 : 0),
       0,
     );
   }
@@ -440,7 +452,7 @@ export class Roll {
     return unKeptDie.map((die) => die.toString());
   }
 
-  getFinalStrings() {
+  getFinalDieStrings() {
     const finalString = [...this.getKeptStrings(), ...this.getUnkeptStrings()];
     return finalString.join("");
   }

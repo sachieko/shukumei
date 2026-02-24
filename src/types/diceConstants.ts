@@ -1,5 +1,6 @@
 export type DieType = "D6" | "D12";
 export type State = number;
+export const UNSET = 0; // A dice with this value has not been set
 export interface RollState {
   [key: string]: number;
 }
