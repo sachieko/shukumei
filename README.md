@@ -1,4 +1,4 @@
-# Shukumei (Latest Ver: 1.3.2)
+# Shukumei (Latest Ver: 1.3.3)
 
 Shukumei means fate, and what are dice for but for deciding your fate? <img src="./assets/shukumei-avatar.png" height="100" align="left" alt="shukumei-bot">
 
