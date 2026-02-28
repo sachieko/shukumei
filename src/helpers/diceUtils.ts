@@ -27,7 +27,6 @@ export class Die {
   #source: DieSource;
   #explosiveIndex: number | undefined;
   kept: boolean;
-  rerolled: boolean;
   #value: number;
   #symbols: DieSymbols;
 
@@ -36,7 +35,6 @@ export class Die {
     value: number,
     {
       kept = false,
-      rerolled = false,
       source = BASE,
       explosiveIndex = undefined,
     }: {
@@ -47,7 +45,6 @@ export class Die {
     } = {},
   ) {
     this.type = type;
-    this.rerolled = rerolled;
     this.#source = source;
     this.kept = kept;
     this.#value = value === UNSET ? this.#rollDie() : value;
@@ -68,7 +65,6 @@ export class Die {
 
   reroll() {
     this.#rollDie();
-    this.rerolled = true;
   }
 
   keep() {
@@ -303,7 +299,7 @@ export class Roll {
 
   rerollDie(index: number) {
     this.#dice[index].reroll();
-    this.#rerolls += 1;
+    this.#rerolls++;
   }
 
   getDieType(index: number) {
