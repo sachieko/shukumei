@@ -34,10 +34,10 @@ export const addDieHandler = async (
     .setMinLength(1)
     .setMaxLength(2)
     .setPlaceholder("OS")
-    .setRequired(true);
+    .setRequired(false);
 
   const dieValueLabel = new LabelBuilder()
-    .setLabel("What Symbols on the dice?")
+    .setLabel("Any Symbols on the dice?")
     .setDescription(
       "Choose: OS, S, ES, SS, O. Use /help symbols cmd for more information.",
     )
