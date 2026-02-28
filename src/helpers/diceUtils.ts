@@ -149,6 +149,7 @@ export class Roll {
   #unkept: number;
   #forceKept: number;
   #expiry: Date;
+  #rerolls: number;
   #TN?: number | "?";
 
   constructor(
@@ -171,6 +172,7 @@ export class Roll {
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     this.#forceKept = 0;
     this.#TN = TN;
+    this.#rerolls = 0;
     this.#label = label;
     this.#unkept = unkept;
     const expDate = new Date();
@@ -301,6 +303,7 @@ export class Roll {
 
   rerollDie(index: number) {
     this.#dice[index].reroll();
+    this.#rerolls += 1;
   }
 
   getDieType(index: number) {
@@ -316,7 +319,7 @@ export class Roll {
         !current.fromExplosive() && // Exploded die do not count against the number of kept dice
         current.getSource() !== BONUS
           ? 1
-          : 0), 
+          : 0),
       0,
     );
   }
@@ -333,8 +336,10 @@ export class Roll {
     return this.#dice.length;
   }
 
-  addDie(type: DieType, kept: boolean, value?: number,) {
-    this.#dice.push(new Die(type, value ?? UNSET, { source: BONUS, kept: kept }));
+  addDie(type: DieType, kept: boolean, value?: number) {
+    this.#dice.push(
+      new Die(type, value ?? UNSET, { source: BONUS, kept: kept }),
+    );
   }
 
   getKeptLimit() {
@@ -433,10 +438,7 @@ export class Roll {
   }
 
   getRerolls() {
-    return this.#dice.reduce(
-      (cummulative, current) => cummulative + (current.rerolled ? 1 : 0),
-      0,
-    );
+    return this.#rerolls;
   }
 
   getKeptStrings() {
