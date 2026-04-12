@@ -51,11 +51,11 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     dieSymbol !== "O" &&
     dieSymbol !== "E" &&
     dieSymbol !== "ES" &&
-    dieSymbol !== undefined
+    dieSymbol !== ""
   ) {
     return await interaction.reply({
       content:
-        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive, ES for Explosive with Strife, and SS for Success and Strife. These are letters and not numbers.",
+        "You chose an incorrect die symbol. For reference: O will add a dice with Opportunity, S for Success, OS for Opportunity and Strife on a Ring die or Opportunity Success on a Skill die, E for Explosive, ES for Explosive with Strife, and SS for Success and Strife. These are letters and not numbers. If blank it will roll a random result.",
       flags: MessageFlags.Ephemeral,
     });
   }
