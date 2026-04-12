@@ -34,7 +34,7 @@ export const modDieHandler = async (
     .setMinLength(1)
     .setMaxLength(2)
     .setPlaceholder("OS")
-    .setRequired(true);
+    .setRequired(false);
 
   const symbolLabel = new LabelBuilder()
     .setLabel("What dice symbols should they become?")
