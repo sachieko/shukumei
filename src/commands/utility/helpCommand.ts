@@ -125,6 +125,11 @@ S - Success`;
 **[Terms of Service](https://github.com/sachieko/shukumei/blob/main/TERMSOFSERVICE.md) last updated on ${TOSDATE}**`;
       break;
 
+    case "random":
+      content = `Generates a number from 1 to a maximum of sides which the user chooses. To flip a coin, enter 2. To roll a d10, enter 10. Etc! Has a limit of 1 million.
+      If you do not want other users to see your result, set hide to 'true' to be secretive. Label can be used to label it in a unique way.`;
+      break;
+
     default:
       content = "Sorry that command has no help file.";
       break;
