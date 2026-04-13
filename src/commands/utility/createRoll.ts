@@ -1,4 +1,8 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  MessageFlags,
+} from "discord.js";
 import { Roll } from "../../helpers/diceUtils";
 import rollData from "../../handlers/rollDataStore";
 import {
@@ -14,41 +18,41 @@ export const data = new SlashCommandBuilder()
     option
       .setName("ring")
       .setDescription("Your ring value in the approach.")
-      .setRequired(true)
+      .setRequired(true),
   )
   .addNumberOption((option) =>
     option
       .setName("skill")
       .setDescription("Your skill ranks.")
-      .setRequired(true)
+      .setRequired(true),
   )
   .addBooleanOption((option) =>
     option
       .setName("voidpoint")
       .setDescription("Using a voidpoint?")
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option
       .setName("skillassist")
       .setDescription("How much skilled assistance do you have?")
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option
       .setName("unskillassist")
       .setDescription("How much unskilled assistance do you have?")
-      .setRequired(false)
+      .setRequired(false),
   )
   .addNumberOption((option) =>
     option
       .setName("tn")
       .setDescription("What is the TN?")
       .setMinValue(0)
-      .setRequired(false)
+      .setRequired(false),
   )
   .addStringOption((option) =>
-    option.setName("label").setDescription("Label").setRequired(false)
+    option.setName("label").setDescription("Label").setRequired(false),
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -65,7 +69,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       (interaction.options.get("unskillassist", false)?.value as number) ?? 0;
     const TN = (interaction.options.get("tn", false)?.value as number) ?? "?";
     const label =
-      (interaction.options.getString("label", false) || "Roll Results");
+      interaction.options.getString("label", false) || "Roll Results";
     const roll = new Roll(
       ring,
       skill,
@@ -73,7 +77,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       skillAssist,
       voidpoint,
       TN,
-      label
+      label,
     );
     const rollDataKey = `${user.id}-${Math.floor(Math.random() * 1000)}`;
     rollData[rollDataKey] = roll;
@@ -83,7 +87,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       nickname || user.displayName,
       user.displayAvatarURL(),
       interaction.client.user?.displayAvatarURL(),
-      roll
+      roll,
     );
     await interaction.reply({
       content: `${resultString}`,
@@ -92,6 +96,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     });
   } catch (error) {
     console.error(error);
+    interaction.reply({
+      content: "An error of fate occurred! Dev: This occured in createRoll",
+      flags: MessageFlags.Ephemeral,
+    });
   }
 };
 
