@@ -29,7 +29,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     const user = interaction.user;
     const sides = interaction.options.getNumber("sides", true);
     const label =
-      interaction.options.getString("label", false) ?? "Roll Result:";
+      interaction.options.getString("label", false) ?? "Roll Result";
     const hide = interaction.options.getBoolean("hide", false) ?? false;
     const timeEntropy = (Date.now() % 1000) / 1000;
     const entropicRoll = (Math.random() + timeEntropy) % 1;
