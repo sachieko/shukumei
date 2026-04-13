@@ -20,7 +20,7 @@ for (const folder of commandFolders) {
       commands.push(command.data.toJSON());
     } else {
       console.log(
-        `[WARNING]: The command at ${filePath} is missing a required data or execute property.`
+        `[WARNING]: The command at ${filePath} is missing a required data or execute property.`,
       );
     }
   }
@@ -31,18 +31,23 @@ const rest = new REST().setToken(config.DISCORD_BOT_TOKEN);
 export const deployGuildCommands = async () => {
   try {
     console.log(
-      "Requesting politely a refresh of guild (/) commands from the Magistrates.."
+      "Requesting politely a refresh of guild (/) commands from the Magistrates..",
     );
     // Put method refreshes all commands in the guild with the given set
     await rest.put(
       Routes.applicationGuildCommands(config.APP_ID, config.GUILD_ID),
       {
         body: commands,
-      }
+      },
     );
-    console.log("The Magistrates have approved the (/) commands.");
+    for (let command in commands) {
+      console.log(`Submitted: ${command}`);
+    }
+    console.log("The Magistrates have approved the above guild (/) commands.");
   } catch (error) {
     console.error(error);
+  } finally {
+    process.exit();
   }
 };
 
@@ -64,13 +69,19 @@ export const deleteCommands = async (guildId?: string) => {
 export const deployCommands = async (clientId?: string) => {
   try {
     console.log(
-      "Politely requesting all (/) commands be sent to the Magistrates for approval..."
+      "Politely requesting all (/) commands be sent to the Magistrates for approval...",
     );
+
     await rest.put(Routes.applicationCommands(config.APP_ID), {
       body: commands,
     });
-    console.log("The Magistrates have approved the (/) command changes.");
+    for (let command in commands) {
+      console.log(`Submitted: ${command}`);
+    }
+    console.log("The Magistrates have approved the above (/) command changes.");
   } catch (error) {
     console.error(error);
+  } finally {
+    process.exit();
   }
 };
