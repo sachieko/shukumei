@@ -1,5 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { MessageFlags } from "discord.js";
+const MAXIMUMINT=1000000;
+const MININT=2; // Dice with less than 2 sides not worth rolling
 
 export const data = new SlashCommandBuilder()
   .setName("random")
@@ -9,8 +11,8 @@ export const data = new SlashCommandBuilder()
       .setName("sides")
       .setDescription("Number of sides on the dice.")
       .setRequired(true)
-      .setMinValue(2)
-      .setMaxValue(1000000),
+      .setMinValue(MININT) 
+      .setMaxValue(MAXIMUMINT),
   )
   .addStringOption((option) =>
     option.setName("label").setDescription("Label").setRequired(false),
