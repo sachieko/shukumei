@@ -3,7 +3,7 @@ import { MessageFlags } from "discord.js";
 const MAXIMUMINT = 1000000;
 const MININT = 2; // Dice with less than 2 sides not worth rolling
 const MINDICE = 1; // Can't roll less than 1 die
-const MAXDICE = 100; // I can't foresee why the hell anyone would roll more than 20 at most but sure, 100.
+const MAXDICE = 20; // I can't foresee why the hell anyone would roll more than 20 at most.
 
 export const data = new SlashCommandBuilder()
   .setName("random")
