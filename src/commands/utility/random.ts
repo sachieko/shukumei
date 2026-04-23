@@ -40,7 +40,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     const sides = interaction.options.getNumber("sides", true);
     const dice = interaction.options.getNumber("dice", false) ?? MINDICE;
     const label =
-      interaction.options.getString("label", false) ?? "Roll Result";
+      interaction.options.getString("label", false) ?? "Results";
     const hide = interaction.options.getBoolean("hide", false) ?? false;
     let results = "";
     let sum = 0;
@@ -48,10 +48,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
       const timeEntropy = (Date.now() % 1000) / 1000;
       const entropicRoll = (Math.random() + timeEntropy) % 1;
       const roll = Math.floor(entropicRoll * sides) + 1;
-      results += `${roll} `;
+      results += `${roll}  `;
       sum += roll;
     }
-    const resultString = `(${user.toString()} Rolled ${dice}d${sides})${label}: ${results}. Total: ${sum}`;
+    const resultString = `(${user.toString()} Rolled **__${dice}d${sides}__**) ${label}: ${results} -- **__Total__**: ${sum}`;
     await interaction.reply({
       content: `${resultString}`,
       flags: hide ? MessageFlags.Ephemeral : undefined,
