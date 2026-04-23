@@ -33,7 +33,7 @@ The bot will be discoverable in discord's app directory only if it's used in 100
 * Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date/time.
 * Staredown: Bid strife against another player or yourself (for GMs and NPCs), revealing the results only once everyone has bid.
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, including whether assistance was given or void points spent. Unkeeping is also supported now. 
-* Random: Roll a standard dice with a # of sides given by the user, with a maximum of 1000000.
+* Random: Roll a number of dice with a # of sides given by the user, with a maximum of 1000000.
 * Help: `/help` commands have been created and recommended if you aren't sure how to use Shukumei!
 
 Rolls have indexes to help players track which dice they wish to keep.

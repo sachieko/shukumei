@@ -126,7 +126,7 @@ S - Success`;
       break;
 
     case "random":
-      content = `Generates a number from 1 to a maximum of sides which the user chooses. To flip a coin, enter 2. To roll a d10, enter 10. Etc! Has a limit of 1 million.
+      content = `Generates a number from 1 to a maximum of sides which the user chooses. To flip a coin, enter 2. To roll a d10, enter 10. Has a limit of 1 million, and you can roll up to 100 dice at one time.
       If you do not want other users to see your result, set hide to 'true' to be secretive. Label can be used to label it in a unique way.`;
       break;
 
