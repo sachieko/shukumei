@@ -131,7 +131,9 @@ export class Die {
     return `${this.getEmoji()}`;
   }
 }
-
+type Rerolls = {
+  [key: number]: number;
+};
 export class Roll {
   #dice: Die[];
   #keepLimit: number;
@@ -145,7 +147,7 @@ export class Roll {
   #unkept: number;
   #forceKept: number;
   #expiry: Date;
-  #rerolls: number;
+  #rerolls: Rerolls;
   #TN?: number | "?";
 
   constructor(
@@ -168,7 +170,7 @@ export class Roll {
     this.#keepLimit = ring + unskillAssist + skillAssist + (voidpoint ? 1 : 0);
     this.#forceKept = 0;
     this.#TN = TN;
-    this.#rerolls = 0;
+    this.#rerolls = {};
     this.#label = label;
     this.#unkept = unkept;
     const expDate = new Date();
@@ -299,7 +301,11 @@ export class Roll {
 
   rerollDie(index: number) {
     this.#dice[index].reroll();
-    this.#rerolls++;
+    const userIndex = index + 1;
+    //
+    this.#rerolls[`${userIndex}`] = this.#rerolls[`${userIndex}`]
+      ? 1 + this.#rerolls[`${userIndex}`]
+      : 1;
   }
 
   getDieType(index: number) {
@@ -434,7 +440,11 @@ export class Roll {
   }
 
   getRerolls() {
-    return this.#rerolls;
+    let rerollString = "";
+    for (let reroll in this.#rerolls) {
+      rerollString += `[${DICE_TRACKER_EMOJI[`${Number(reroll) % 10}`]}:${this.#rerolls[reroll]}] `;
+    }
+    return rerollString;
   }
 
   getKeptStrings() {

@@ -43,6 +43,7 @@ const modDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     dieSymbol !== "O" &&
     dieSymbol !== "E" &&
     dieSymbol !== "ES" &&
+    dieSymbol !== "B" &&
     dieSymbol !== ""
   ) {
     return await interaction.reply({

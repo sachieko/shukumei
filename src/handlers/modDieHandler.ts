@@ -39,7 +39,7 @@ export const modDieHandler = async (
   const symbolLabel = new LabelBuilder()
     .setLabel("What dice symbols should they become?")
     .setDescription(
-      "Use: OS, SS, S, O, ES, or E. Use /help modify for more information.",
+      "Use: OS, SS, S, O, ES, E, or B. Use /help modify for more info.",
     )
     .setTextInputComponent(symbolInput);
 

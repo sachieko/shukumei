@@ -158,6 +158,7 @@ export interface DieValue {
   SS: number;
   ES: number;
   E: number;
+  B: number;
 }
 interface SymbolToValue {
   D6: DieValue;
@@ -171,7 +172,8 @@ export const SYMBOL_TO_VALUE: SymbolToValue = {
     O: 3,
     SS: 4,
     E: 6,
-    ES: 6
+    ES: 6,
+    B: 1
   },
   D12: {
     OS: 10,
@@ -179,7 +181,8 @@ export const SYMBOL_TO_VALUE: SymbolToValue = {
     O: 3,
     SS: 6,
     E: 12,
-    ES: 11
+    ES: 11,
+    B: 1
   },
 };
 

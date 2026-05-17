@@ -39,7 +39,7 @@ export const addDieHandler = async (
   const dieValueLabel = new LabelBuilder()
     .setLabel("Any Symbols on the dice?")
     .setDescription(
-      "Choose: OS, S, ES, SS, O. Use /help symbols cmd for more information.",
+      "Choose: OS, S, ES, SS, O, B. Use /help symbols cmd for more info.",
     )
     .setTextInputComponent(dieValueInput);
 
