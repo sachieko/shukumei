@@ -86,7 +86,6 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
     const rollEmbed = rollEmbedMaker(
       nickname || user.displayName,
       user.displayAvatarURL(),
-      interaction.client.user?.displayAvatarURL(),
       roll,
     );
     await interaction.reply({

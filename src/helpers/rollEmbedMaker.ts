@@ -41,15 +41,13 @@ const colorPicker = (
 export const rollEmbedMaker = (
   displayName: string,
   userAvatarURL: string,
-  botAvatarURL: string,
   roll: Roll,
 ) => {
   const embedObject = new EmbedBuilder()
     .setTitle(`${roll.getLabel()}`)
-    .setThumbnail(userAvatarURL)
     .setAuthor({
       name: displayName,
-      iconURL: botAvatarURL,
+      iconURL: userAvatarURL,
     })
     .setDescription(
       `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}

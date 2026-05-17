@@ -48,7 +48,6 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),
-    interaction.client.user?.displayAvatarURL(),
     roll
   );
   try {

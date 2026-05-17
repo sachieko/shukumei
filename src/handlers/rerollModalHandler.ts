@@ -52,7 +52,6 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),
-    interaction.client.user?.displayAvatarURL(),
     roll,
   );
   try {
