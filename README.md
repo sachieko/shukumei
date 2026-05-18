@@ -30,7 +30,6 @@ The bot will be discoverable in discord's app directory only if it's used in 100
 
 * Ping: Confirm the bot is working and responding via Discord. If this fails, check if the discord API is down on their end. :)
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
-* Reminder: Set a discord timestamp that can ping a specific role of users (such as those in the game on a server) for a future date/time.
 * Staredown: Bid strife against another player or yourself (for GMs and NPCs), revealing the results only once everyone has bid.
 * Roll: Perform a roll given a starting amount of ring and skill dice as well as keeping dice, including whether assistance was given or void points spent. Unkeeping is also supported now. 
 * Random: Roll a number of dice with a # of sides given by the user, with a maximum of 1000000.
@@ -44,10 +43,20 @@ Rolls have indexes to help players track which dice they wish to keep.
 
 ## FAQ
 
-* Having issues getting it working? Make sure Shukumei has access to the channel in your discord server if you have complicated permissions for channels! It needs to be able to see the channel and edit its own messages! This is not something I can change for you, so make sure you understand your server's permission settings.
+* Having issues getting it working? 
+
+  Make sure Shukumei has access to the channel in your discord server if you have complicated permissions for channels! It needs to be able to see the channel and edit its own messages! This is not something I can change for you, so make sure you understand your server's permission settings.
+* Why did you remove the Reminder command? 
+  
+  It wasn't that useful once discord put in the `@time` command on desktop. 
 * Found a bug? Please make an issue if you are able! Or drop me a message and I'll get to it :)
-* Want me to make it work for other editions? I have no plans to unfortunately. Lots of other dice bots already do that.
-* Have a feature idea? I'll consider it depending on how complicated it is and the benefit. :)
+* Want me to make it work for other editions of L5R? 
+  
+  I have no plans to unfortunately. Lots of other dice bots already do that.
+* Have a feature idea? 
+  
+  I'll consider it depending on how complicated it is and the benefit. :)
+
 
 ## How to run as your own dice bot.
 

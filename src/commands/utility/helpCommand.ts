@@ -97,13 +97,7 @@ Once they have put their bid in, the result will be displayed in chat and previo
 
     case "reminder":
       content = `**Reminder Help:**
-To use reminder, you will have to enter the reason for the reminder as the event name, the day of the month the reminder should be set for, and the hour in 24-hour time.
-The day of month is the calendar day of the month, ie if you want to set a reminder for the 21st you enter '21' for the day. If it is already past the day in the current month, it will automatically assume you want a reminder for the next month.
-Ex: You put '21', however it is already the 22nd. Then the reminder will be set for the 21st of the next month.
-      
-There are optional inputs for the minute if you would like to do 15 after the hour you can enter 15, and role if you would like to ping a role with the reminder as well.
-      
-**NOTE:** This bot is incapable of knowing where in the world you are, so you must tell it your timezone if you want the timestamp accurately. Enter your GMT timezone offset without decimals or halves, and it will adjust. ie: -5 for EST, -8 for PST.`;
+      This was a legacy command, please use discord's \`@time\` feature on desktop.`
       break;
 
     case "modify":
