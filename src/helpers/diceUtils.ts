@@ -142,6 +142,7 @@ export class Roll {
   #unskilledAssist: number;
   #skilledAssist: number;
   #state: State;
+  #modLog: string;
   #void: boolean;
   #label: string;
   #unkept: number;
@@ -162,6 +163,7 @@ export class Roll {
   ) {
     this.#baseD6 = ring;
     this.#baseD12 = skill ?? 0;
+    this.#modLog = "";
     this.#unskilledAssist = unskillAssist ?? 0;
     this.#skilledAssist = skillAssist ?? 0;
     this.#void = voidpoint;
@@ -246,6 +248,15 @@ export class Roll {
 
   getLabel() {
     return this.#label;
+  }
+
+  log(mod: string) {
+    this.#modLog += `${mod}
+    `;
+  }
+
+  getLog() {
+    return this.#modLog;
   }
 
   getForceKept() {
