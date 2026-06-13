@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const { BOT_TOKEN, PUBLIC_KEY, APP_ID, GUILD_ID, GMTOFFSET } = process.env;
 
-if (!BOT_TOKEN || !PUBLIC_KEY || !APP_ID || !GUILD_ID || !GMTOFFSET) {
+if (!BOT_TOKEN || !PUBLIC_KEY || !APP_ID || !GUILD_ID) {
   throw new Error("Missing Env Variables");
 }
 
@@ -11,5 +11,5 @@ export const config = {
   APP_ID,
   PUBLIC_KEY,
   GUILD_ID,
-  GMTOFFSET
+  GMTOFFSET,
 };
