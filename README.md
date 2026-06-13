@@ -1,6 +1,6 @@
 # Shukumei (Latest Ver: 1.5)
 
-Shukumei means fate, and what are dice for but for deciding your fate? <img src="./assets/shukumei-avatar.png" height="100" align="left" alt="shukumei-bot">
+Shukumei means fate, and what are dice for but for deciding your fate? <img src="./assets/shukumei-avatar.png" height="100" align="right" alt="shukumei-bot">
 
 This is a simple dice bot configured specifically for using in discord for those running [Legend of the Five Rings 5th Edition (Created by Edge Studios under license of Fantasy Flight Games)](https://www.edge-studio.net/games/l5r-core-rulebook/).
 
@@ -26,7 +26,7 @@ Simply use this link [https://discord.com/oauth2/authorize?client_id=12974301728
 The bot will be discoverable in discord's app directory only if it's used in 100+ servers.
 
 
-## Working Commands
+## Working Commands and Features
 
 * Ping: Confirm the bot is working and responding via Discord. If this fails, check if the discord API is down on their end. :)
 * Predict: Predict the stance another user in discord will take on their next turn, revealing only at the end.
@@ -35,7 +35,10 @@ The bot will be discoverable in discord's app directory only if it's used in 100
 * Random: Roll a number of dice with a # of sides given by the user, with a maximum of 1000000.
 * Help: `/help` commands have been created and recommended if you aren't sure how to use Shukumei!
 
-Rolls have indexes to help players track which dice they wish to keep.
+Additional Features
+
+- Rolls have indexes to help players track which dice they wish to keep.
+- Certain info is logged to help GMs track information they want to.
 
 ### Commands in Development
 
@@ -49,7 +52,9 @@ Rolls have indexes to help players track which dice they wish to keep.
 * Why did you remove the Reminder command? 
   
   It wasn't that useful once discord put in the `@time` command on desktop. 
-* Found a bug? Please make an issue if you are able! Or drop me a message and I'll get to it :)
+* Found a bug? 
+
+  Please make an issue if you are able! Or drop me a message and I'll get to it :)
 * Want me to make it work for other editions of L5R? 
   
   I have no plans to unfortunately. Lots of other dice bots already do that.
