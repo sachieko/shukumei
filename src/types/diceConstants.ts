@@ -1,6 +1,7 @@
 export type DieType = "D6" | "D12";
 export type State = number;
 export const UNSET = 0; // A dice with this value has not been set
+export const BLANK = 1; // A dice with a value of 1 is blank.
 export interface RollState {
   [key: string]: number;
 }
@@ -12,13 +13,12 @@ export const STATE = {
   FINAL: 5,
   MODDED: 6,
 };
-export const SOURCE_EMOJI = {
-      base: "",
-      assistance: "🤝🏽",
-      void: "🌀",
-      bonus: "🪭",
+export const EMBED_EMOJI = {
+      blank: "",
+      uAssist: "🤝🏽",
+      void: "🍵",
+      sAssist: "🪭",
       explode: "💢",
-      modded: "⤵️"
     }
 export const D6: DieType = "D6";
 export const D12: DieType = "D12";

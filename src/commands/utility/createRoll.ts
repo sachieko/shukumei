@@ -52,7 +52,7 @@ export const data = new SlashCommandBuilder()
       .setRequired(false),
   )
   .addStringOption((option) =>
-    option.setName("label").setDescription("Label").setRequired(false),
+    option.setName("label").setDescription("Label - Ring/Skill").setRequired(false),
   );
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {

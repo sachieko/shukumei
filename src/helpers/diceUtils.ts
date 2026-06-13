@@ -16,8 +16,6 @@ import {
   D12_SYMBOLS,
   STATE,
   State,
-  SOURCE_EMOJI,
-  SHAME_EMOJI,
   DICE_TRACKER_EMOJI,
   UNSET,
 } from "../types/diceConstants";
@@ -120,13 +118,6 @@ export class Die {
     return this.#value;
   }
 
-  getSourceIcon(): string {
-    if (this.fromExplosive() && this.#source !== EXPLODE) {
-      return SOURCE_EMOJI[this.#source] + SOURCE_EMOJI.explode;
-    }
-    return SOURCE_EMOJI[this.#source];
-  }
-
   toString(): string {
     return `${this.getEmoji()}`;
   }
@@ -215,6 +206,10 @@ export class Roll {
       );
     }
   }
+
+  getVoid () {
+    return this.#void;
+  }
   // Dice resulting from explosives always have the option to keep them in addition to normal dice.
   // Returns true if die was kept or unkept successfully, false if die could not be kept or unkept.
   keepDie(index: number) {
@@ -226,8 +221,8 @@ export class Roll {
       return true;
     }
     const keptDice = this.getKeptDice();
-    const dieSource = dieToKeep.getSource();
-    if (keptDice < this.#keepLimit || dieSource === EXPLODE) {
+    const dieExploded = dieToKeep.fromExplosive();
+    if (keptDice < this.#keepLimit || dieExploded) {
       dieToKeep.keep();
       this.explode(dieToKeep, index);
     }
@@ -255,8 +250,20 @@ export class Roll {
     `;
   }
 
+  getUAssists() {
+    return this.#unskilledAssist;
+  }
+
+  getSAssists() {
+    return this.#skilledAssist;
+  }
+
   getLog() {
     return this.#modLog;
+  }
+
+  getDieString(index: number) {
+    return this.#dice[index].toString();
   }
 
   getForceKept() {
@@ -306,6 +313,7 @@ export class Roll {
       this.removeResultingDie(index);
     }
     die.unkeep();
+    this.log(`Unkept die ${index + 1}`) // convert back to user's index
     this.#unkept++;
     return;
   }
@@ -313,7 +321,6 @@ export class Roll {
   rerollDie(index: number) {
     this.#dice[index].reroll();
     const userIndex = index + 1;
-    //
     this.#rerolls[`${userIndex}`] = this.#rerolls[`${userIndex}`]
       ? 1 + this.#rerolls[`${userIndex}`]
       : 1;
@@ -418,33 +425,6 @@ export class Roll {
     }
     return `${stringResults}\n${indexEmoji}`;
   }
-  // returns emoji for dice modifiers and special circumstances for GMs to track
-  getSourceStrings() {
-    const strings = this.#dice.map((die) => {
-      return die.getSourceIcon();
-    });
-    // Unfortunately when dice get rerolled or modded, it sometimes hides these modifiers
-    // So we have to check if they are there to add them
-    if (this.#void && !strings.includes(SOURCE_EMOJI.void)) {
-      strings.push(SOURCE_EMOJI.void);
-    }
-    const assistStrings = strings.filter(
-      (string) => string === SOURCE_EMOJI.assistance,
-    );
-    if (this.#skilledAssist + this.#unskilledAssist > assistStrings.length) {
-      for (
-        let i = 0;
-        i < this.#skilledAssist + this.#unskilledAssist - assistStrings.length;
-        i++
-      ) {
-        strings.push(SOURCE_EMOJI.assistance);
-      }
-    }
-    for (let i = 0; i < this.#unkept; i++) {
-      strings.push(SHAME_EMOJI);
-    }
-    return strings;
-  }
 
   getUnkept() {
     return this.#unkept;
@@ -509,7 +489,7 @@ export class Roll {
     if (this.#state === STATE.KEPT) return "Kept dice...";
     if (this.#state === STATE.REROLLED) return "Rerolled dice...";
     if (this.#state === STATE.ADDED) return "Added kept dice...";
-    if (this.#state === STATE.FINAL) return "Finalized";
+    if (this.#state === STATE.FINAL) return "Final 「終」";
     if (this.#state === STATE.MODDED) return "Modified dice...";
   }
 

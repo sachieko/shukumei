@@ -57,14 +57,7 @@ E - Explosive, or Explosive Strife on a Ring die
 ES - Explosive and Strife
 O - Opportunity
 S - Success
-
-**Meaning of Modifier Symbols:**
-:handshake_tone3: - Assistance (1 per assist)
-:cyclone: - Void point spent
-:folding_hand_fan: - A bonus rolled or kept die was added (1 per added die)
-:anger: - An explosive was kept
-:arrow_heading_down: - A dice was set to a specific result/modified to kept
-:repeat: - Rerolls are tracked separately, used for advantages or disadvantages.`;
+B - Blank`;
       break;
 
     case "predict":
@@ -101,9 +94,8 @@ Once they have put their bid in, the result will be displayed in chat and previo
       break;
 
     case "modify":
-      content = `Modifying dice allows you to change dice to certain results, or keep dice beyond your kept limit.
-If keeping dice beyond the normal limit, it will keep only dice not already kept. The post will also denote that you have done so.
-This is intended for school abilities or conditions which allow you to keep extra dice beyond usual.
+      content = `Modifying dice allows you to change dice to certain results, or keep dice beyond your kept limit. These are force-kept dice.
+The post will also denote that you have done so. This is intended for school abilities or conditions which allow you to keep extra dice beyond usual.
 
 If modifying a die to a result and you have to choose what the die shows, enter in one of the following letters:
 OS - Opportunity Success on Skill die, Opportunity Strife on Ring die

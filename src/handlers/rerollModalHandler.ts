@@ -29,9 +29,10 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   const roll = rollData[rollDataKey];
   if (!roll) {
     await interaction.reply({
-      content: "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
+      content:
+        "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
       flags: MessageFlags.Ephemeral,
-    })
+    });
     return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
   }
   if (
@@ -45,7 +46,11 @@ const rerollModalHandler = async (interaction: ModalSubmitInteraction) => {
   }
   const nickname = await fetchNickname(interaction);
   rollIndexes.forEach((index) => {
-    roll.rerollDie(index - 1); // users start counting at 1 :(
+    const trueIndex = index - 1; // users start counting at 1 :(
+    const originalSymbol = roll.getDieString(trueIndex);
+    roll.rerollDie(trueIndex);
+    const newSymbol = roll.getDieString(trueIndex);
+    roll.log(`Rerolled ${originalSymbol} at ${index} to ${newSymbol}`)
   });
   roll.setState(STATE.REROLLED);
   const resultString = roll.getStringResults();

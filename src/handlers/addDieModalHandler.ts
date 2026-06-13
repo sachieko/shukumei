@@ -2,7 +2,15 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import rollData from "./rollDataStore";
 import { rollEmbedMaker } from "../helpers/rollEmbedMaker";
 import { fetchNickname } from "../helpers/fetchUtils";
-import { D12, D6, STATE, SYMBOL_TO_VALUE, UNSET } from "../types/diceConstants";
+import {
+  D12,
+  D6,
+  STATE,
+  SYMBOL_TO_VALUE,
+  UNSET,
+  DISCORD_DIE_EMOJI,
+  BLANK,
+} from "../types/diceConstants";
 
 const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (!interaction.channel || !interaction.message) {
@@ -31,9 +39,10 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const roll = rollData[rollDataKey];
   if (!roll) {
     await interaction.reply({
-      content: "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
+      content:
+        "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
       flags: MessageFlags.Ephemeral,
-    })
+    });
     return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
   }
   if (dieType !== "R" && dieType !== "S") {
@@ -44,6 +53,7 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
     });
   }
   const type = dieType === "R" ? D6 : D12;
+  const keptString = dieIsKept === "K" ? "kept" : "rolled";
   if (
     dieSymbol !== "OS" &&
     dieSymbol !== "S" &&
@@ -64,9 +74,11 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   if (type && dieSymbol) {
     const value = SYMBOL_TO_VALUE[type][dieSymbol];
     roll.addDie(type, dieIsKept === "K" ? true : false, value);
+    roll.log(`Added ${keptString} ${DISCORD_DIE_EMOJI[type][value]}`);
   }
   if (type && !dieSymbol) {
-    roll.addDie(type, false, UNSET)
+    roll.addDie(type, false, UNSET);
+    roll.log(`Rolled a new ${DISCORD_DIE_EMOJI[type][BLANK]} die`);
   }
   roll.setState(STATE.ADDED);
   const resultString = roll.getStringResults();

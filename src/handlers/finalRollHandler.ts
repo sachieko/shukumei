@@ -8,7 +8,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   if (!interaction.channel || !interaction.message) {
     try {
       return await interaction.reply({
-        content: "Error: Cannot locate the original message.",
+        content: "Error: Cannot locate the original roll.",
         ephemeral: true,
       });
     } catch (err) {
@@ -34,10 +34,11 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
     return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
   }
   //** In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
-  //** Uncomment the below if statement if you want to force players to keep at least 1 die
+  //** Uncomment the below if statement if you want to force players to keep at least 1 die, 
+  //** but the compromised edgecase exists stills.
   // if (roll.getKeptDice() === 0) {
   //   await interaction.reply({
-  //     content: "Rolls must resolve with at least 1 kept die, see the core rulebook :)",
+  //     content: "Rolls must resolve with at least 1 kept die, unless compromised.",
   //     flags: MessageFlags.Ephemeral,
   //   });
   //   return;

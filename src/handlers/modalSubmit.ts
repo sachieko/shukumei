@@ -11,6 +11,17 @@ dotenv.config();
 
 const handler: InteractionHandler<ModalSubmitInteraction> = {
   handle: async (interaction) => {
+    // Early exit if the bot can't interact.
+    if (!interaction.channel || !interaction.message) {
+    try {
+      return await interaction.reply({
+        content: "Error: Cannot locate the original message or channel, shukumei may lack permissions.",
+        ephemeral: true,
+      });
+    } catch (err) {
+      console.error(`Error in modalSubmit.ts: ${err}`)
+    }
+  }
     // use interaction.customId to determine which modal was submitted
     if (interaction.customId.startsWith("staredown-modal-")) {
       await staredownModalHandler(interaction);

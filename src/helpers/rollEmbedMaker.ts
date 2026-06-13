@@ -5,7 +5,13 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import { Roll } from "./diceUtils";
-import { STRIFE, OPPORTUNITY, SUCCESS, STATE } from "../types/diceConstants";
+import {
+  STRIFE,
+  OPPORTUNITY,
+  SUCCESS,
+  STATE,
+  EMBED_EMOJI,
+} from "../types/diceConstants";
 const AWAITCOLOR = "#06daff";
 const KEPTCOLOR = "#ddff00";
 const REROLLCOLOR = "#0627ff";
@@ -38,6 +44,17 @@ const colorPicker = (
   return FINALCOLOR;
 };
 
+const shortOrBonus = (tn: number | "?" | undefined, successes: number) => {
+  if (!tn || tn === "?") {
+    return "No TN set.";
+  }
+  const difference = successes - Number(tn);
+  if (difference >= 0) {
+    return `Bonus: ${difference}`;
+  }
+  return `Shortfall: ${difference}`;
+};
+
 export const rollEmbedMaker = (
   displayName: string,
   userAvatarURL: string,
@@ -51,7 +68,7 @@ export const rollEmbedMaker = (
     })
     .setDescription(
       `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}
-      TN${roll.getTN()}`,
+      TN${roll.getTN()}: ${shortOrBonus(roll.getTN(), roll.getSuccesses())}`,
     );
   embedObject
     .setColor(colorPicker(roll.getTN(), roll.getSuccesses(), roll.getState()))
@@ -64,17 +81,10 @@ export const rollEmbedMaker = (
         inline: true,
       },
       {
-        name: "Ring/Skill",
-        value: `${roll.getRingDice()}/${roll.getSkillDice()}`,
+        name: "Ring/Skill - Pool",
+        value: `${roll.getRingDice()}/${roll.getSkillDice()} Assists: ${EMBED_EMOJI.uAssist}${roll.getUAssists()} ${EMBED_EMOJI.sAssist}${roll.getSAssists()}${roll.getVoid() ? ` ${EMBED_EMOJI.void}Void` : EMBED_EMOJI.blank}`,
         inline: true,
       },
-      {
-        name: "Rerolls",
-        value: `🔁 ${roll.getRerolls()}`,
-        inline: true,
-      },
-    )
-    .addFields(
       {
         name: "Status",
         value: `${
@@ -84,15 +94,13 @@ export const rollEmbedMaker = (
         }`,
         inline: true,
       },
-      {
-        name: "Modifiers",
-        value: `${roll.getSourceStrings().join("")}`,
-        inline: true,
-      },
     )
-    .setFooter({
-      text: `Shortfall or Bonus: ${roll.getTN() !== "?" ? `${roll.getSuccesses() - Number(roll.getTN())}`:"?"}`,
-    });
+    .addFields({
+      name: "Log",
+      value: `${roll.getLog().slice(0, 1024)}`, // The field cannot exceed 1024 characters due to discord API.
+      inline: true,
+    })
+    .setTimestamp(new Date());
   return embedObject;
 };
 
