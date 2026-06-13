@@ -53,7 +53,7 @@ const shortOrBonus = (tn: number | "?" | undefined, successes: number, state: nu
   }
   const difference = successes - Number(tn);
   if (difference > 0) {
-    return `- Success with ${difference} Bonus Successes 成功`;
+    return `- Success with ${difference} Bonus 成功`;
   }
   if (difference === 0) {
     return "- Success 成功";
