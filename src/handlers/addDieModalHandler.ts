@@ -21,6 +21,14 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   }
   const user = interaction.user;
   const rollDataKey = interaction.customId.replace("rolladd-modal-", "");
+  const dieAmount = Number(interaction.fields.getTextInputValue("dieAmount"));
+  if (!dieAmount) {
+    await interaction.reply({
+      content: "This has to be a single digit number bigger than 0.",
+      flags: MessageFlags.Ephemeral,
+    });
+    return;
+  }
   const dieType = interaction.fields.getTextInputValue("dieType").toUpperCase();
   const dieIsKept = interaction.fields
     .getTextInputValue("dieKept")
@@ -73,12 +81,20 @@ const addDieModalHandler = async (interaction: ModalSubmitInteraction) => {
   const nickname = await fetchNickname(interaction);
   if (type && dieSymbol) {
     const value = SYMBOL_TO_VALUE[type][dieSymbol];
-    roll.addDie(type, dieIsKept === "K" ? true : false, value);
-    roll.log(`Added ${keptString} ${DISCORD_DIE_EMOJI[type][value]}`);
+    for (let i = 0; i < dieAmount; i++) {
+      roll.addDie(type, dieIsKept === "K" ? true : false, value);
+    }
+    roll.log(
+      `Added ${dieAmount} ${keptString} ${DISCORD_DIE_EMOJI[type][value]}`,
+    );
   }
   if (type && !dieSymbol) {
-    roll.addDie(type, false, UNSET);
-    roll.log(`Rolled a new ${DISCORD_DIE_EMOJI[type][BLANK]} die`);
+    for (let i = 0; i < dieAmount; i++) {
+      roll.addDie(type, false, UNSET);
+    }
+    roll.log(
+      `Rolled ${dieAmount} new ${DISCORD_DIE_EMOJI[type][BLANK]} ${dieAmount > 1 ? "dice" : "die"}`,
+    );
   }
   roll.setState(STATE.ADDED);
   const resultString = roll.getStringResults();

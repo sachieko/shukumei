@@ -3,7 +3,7 @@ import {
   MessageFlags,
   ChatInputCommandInteraction,
 } from "discord.js";
-import { DISCORD_DIE_EMOJI, SHAME_EMOJI } from "../../types/diceConstants";
+import { SHAME_EMOJI } from "../../types/diceConstants";
 // Update these when PRIVACYPOLICY.md or TERMSOFSERVICE.md update,
 // this is the only location these are required.
 const PRIVACYDATE = "8/8/2025";
@@ -41,8 +41,8 @@ Enter the ring and skill for your approach determined by GM. These are the only 
 If you have any assistance, enter the number of characters giving unskilled or skilled assist separately. If you spent a voidpent, select True for voidpoint. You may also enter the TN, as well as give the roll a label ie: "Saburo's Tea Ceremony Check". To remove an optional input you did not mean to use, backspace to remove it.
 
 **Choosing kept dice, dice to reroll, or dice to modify:**
-The dice are displayed in a specific order, which you use to choose kept dice. Using the following dice roll: ${DISCORD_DIE_EMOJI.D6[3]}${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]}
-You can keep 2 dice since the used Ring was 2. If you wanted to keep ${DISCORD_DIE_EMOJI.D6[6]}${DISCORD_DIE_EMOJI.D12[6]} then you need to keep the 2nd and 3rd die. To do this, click Keep under the roll and then enter "2 3" or "2,3" and you will keep the second and third dice. Using this method you can keep any number of dice up to the limit allowed for your roll based on Ring dice, assists, and void points spent. If you try to keep more than you are allowed, they are kept in order from left to right until you can't keep dice anymore.
+To choose kept dice, enter the number below the die. When dice go above 10, you will have to remember to add the tens digit. ie: 11, 12, 13.
+Remember, rerolling or modifying dice should happen BEFORE you choose any kept dice! 
 
 **Explosive Rerolls:**
 When you keep an explosive die, a new rolled die will be added to the original dice. You can always keep the results of explosive dice even if you already kept your limit.`;
@@ -75,7 +75,7 @@ Therefore it is valid to enter as a stance, but cannot be predicted because you 
       content = `**Unkeeping Dice:**
       To unkeep dice, simply choose to keep a dice that is already considered kept (has a green border). 
       **Be careful! This removes any dice it created if it was explosive! This will also remove any results if it resulted in explosives that were also kept!!**
-      ${SHAME_EMOJI} - Shame symbol for # of times someone has unkept dice. This is so GMs can track abusers of the system.
+      ${SHAME_EMOJI} - This is the emoji of shame. It mocks you for your uncertainty.
       `;
       break;
 

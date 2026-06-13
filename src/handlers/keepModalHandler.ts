@@ -30,15 +30,13 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   const roll = rollData[rollDataKey];
   if (!roll) {
     await interaction.reply({
-      content: "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
+      content:
+        "This roll no longer exists, this most likely means the roll has been left uncompleted for too long or the bot went down while you were trying to finish the roll.",
       flags: MessageFlags.Ephemeral,
-    })
+    });
     return; // Prevent crashes if the bot crashed and a user tries to interact with a discarded roll
   }
-  if (
-    !rollIndexes.every((index) => typeof index === typeof 5) ||
-    rollIndexes.some((index) => index > roll.getDiceLength())
-  ) {
+  if (rollIndexes.some((index) => index > roll.getDiceLength())) {
     return await interaction.reply({
       content: "You can only enter numbers in the range.",
       flags: MessageFlags.Ephemeral,
@@ -48,6 +46,16 @@ const keepModalHandler = async (interaction: ModalSubmitInteraction) => {
   rollIndexes.forEach((index) => {
     roll.keepDie(index - 1); // users start counting at 1 :(
   });
+  let symbols = "";
+  rollIndexes.forEach((index) => {
+    const trueIndex = index - 1;
+    if (roll.isDieKept(trueIndex)) {
+      symbols += roll.getDieString(trueIndex);
+    }
+  });
+  if (symbols.length > 0) {
+    roll.log(`Chose kept dice ${symbols}`);
+  }
   roll.setState(STATE.KEPT);
   const resultString = roll.getStringResults();
   const rollEmbed = rollEmbedMaker(

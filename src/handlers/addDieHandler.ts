@@ -15,6 +15,19 @@ export const addDieHandler = async (
     .setCustomId(`rolladd-modal-${rollDataKey}`)
     .setTitle("Add Dice");
 
+  const dieAmountInput = new TextInputBuilder()
+    .setCustomId("dieAmount")
+    .setStyle(TextInputStyle.Short)
+    .setMinLength(1)
+    .setMaxLength(1)
+    .setPlaceholder("1")
+    .setRequired(true);
+
+  const dieamountLabel = new LabelBuilder()
+    .setLabel("Add how many?")
+    .setDescription("Enter a number")
+    .setTextInputComponent(dieAmountInput);
+
   const dieTypeInput = new TextInputBuilder()
     .setCustomId("dieType")
     .setStyle(TextInputStyle.Short)
@@ -56,7 +69,7 @@ export const addDieHandler = async (
     .setDescription("Input: K = Kept, R = Rolled")
     .setTextInputComponent(keptInput);
 
-  modal.addLabelComponents(dieTypeLabel, dieValueLabel, keptLabel);
+  modal.addLabelComponents(dieamountLabel, dieTypeLabel, dieValueLabel, keptLabel);
 
   await interaction.showModal(modal);
 };

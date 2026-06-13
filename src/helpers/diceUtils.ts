@@ -18,6 +18,7 @@ import {
   State,
   DICE_TRACKER_EMOJI,
   UNSET,
+  SHAME_EMOJI,
 } from "../types/diceConstants";
 
 export class Die {
@@ -313,7 +314,7 @@ export class Roll {
       this.removeResultingDie(index);
     }
     die.unkeep();
-    this.log(`Unkept die ${index + 1}`) // convert back to user's index
+    this.log(`${SHAME_EMOJI} Unkept die ${die.toString()} at ${index + 1}`) // convert back to user's index
     this.#unkept++;
     return;
   }

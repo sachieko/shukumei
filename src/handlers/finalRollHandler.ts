@@ -46,6 +46,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   const nickname = await fetchNickname(interaction);
   roll.setState(STATE.FINAL);
   const resultString = roll.getFinalDieStrings();
+  roll.log("「終」")
   const rollEmbed = rollEmbedMaker(
     nickname || user.displayName,
     user.displayAvatarURL(),

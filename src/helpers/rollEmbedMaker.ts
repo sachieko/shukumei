@@ -44,15 +44,21 @@ const colorPicker = (
   return FINALCOLOR;
 };
 
-const shortOrBonus = (tn: number | "?" | undefined, successes: number) => {
+const shortOrBonus = (tn: number | "?" | undefined, successes: number, state: number) => {
+  if (state !== STATE.FINAL) {
+    return "- Roll not finished."
+  }
   if (!tn || tn === "?") {
-    return "No TN set.";
+    return "- Hidden TN";
   }
   const difference = successes - Number(tn);
-  if (difference >= 0) {
-    return `Bonus: ${difference}`;
+  if (difference > 0) {
+    return `- Success with ${difference} Bonus Successes 成功`;
   }
-  return `Shortfall: ${difference}`;
+  if (difference === 0) {
+    return "- Success 成功";
+  } 
+  return `- Failure with ${-difference} Shortfall 失敗`;
 };
 
 export const rollEmbedMaker = (
@@ -64,11 +70,11 @@ export const rollEmbedMaker = (
     .setTitle(`${roll.getLabel()}`)
     .setAuthor({
       name: displayName,
-      iconURL: userAvatarURL,
     })
+    .setThumbnail(userAvatarURL)
     .setDescription(
       `${SUCCESS}${roll.getSuccesses()}  ${OPPORTUNITY}${roll.getOpportunities()}  ${STRIFE}${roll.getStrife()}
-      TN${roll.getTN()}: ${shortOrBonus(roll.getTN(), roll.getSuccesses())}`,
+      TN${roll.getTN()} ${shortOrBonus(roll.getTN(), roll.getSuccesses(), roll.getState())}`,
     );
   embedObject
     .setColor(colorPicker(roll.getTN(), roll.getSuccesses(), roll.getState()))
@@ -81,17 +87,13 @@ export const rollEmbedMaker = (
         inline: true,
       },
       {
-        name: "Ring/Skill - Pool",
-        value: `${roll.getRingDice()}/${roll.getSkillDice()} Assists: ${EMBED_EMOJI.uAssist}${roll.getUAssists()} ${EMBED_EMOJI.sAssist}${roll.getSAssists()}${roll.getVoid() ? ` ${EMBED_EMOJI.void}Void` : EMBED_EMOJI.blank}`,
+        name: "R/S",
+        value: `${roll.getRingDice()}/${roll.getSkillDice()}`,
         inline: true,
       },
       {
-        name: "Status",
-        value: `${
-          roll.getState() === STATE.FINAL
-            ? "✅ " + roll.getStateString()
-            : "🤔 " + roll.getStateString()
-        }`,
+        name: "Assist U/S",
+        value: `${EMBED_EMOJI.uAssist}${roll.getUAssists()}/${EMBED_EMOJI.sAssist}${roll.getSAssists()}${roll.getVoid() ? ` ${EMBED_EMOJI.void}Void` : EMBED_EMOJI.blank}`,
         inline: true,
       },
     )
