@@ -93,7 +93,7 @@ export const rollEmbedMaker = (
       },
       {
         name: "Assist U/S",
-        value: `${EMBED_EMOJI.uAssist}${roll.getUAssists()}/${EMBED_EMOJI.sAssist}${roll.getSAssists()}${roll.getVoid() ? ` ${EMBED_EMOJI.void}Void` : EMBED_EMOJI.blank}`,
+        value: `${EMBED_EMOJI.uAssist}${roll.getUAssists()}/${EMBED_EMOJI.sAssist}${roll.getSAssists()}${roll.getVoid() ? `/+${EMBED_EMOJI.void}VOID` : EMBED_EMOJI.blank}`,
         inline: true,
       },
     )
