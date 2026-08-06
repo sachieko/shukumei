@@ -35,7 +35,7 @@ const finalRollHandler = async (interaction: ButtonInteraction) => {
   }
   //** In some cases, users need to keep 0 dice, and we can't check if the roller is compromised.
   //** Uncomment the below if statement if you want to force players to keep at least 1 die, 
-  //** but the compromised edgecase exists stills.
+  //** but the compromised edgecase exists still.
   // if (roll.getKeptDice() === 0) {
   //   await interaction.reply({
   //     content: "Rolls must resolve with at least 1 kept die, unless compromised.",
